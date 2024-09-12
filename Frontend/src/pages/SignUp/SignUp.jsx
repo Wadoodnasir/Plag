@@ -103,7 +103,7 @@ const SignUpForm = ({ onSignUp }) => {
   };
 
   return (
-    <div className="row bg-primary sign-container m-0">
+    <div className="row bg-primary sign-container1 m-0">
       <div className="col-lg-3 col-10 p-4 bg-white rounded-2">
         <h5 className="pb-4 fw-bold">Sign up for a new account</h5>
         <Form onSubmit={handleSubmit}>
