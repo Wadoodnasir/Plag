@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom"; // Import Link for navigation
+import { Link, useNavigate } from "react-router-dom"; // Import useNavigate for programmatic navigation
 import {
   Form,
   FormGroup,
@@ -10,11 +10,13 @@ import {
 } from "reactstrap";
 import "../../App.css";
 
-const LoginForm = ({ onLogin }) => {
-  const [username, setUsername] = useState(""); // State for username
-  const [password, setPassword] = useState(""); // State for password
+const LoginForm = () => {
+  const [username, setUsername] = useState("wadoodnasir4@gmail.com"); // State for username
+  const [password, setPassword] = useState("wadood123"); // State for password
   const [usernameError, setUsernameError] = useState(false); // State for username validation
   const [passwordError, setPasswordError] = useState(false); // State for password validation
+
+  const navigate = useNavigate(); // useNavigate hook to navigate to HomePage
 
   const handleUsernameChange = (event) => {
     setUsername(event.target.value); // Update username state
@@ -46,8 +48,10 @@ const LoginForm = ({ onLogin }) => {
     if (hasError) return;
 
     // Proceed if validation passed
-    alert("Successfully Logged In");
-    onLogin(); // Call onLogin function
+    // alert("Successfully Logged In");
+
+    // Navigate to the HomePage after successful login
+    navigate("/home");
   };
 
   return (
