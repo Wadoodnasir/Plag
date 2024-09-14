@@ -12,6 +12,10 @@ import { styled } from "@mui/material/styles";
 import Button from "@mui/material/Button";
 import UploadIcon from "@mui/icons-material/Upload";
 import CurrencyExchangeIcon from "@mui/icons-material/CurrencyExchange";
+import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
+import SubmissionForm from "../component/UploadForm";
+import ReactPaginate from "react-paginate";
+import { Modal } from "react-bootstrap";
 
 // Define the iOS style switch (without TypeScript types)
 const IOSSwitch = styled((props) => (
@@ -51,6 +55,54 @@ const IOSSwitch = styled((props) => (
 
 const HomePage = () => {
   const [anchorEl, setAnchorEl] = useState(null); // State for menu anchor
+  const [showModal, setShowModal] = useState(false); // State to show/hide form modal
+  const [tableData, setTableData] = useState([
+    {
+      id: "1",
+      file: "document1.pdf",
+      ai: "AI Model A",
+      similarity: "20%",
+      status: "Processed",
+      flags: "None",
+      createdAt: "2024-09-10",
+    },
+    {
+      id: "2",
+      file: "document2.docx",
+      ai: "AI Model B",
+      similarity: "35%",
+      status: "Processed",
+      flags: "Flagged",
+      createdAt: "2024-09-11",
+    },
+    {
+      id: "3",
+      file: "document3.txt",
+      ai: "AI Model C",
+      similarity: "50%",
+      status: "In Review",
+      flags: "None",
+      createdAt: "2024-09-12",
+    },
+    {
+      id: "4",
+      file: "document4.pdf",
+      ai: "AI Model A",
+      similarity: "10%",
+      status: "Processed",
+      flags: "None",
+      createdAt: "2024-09-13",
+    },
+    {
+      id: "5",
+      file: "document5.docx",
+      ai: "AI Model B",
+      similarity: "60%",
+      status: "Processed",
+      flags: "Flagged",
+      createdAt: "2024-09-14",
+    },
+  ]);
   const navigate = useNavigate(); // Initialize useNavigate hook for navigation
 
   const handleMenuClick = (event) => {
@@ -64,6 +116,11 @@ const HomePage = () => {
   const handleSignOut = () => {
     setAnchorEl(null); // Close menu
     navigate("/signin"); // Redirect to the SignIn page
+  };
+
+  const handleFormSubmit = (data) => {
+    setTableData([...tableData, data]); // Add new data to table
+    setShowModal(false); // Close the modal
   };
 
   return (
@@ -121,48 +178,142 @@ const HomePage = () => {
           Ai-Plagrium
         </h6>
       </div>
-      <div className="container">
-        <div className="p-3 d-flex justify-content-between">
-          <div>
-            <h5>Reports</h5>
+      <div
+        className="container-fluid p-0 m-0"
+        style={{ backgroundColor: "#EAF1F3" }}
+      >
+        <div className="container">
+          <div className="p-3 d-flex justify-content-between">
+            <div>
+              <h5>Reports</h5>
+            </div>
+            <div className="group-button d-flex">
+              <FormGroup>
+                <FormControlLabel
+                  control={<IOSSwitch sx={{ m: 1 }} defaultChecked />}
+                  label="Exclude bibliography"
+                />
+              </FormGroup>
+              <FormGroup>
+                <FormControlLabel
+                  control={<IOSSwitch sx={{ m: 1 }} defaultChecked />}
+                  label="Exclude quotes"
+                />
+              </FormGroup>
+              <Button
+                variant="contained"
+                startIcon={<UploadIcon />}
+                style={{
+                  backgroundColor: "#2E9ECA",
+                  color: "white",
+                  width: 120,
+                }}
+                onClick={() => setShowModal(true)} // Show modal on click
+              >
+                Upload
+              </Button>
+              <Button
+                variant="contained"
+                startIcon={<CurrencyExchangeIcon style={{ width: "15px" }} />}
+                endIcon={<ArrowDropDownIcon />}
+                style={{
+                  backgroundColor: "#2E9ECA",
+                  color: "white",
+                  width: 135,
+                  marginLeft: 15,
+                }}
+              >
+                slots:299
+              </Button>
+            </div>
           </div>
-          <div className="group-button d-flex">
-            <FormGroup>
-              <FormControlLabel
-                control={<IOSSwitch sx={{ m: 1 }} defaultChecked />}
-                label="Exclude bibliography"
-              />
-            </FormGroup>
-            <FormGroup>
-              <FormControlLabel
-                control={<IOSSwitch sx={{ m: 1 }} defaultChecked />}
-                label="Exclude quotes"
-              />
-            </FormGroup>
-            <Button
-              variant="contained"
-              startIcon={<UploadIcon />}
-              style={{ backgroundColor: "#2E9ECA", color: "white", width: 120 }}
-            >
-              Send
-            </Button>
-            <Button
-              variant="contained"
-              startIcon={<CurrencyExchangeIcon />}
-              endIcon={<UploadIcon />}
-              style={{
-                backgroundColor: "#2E9ECA",
-                color: "white",
-                width: 135,
-                marginLeft: 15,
-              }}
-            >
-              slots:299
-            </Button>
-          </div>
+
+          {/* Table Component */}
+          <TableComponent data={tableData} />
+
+          {/* Modal for Submission Form */}
+          <Modal show={showModal} onHide={() => setShowModal(false)}>
+            <Modal.Header closeButton>
+              <Modal.Title>Upload Form</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <SubmissionForm onSubmit={handleFormSubmit} />
+            </Modal.Body>
+          </Modal>
         </div>
       </div>
     </>
+  );
+};
+
+const TableComponent = ({ data }) => {
+  const [currentPage, setCurrentPage] = useState(0);
+  const rowsPerPage = 5;
+
+  // Calculate the displayed rows for the current page
+  const pageCount = Math.ceil(data.length / rowsPerPage);
+  const offset = currentPage * rowsPerPage;
+  const currentPageData = data.slice(offset, offset + rowsPerPage);
+
+  // Handle page change
+  const handlePageClick = ({ selected }) => {
+    setCurrentPage(selected);
+  };
+
+  return (
+    <div className="container">
+      <table
+        className="table table-striped table-bordered p-3"
+        style={{ backgroundColor: "#fff" }}
+      >
+        <thead className="thead-dark">
+          <tr>
+            <th>Unique ID</th>
+            <th>Submitted File</th>
+            <th>AI</th>
+            <th>Similarity</th>
+            <th>Status</th>
+            <th>Flags</th>
+            <th>Created At</th>
+            <th>Delete</th>
+          </tr>
+        </thead>
+        <tbody>
+          {currentPageData.map((row) => (
+            <tr key={row.id}>
+              <td>{row.id}</td>
+              <td>{row.file}</td>
+              <td>{row.ai}</td>
+              <td>{row.similarity}</td>
+              <td>{row.status}</td>
+              <td>{row.flags}</td>
+              <td>{row.createdAt}</td>
+              <td>
+                <Button variant="contained" color="error">
+                  Delete
+                </Button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      <ReactPaginate
+        previousLabel={"Previous"}
+        nextLabel={"Next"}
+        pageCount={pageCount}
+        onPageChange={handlePageClick}
+        containerClassName={"pagination"}
+        activeClassName={"active"}
+        pageClassName={"page-item"}
+        pageLinkClassName={"page-link"}
+        previousClassName={"page-item"}
+        previousLinkClassName={"page-link"}
+        nextClassName={"page-item"}
+        nextLinkClassName={"page-link"}
+        breakClassName={"page-item"}
+        breakLinkClassName={"page-link"}
+      />
+    </div>
   );
 };
 
