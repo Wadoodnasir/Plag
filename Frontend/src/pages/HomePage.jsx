@@ -1,10 +1,4 @@
 import React, { useState } from "react";
-import Avatar from "@mui/material/Avatar";
-import Stack from "@mui/material/Stack";
-import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-import Menu from "@mui/material/Menu";
-import MenuItem from "@mui/material/MenuItem";
-import { useNavigate } from "react-router-dom";
 import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Switch from "@mui/material/Switch";
@@ -16,6 +10,7 @@ import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import SubmissionForm from "../component/UploadForm";
 import ReactPaginate from "react-paginate";
 import { Modal } from "react-bootstrap";
+import Navbar from "../component/Navbar";
 
 // Define the iOS style switch (without TypeScript types)
 const IOSSwitch = styled((props) => (
@@ -54,7 +49,6 @@ const IOSSwitch = styled((props) => (
 }));
 
 const HomePage = () => {
-  const [anchorEl, setAnchorEl] = useState(null); // State for menu anchor
   const [showModal, setShowModal] = useState(false); // State to show/hide form modal
   const [tableData, setTableData] = useState([
     {
@@ -103,20 +97,6 @@ const HomePage = () => {
       createdAt: "2024-09-14",
     },
   ]);
-  const navigate = useNavigate(); // Initialize useNavigate hook for navigation
-
-  const handleMenuClick = (event) => {
-    setAnchorEl(event.currentTarget); // Open menu on click
-  };
-
-  const handleClose = () => {
-    setAnchorEl(null); // Close the menu
-  };
-
-  const handleSignOut = () => {
-    setAnchorEl(null); // Close menu
-    navigate("/signin"); // Redirect to the SignIn page
-  };
 
   const handleFormSubmit = (data) => {
     setTableData([...tableData, data]); // Add new data to table
@@ -125,59 +105,8 @@ const HomePage = () => {
 
   return (
     <>
-      <div className="fluid-container" style={{ backgroundColor: "#313A46" }}>
-        <div className="container">
-          <nav className="d-flex justify-content-between align-items-center p-3">
-            <div className="logo">
-              <a href="">
-                <img
-                  src="https://turnitin.report/static/logo/logo.png"
-                  width={40}
-                  alt="Logo"
-                />
-              </a>
-            </div>
-            <div className="avatars">
-              <Stack
-                direction="row"
-                spacing={2}
-                className="d-flex align-items-center"
-                style={{ cursor: "pointer" }}
-                onClick={handleMenuClick} // Trigger menu on click
-              >
-                <Avatar alt="Wadood Nasir" src="/static/images/avatar/1.jpg" />
-                <span className="text-white">
-                  Wadood Nasir
-                  <KeyboardArrowDownIcon />
-                </span>
-              </Stack>
+      <Navbar />
 
-              {/* Dropdown Menu */}
-              <Menu
-                anchorEl={anchorEl}
-                open={Boolean(anchorEl)}
-                onClose={handleClose}
-                anchorOrigin={{
-                  vertical: "bottom",
-                  horizontal: "center",
-                }}
-                transformOrigin={{
-                  vertical: "top",
-                  horizontal: "center",
-                }}
-              >
-                <MenuItem onClick={handleClose}>My Account</MenuItem>
-                <MenuItem onClick={handleSignOut}>Log Out</MenuItem>
-              </Menu>
-            </div>
-          </nav>
-        </div>
-      </div>
-      <div className="container">
-        <h6 className="p-3" style={{ color: "#4AC5C7" }}>
-          Ai-Plagrium
-        </h6>
-      </div>
       <div
         className="container-fluid p-0 m-0"
         style={{ backgroundColor: "#EAF1F3" }}

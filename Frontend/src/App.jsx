@@ -8,20 +8,16 @@ import {
 import "bootstrap/dist/css/bootstrap.min.css";
 import SignUpForm from "./pages/SignUp/SignUp";
 import LoginForm from "./pages/SignIn/SignIn";
-import HomePage from "./pages/HomePage"; // Add this import
-
+import HomePage from "./pages/HomePage";
+import MyAccount from "./pages/MyAccount/MyAccount";
 const App = () => {
   return (
     <Router>
       <Routes>
         <Route path="/login" element={<LoginForm />} />
-
         <Route path="/signup" element={<SignUpForm />} />
-
-        {/* Route for the Home page */}
         <Route path="/home" element={<HomePage />} />
-
-        {/* Fallback route to redirect to Login form by default */}
+        <Route path="/my-account" element={<MyAccount />} />
         <Route path="*" element={<Navigate to="/login" />} />
       </Routes>
     </Router>
