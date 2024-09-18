@@ -86,16 +86,24 @@ const LoginForm = () => {
               invalid={passwordError} // Shows error if true
             />
             {passwordError && <FormFeedback>Password is required</FormFeedback>}
-          </FormGroup>{" "}
-          <FormGroup check className="py-2 pb-3">
-            <Input type="checkbox" />
-            <Label check>Remember me</Label>
           </FormGroup>
+          <div className="d-flex justify-content-between">
+            <FormGroup check className="py-2 pb-3">
+              <Input type="checkbox" />
+              <Label check>Remember me</Label>
+            </FormGroup>
+            <Link
+              to="/forgot-password"
+              className="py-2 pb-3 text-decoration-none"
+            >
+              Forget Password
+            </Link>
+          </div>
           <Button className="w-100 bg-primary mb-3" type="submit">
             Sign In
           </Button>
           <span className="fs-6">
-            Don't have an account?{" "}
+            Don't have an account?
             <Link className="text-primary text-decoration-none" to="/signup">
               Sign Up
             </Link>
