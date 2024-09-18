@@ -9,26 +9,30 @@ import {
   FormFeedback,
 } from "reactstrap";
 import "../../App.css";
+import axios from "axios";
 
 const LoginForm = () => {
-  const [username, setUsername] = useState("wadoodnasir4@gmail.com"); // State for username
-  const [password, setPassword] = useState("wadood123"); // State for password
+  const [username, setUsername] = useState("raheelanjum255@gmail.com "); // State for username
+  const [password, setPassword] = useState("123456789"); // State for password
   const [usernameError, setUsernameError] = useState(false); // State for username validation
   const [passwordError, setPasswordError] = useState(false); // State for password validation
+  const [loginError, setLoginError] = useState(""); // State for login error message
 
   const navigate = useNavigate(); // useNavigate hook to navigate to HomePage
 
   const handleUsernameChange = (event) => {
     setUsername(event.target.value); // Update username state
     setUsernameError(false); // Reset error state on change
+    setLoginError(""); // Reset login error
   };
 
   const handlePasswordChange = (event) => {
     setPassword(event.target.value); // Update password state
     setPasswordError(false); // Reset error state on change
+    setLoginError(""); // Reset login error
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
 
     // Reset validation errors
@@ -47,12 +51,69 @@ const LoginForm = () => {
     // Stop submission if any validation failed
     if (hasError) return;
 
-    // Proceed if validation passed
-    // alert("Successfully Logged In");
+    try {
+      // Call the backend API
+      const response = await axios.post("http://localhost:4001/auth/login", {
+        email: username,
+        password: password,
+      });
 
-    // Navigate to the HomePage after successful login
-    navigate("/home");
+      // Handle success
+      if (response.data.msg === "User logged in successfully") {
+        // Navigate to the HomePage after successful login
+        navigate("/home");
+      }
+    } catch (error) {
+      // Handle error (e.g., invalid credentials)
+      if (error.response && error.response.data) {
+        setLoginError(error.response.data.msg || "Login failed");
+      } else {
+        setLoginError("Server error");
+      }
+    }
   };
+  // const [username, setUsername] = useState("wadoodnasir4@gmail.com"); // State for username
+  // const [password, setPassword] = useState("wadood123"); // State for password
+  // const [usernameError, setUsernameError] = useState(false); // State for username validation
+  // const [passwordError, setPasswordError] = useState(false); // State for password validation
+
+  // const navigate = useNavigate(); // useNavigate hook to navigate to HomePage
+
+  // const handleUsernameChange = (event) => {
+  //   setUsername(event.target.value); // Update username state
+  //   setUsernameError(false); // Reset error state on change
+  // };
+
+  // const handlePasswordChange = (event) => {
+  //   setPassword(event.target.value); // Update password state
+  //   setPasswordError(false); // Reset error state on change
+  // };
+
+  // const handleSubmit = (event) => {
+  //   event.preventDefault();
+
+  //   // Reset validation errors
+  //   let hasError = false;
+
+  //   // Validation
+  //   if (!username) {
+  //     setUsernameError(true);
+  //     hasError = true;
+  //   }
+  //   if (!password) {
+  //     setPasswordError(true);
+  //     hasError = true;
+  //   }
+
+  //   // Stop submission if any validation failed
+  //   if (hasError) return;
+
+  //   // Proceed if validation passed
+  //   // alert("Successfully Logged In");
+
+  //   // Navigate to the HomePage after successful login
+  //   navigate("/home");
+  // };
 
   return (
     <div className="row bg-primary sign-container m-0">
@@ -73,7 +134,7 @@ const LoginForm = () => {
               invalid={usernameError} // Shows error if true
             />
             {usernameError && <FormFeedback>Email is required</FormFeedback>}
-          </FormGroup>{" "}
+          </FormGroup>
           <FormGroup>
             <Label for="examplePassword">Password</Label>
             <Input
@@ -87,6 +148,7 @@ const LoginForm = () => {
             />
             {passwordError && <FormFeedback>Password is required</FormFeedback>}
           </FormGroup>
+          {loginError && <div className="text-danger mb-3">{loginError}</div>}
           <div className="d-flex justify-content-between">
             <FormGroup check className="py-2 pb-3">
               <Input type="checkbox" />
