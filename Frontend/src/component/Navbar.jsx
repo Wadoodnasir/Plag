@@ -4,7 +4,7 @@ import { Stack, Menu, MenuItem, Avatar } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import ThemeAdjustIcon from "./ThemeAdjustIcon";
 // import "../Visiability";
-const Navbar = ({ isSidebarOpen, toggleSidebar }) => {
+const Navbar = ({ sidebarOpen, toggleSidebar }) => {
   const [anchorEl, setAnchorEl] = useState(null); // State for menu anchor
   const navigate = useNavigate(); // Initialize useNavigate hook for navigation
 
@@ -41,9 +41,9 @@ const Navbar = ({ isSidebarOpen, toggleSidebar }) => {
           </h1>
         </div>
 
-        {!isSidebarOpen && (
+        {/* Hamburger menu: Only show when sidebar is closed */}
+        {!sidebarOpen && (
           <button
-            id="vristo"
             onClick={toggleSidebar}
             className=" p-1 rounded-5 text-gray-500 hover:bg-gray-100 ms-2"
           >

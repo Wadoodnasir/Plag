@@ -1,10 +1,36 @@
 import Navbar from "../../component/Navbar";
 import { useState } from "react";
+import Subscriptions from "../../component/Employee/Subscriptions";
+import Services from "../../component/Employee/Services";
+import Orders from "../../component/Employee/Orders";
+import Invoices from "../../component/Employee/Invoices";
+import History from "../../component/Employee/History";
+import Settings from "../../component/Employee/Settings";
 
 const EmployerDashboard = () => {
-  const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [sidebarOpen, setSidebarOpen] = useState(true); // State to control the sidebar
+  const [selectedComponent, setSelectedComponent] = useState("Subscriptions");
 
-  const toggleSidebar = () => setSidebarOpen(!sidebarOpen);
+  const toggleSidebar = () => setSidebarOpen(!sidebarOpen); // Toggle sidebar open/close
+
+  const renderComponent = () => {
+    switch (selectedComponent) {
+      case "Subscriptions":
+        return <Subscriptions />;
+      case "Services":
+        return <Services />;
+      case "Orders":
+        return <Orders />;
+      case "Invoices":
+        return <Invoices />;
+      case "History":
+        return <History />;
+      case "Settings":
+        return <Settings />;
+      default:
+        return <Subscriptions />; // Default to Subscriptions if none is selected
+    }
+  };
 
   return (
     <div className="container-fluid flex p-0">
@@ -26,7 +52,7 @@ const EmployerDashboard = () => {
               <span>VRISTO</span>
             </h1>
             <button
-              onClick={toggleSidebar}
+              onClick={toggleSidebar} // Toggle sidebar on double arrow click
               className="text-gray-500 hover:text-gray-700 ms-auto"
             >
               <svg
@@ -35,22 +61,22 @@ const EmployerDashboard = () => {
                 viewBox="0 0 24 24"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
-                class="m-auto rotate-90"
+                className="m-auto rotate-90"
               >
                 <path
                   d="M19 11L12 17L5 11"
                   stroke="currentColor"
-                  stroke-width="1.5"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
+                  strokeWidth="1.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
                 ></path>
                 <path
                   opacity="0.5"
                   d="M19 7L12 13L5 7"
                   stroke="currentColor"
-                  stroke-width="1.5"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
+                  strokeWidth="1.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
                 ></path>
               </svg>
             </button>
@@ -62,6 +88,7 @@ const EmployerDashboard = () => {
           <li>
             <a
               href="#"
+              onClick={() => setSelectedComponent("Subscriptions")}
               className="flex items-center py-2 px-4 hover:bg-blue-100 hover:text-blue-600 text-sm transition-colors duration-200"
             >
               <svg
@@ -78,6 +105,7 @@ const EmployerDashboard = () => {
           <li>
             <a
               href="#"
+              onClick={() => setSelectedComponent("Services")}
               className="flex items-center py-2 px-4 hover:bg-blue-100 hover:text-blue-600 text-sm transition-colors duration-200"
             >
               <svg
@@ -98,6 +126,7 @@ const EmployerDashboard = () => {
           <li>
             <a
               href="#"
+              onClick={() => setSelectedComponent("Orders")}
               className="flex items-center py-2 px-4 hover:bg-blue-100 hover:text-blue-600 text-sm transition-colors duration-200"
             >
               <svg
@@ -114,6 +143,7 @@ const EmployerDashboard = () => {
           <li>
             <a
               href="#"
+              onClick={() => setSelectedComponent("Invoices")}
               className="flex items-center py-2 px-4 hover:bg-blue-100 hover:text-blue-600 text-sm transition-colors duration-200"
             >
               <svg
@@ -134,6 +164,7 @@ const EmployerDashboard = () => {
           <li>
             <a
               href="#"
+              onClick={() => setSelectedComponent("History")}
               className="flex items-center py-2 px-4 hover:bg-blue-100 hover:text-blue-600 text-sm transition-colors duration-200"
             >
               <svg
@@ -145,7 +176,7 @@ const EmployerDashboard = () => {
                 <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"></path>
                 <path
                   fillRule="evenodd"
-                  d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z"
+                  d="M4 5a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V7a2 2 0 00-2-2H4zm5 2a1 1 0 011 1v2h2a1 1 0 110 2H9a1 1 0 01-1-1V8a1 1 0 011-1z"
                   clipRule="evenodd"
                 ></path>
               </svg>
@@ -155,6 +186,7 @@ const EmployerDashboard = () => {
           <li>
             <a
               href="#"
+              onClick={() => setSelectedComponent("Settings")}
               className="flex items-center py-2 px-4 hover:bg-blue-100 hover:text-blue-600 text-sm transition-colors duration-200"
             >
               <svg
@@ -165,44 +197,23 @@ const EmployerDashboard = () => {
               >
                 <path
                   fillRule="evenodd"
-                  d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.533 1.533 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.533 1.533 0 01.947-2.287c1.561-.379 1.561-2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z"
+                  d="M11.983 2.167A1 1 0 0113 3v.61c.668.33 1.294.732 1.866 1.197l.512-.296a1 1 0 011.366.366l1.5 2.598a1 1 0 01-.366 1.366l-.513.296c.097.672.097 1.36 0 2.032l.513.296a1 1 0 01.366 1.366l-1.5 2.598a1 1 0 01-1.366.366l-.512-.296a11.58 11.58 0 01-1.866 1.197V17a1 1 0 01-1.017.833h-3A1 1 0 017 17v-.61a11.58 11.58 0 01-1.866-1.197l-.512.296a1 1 0 01-1.366-.366l-1.5-2.598a1 1 0 01.366-1.366l.513-.296a11.497 11.497 0 010-2.032l-.513-.296a1 1 0 01-.366-1.366l1.5-2.598a1 1 0 011.366-.366l.512.296A11.58 11.58 0 017 3.61V3a1 1 0 011.017-.833h3zM10 13a3 3 0 100-6 3 3 0 000 6z"
                   clipRule="evenodd"
                 ></path>
               </svg>
               Settings
             </a>
           </li>
-          <li>
-            <a
-              href="#"
-              className="flex items-center py-2 px-4 hover:bg-blue-100 hover:text-blue-600 text-sm transition-colors duration-200"
-            >
-              <svg
-                className="w-4 h-4 mr-2"
-                fill="currentColor"
-                viewBox="0 0 20 20"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M3 3a1 1 0 00-1 1v12a1 1 0 102 0V4a1 1 0 00-1-1zm10.293 9.293a1 1 0 001.414 1.414l3-3a1 1 0 000-1.414l-3-3a1 1 0 10-1.414 1.414L14.586 9H7a1 1 0 100 2h7.586l-1.293 1.293z"
-                  clipRule="evenodd"
-                ></path>
-              </svg>
-              Logout
-            </a>
-          </li>
         </ul>
       </div>
 
-      {/* Main content area */}
+      {/* Main content */}
       <div className="flex-1">
-        {/* Pass toggleSidebar function as prop to Navbar */}
-        <Navbar isSidebarOpen={sidebarOpen} toggleSidebar={toggleSidebar} />
-        <div className="p-4">
-          <h1 className="text-2xl font-bold mb-4">Employer Dashboard</h1>
-          <p>Welcome to your employer dashboard.</p>
-        </div>
+        <Navbar
+          sidebarOpen={sidebarOpen}
+          toggleSidebar={toggleSidebar} // Pass toggleSidebar to Navbar to control hamburger menu
+        />
+        <div className="p-4">{renderComponent()}</div>
       </div>
     </div>
   );
