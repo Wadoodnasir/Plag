@@ -1,9 +1,12 @@
+import React from "react";
+import HomePage from "../../pages/HomePage";
+
 // Services.jsx
 const Services = () => {
   return (
-    <div>
-      <h2>Services Page</h2>
-    </div>
+    <>
+      <HomePage />
+    </>
   );
 };
 

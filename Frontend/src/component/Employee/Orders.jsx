@@ -1,9 +1,15 @@
 // Orders.jsx
+import OrdersTable from "./OrdersTables";
+import Cards from "./Cards";
 const Orders = () => {
   return (
-    <div>
-      <h2>Oder Page</h2>
-    </div>
+    <>
+      <Cards />
+      <div className="container my-3">
+        <h1 className="fs-3 text-center py-2">Orders Table</h1>
+        <OrdersTable />
+      </div>
+    </>
   );
 };
 

@@ -56,7 +56,7 @@ const HomePage = () => {
       file: "document1.pdf",
       ai: "AI Model A",
       similarity: "20%",
-      status: "Processed",
+      status: "complete",
       flags: "None",
       createdAt: "2024-09-10",
     },
@@ -65,7 +65,7 @@ const HomePage = () => {
       file: "document2.docx",
       ai: "AI Model B",
       similarity: "35%",
-      status: "Processed",
+      status: "Pending",
       flags: "Flagged",
       createdAt: "2024-09-11",
     },
@@ -105,10 +105,7 @@ const HomePage = () => {
 
   return (
     <>
-      <div
-        className="container-fluid p-0 m-0"
-        style={{ backgroundColor: "#EAF1F3" }}
-      >
+      <div className="container-fluid p-0 m-0 bg-light">
         <div className="container">
           <div className="p-3 d-flex justify-content-between">
             <div>
@@ -189,14 +186,33 @@ const TableComponent = ({ data }) => {
     setCurrentPage(selected);
   };
 
+  const getStatusButtonStyle = (status) => {
+    switch (status.toLowerCase()) {
+      case "pending":
+        return { backgroundColor: "#8e44ad", color: "white" };
+      case "complete":
+        return { backgroundColor: "green", color: "white" };
+      case "processed":
+        return { backgroundColor: "#3498db", color: "white" };
+      case "in progress":
+      case "in review":
+        return { backgroundColor: "#f39c12", color: "white" };
+      case "cancel":
+      case "cancelled":
+        return { backgroundColor: "#e74c3c", color: "white" };
+      default:
+        return { backgroundColor: "#95a5a6", color: "white" };
+    }
+  };
+
   return (
     <div className="container">
       <table
-        className="table table-striped table-bordered p-3"
-        style={{ backgroundColor: "#fff", fontSize: "14px" }} // Set font size to 12px
+        className="table table-bordered p-3 text-center"
+        style={{ backgroundColor: "#fff", fontSize: "14px" }}
       >
-        <thead className="thead-dark">
-          <tr>
+        <thead>
+          <tr style={{ backgroundColor: "#f8f9fa" }}>
             <th>Unique ID</th>
             <th>Submitted File</th>
             <th>AI</th>
@@ -214,7 +230,19 @@ const TableComponent = ({ data }) => {
               <td>{row.file}</td>
               <td>{row.ai}</td>
               <td>{row.similarity}</td>
-              <td>{row.status}</td>
+              <td>
+                <button
+                  className="btn btn-sm"
+                  style={{
+                    ...getStatusButtonStyle(row.status),
+                    fontSize: "12px",
+                    padding: "2px 8px",
+                    borderRadius: "12px",
+                  }}
+                >
+                  {row.status}
+                </button>
+              </td>
               <td>{row.flags}</td>
               <td>{row.createdAt}</td>
               <td>
