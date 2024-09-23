@@ -108,7 +108,7 @@ const HomePage = () => {
       <div className="container-fluid p-0 m-0 bg-light">
         <div className="container">
           <div className="p-3 d-flex justify-content-between">
-            <div>
+            <div className="align-self-center">
               <h5>Reports</h5>
             </div>
             <div className="group-button d-flex">

@@ -103,10 +103,14 @@ const OrdersTable = () => {
 
   return (
     <Table
+      className="tc"
       columns={columns}
       dataSource={data}
       rowKey="id"
-      style={{ fontSize: "14px", backgroundColor: "#ffff" }}
+      style={{
+        fontSize: "14px",
+        backgroundColor: "#ffff",
+      }}
       components={{
         header: {
           cell: (props) => (

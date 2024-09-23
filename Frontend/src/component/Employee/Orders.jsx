@@ -5,7 +5,7 @@ const Orders = () => {
   return (
     <>
       <Cards />
-      <div className="container my-3">
+      <div className="container my-3 w-75">
         <h1 className="fs-3 text-center py-2">Orders Table</h1>
         <OrdersTable />
       </div>

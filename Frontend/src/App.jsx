@@ -1,4 +1,3 @@
-// import React from "react";
 import {
   BrowserRouter as Router,
   Route,
@@ -19,8 +18,11 @@ const App = () => {
         <Route path="/signup" element={<SignUpForm />} />
         <Route path="/home" element={<HomePage />} />
         <Route path="/my-account" element={<MyAccount />} />
-        <Route path="*" element={<Navigate to="/login" />} />
         <Route path="/employee" element={<EmployerDashboard />} />
+        {/* New route for root path */}
+        <Route path="/" element={<Navigate to="/employee" />} />
+        {/* Changed default route to go to login */}
+        <Route path="*" element={<Navigate to="/login" />} />
       </Routes>
     </Router>
   );
