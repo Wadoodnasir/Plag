@@ -1,15 +1,11 @@
 // File: ../../component/Employee/Subscriptions.jsx
 
 import React from "react";
+import UploadForm from "../UploadForm";
+import HomePage from "../../pages/HomePage";
 
 const Subscriptions = () => {
-  return (
-    <div>
-      <h2 className="text-xl font-semibold mb-4">Subscriptions</h2>
-      <p>This is the Subscriptions component.</p>
-      {/* Add your subscription-related content here */}
-    </div>
-  );
+  return <HomePage />;
 };
 
 export default Subscriptions;

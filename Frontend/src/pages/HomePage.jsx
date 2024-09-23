@@ -10,7 +10,6 @@ import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import SubmissionForm from "../component/UploadForm";
 import ReactPaginate from "react-paginate";
 import { Modal } from "react-bootstrap";
-import Navbar from "../component/Navbar";
 
 // Define the iOS style switch (without TypeScript types)
 const IOSSwitch = styled((props) => (
@@ -105,8 +104,6 @@ const HomePage = () => {
 
   return (
     <>
-      <Navbar />
-
       <div
         className="container-fluid p-0 m-0"
         style={{ backgroundColor: "#EAF1F3" }}
