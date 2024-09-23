@@ -29,53 +29,54 @@ const Navbar = ({ sidebarOpen, toggleSidebar }) => {
   return (
     <nav className="d-flex justify-content-between align-items-center p-2 px-4 ">
       <div className=" d-flex">
-        <div className="d-flex" id="logo">
-          <span className="pe-1">
-            <img
-              src="https://vue.vristo.sbthemes.com/assets/images/logo.svg"
-              width={35}
-            />
-          </span>
-          <h1 style={{ fontSize: "24px" }}>
-            <span>VRISTO</span>
-          </h1>
-        </div>
-
         {/* Hamburger menu: Only show when sidebar is closed */}
         {!sidebarOpen && (
-          <button
-            onClick={toggleSidebar}
-            className=" p-1 rounded-5 text-gray-500 hover:bg-gray-100 ms-2"
-          >
-            <svg
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-              class="w-6 h-6"
+          <>
+            <div className="d-flex" id="logo">
+              <span className="pe-1">
+                <img
+                  src="https://vue.vristo.sbthemes.com/assets/images/logo.svg"
+                  width={35}
+                />
+              </span>
+              <h1 style={{ fontSize: "24px" }}>
+                <span>VRISTO</span>
+              </h1>
+            </div>
+            <button
+              onClick={toggleSidebar}
+              className=" p-1 rounded-5 text-gray-500 hover:bg-gray-100 ms-2"
             >
-              <path
-                d="M20 7L4 7"
-                stroke="currentColor"
-                stroke-width="1.5"
-                stroke-linecap="round"
-              ></path>
-              <path
-                opacity="0.5"
-                d="M20 12L4 12"
-                stroke="currentColor"
-                stroke-width="1.5"
-                stroke-linecap="round"
-              ></path>
-              <path
-                d="M20 17L4 17"
-                stroke="currentColor"
-                stroke-width="1.5"
-                stroke-linecap="round"
-              ></path>
-            </svg>
-          </button>
+              <svg
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                class="w-6 h-6"
+              >
+                <path
+                  d="M20 7L4 7"
+                  stroke="currentColor"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                ></path>
+                <path
+                  opacity="0.5"
+                  d="M20 12L4 12"
+                  stroke="currentColor"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                ></path>
+                <path
+                  d="M20 17L4 17"
+                  stroke="currentColor"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                ></path>
+              </svg>
+            </button>
+          </>
         )}
 
         <span className=" align-self-lg-center">
