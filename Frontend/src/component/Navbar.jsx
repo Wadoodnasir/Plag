@@ -276,8 +276,8 @@ const Navbar = ({ sidebarOpen, toggleSidebar }) => {
             alt="Wadood Nasir"
             src="/static/images/avatar/1.jpg"
             style={{
-              width: "30px",
-              height: "30px",
+              width: "35px",
+              height: "35px",
               fontSize: "18px",
               backgroundColor: "#8245BB",
             }}

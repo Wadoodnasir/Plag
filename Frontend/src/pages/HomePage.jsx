@@ -7,6 +7,7 @@ import Button from "@mui/material/Button";
 import UploadIcon from "@mui/icons-material/Upload";
 import CurrencyExchangeIcon from "@mui/icons-material/CurrencyExchange";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
+import DeleteIcon from "@mui/icons-material/Delete"; // Import Delete icon
 import SubmissionForm from "../component/UploadForm";
 import ReactPaginate from "react-paginate";
 import { Modal } from "react-bootstrap";
@@ -132,7 +133,8 @@ const HomePage = () => {
                 style={{
                   backgroundColor: "#2E9ECA",
                   color: "white",
-                  width: 120,
+                  width: 100,
+                  fontSize: "12px",
                 }}
                 onClick={() => setShowModal(true)} // Show modal on click
               >
@@ -145,8 +147,9 @@ const HomePage = () => {
                 style={{
                   backgroundColor: "#2E9ECA",
                   color: "white",
-                  width: 135,
-                  marginLeft: 15,
+                  width: 120,
+                  marginLeft: 10,
+                  fontSize: "12px",
                 }}
               >
                 slots:299
@@ -190,7 +193,7 @@ const TableComponent = ({ data }) => {
     <div className="container">
       <table
         className="table table-striped table-bordered p-3"
-        style={{ backgroundColor: "#fff" }}
+        style={{ backgroundColor: "#fff", fontSize: "14px" }} // Set font size to 12px
       >
         <thead className="thead-dark">
           <tr>
@@ -215,9 +218,13 @@ const TableComponent = ({ data }) => {
               <td>{row.flags}</td>
               <td>{row.createdAt}</td>
               <td>
-                <Button variant="contained" color="error">
-                  Delete
-                </Button>
+                <DeleteIcon
+                  style={{
+                    color: "red",
+                    cursor: "pointer",
+                    fontSize: "large",
+                  }}
+                />
               </td>
             </tr>
           ))}
