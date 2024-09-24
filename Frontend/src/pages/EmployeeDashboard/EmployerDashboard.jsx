@@ -48,7 +48,7 @@ const EmployerDashboard = () => {
           sidebarOpen={sidebarOpen}
           toggleSidebar={toggleSidebar} // Pass toggleSidebar to Navbar to control hamburger menu
         />
-        <div className="p-4">{renderComponent()}</div>
+        <div className="p-4 bg-light">{renderComponent()}</div>
       </div>
     </div>
   );

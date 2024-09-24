@@ -3,7 +3,7 @@ import React from "react";
 const Slider = ({ sidebarOpen, toggleSidebar, setSelectedComponent }) => {
   return (
     <div
-      className={`bg-white shadow-md h-screen transition-all duration-700 ${
+      className={`bg-white shadow-md h-screen transition-all duration-700  ${
         sidebarOpen ? "w-64" : "w-0"
       } overflow-hidden`}
     >
