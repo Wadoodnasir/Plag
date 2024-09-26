@@ -187,7 +187,7 @@ const Navbar = ({ sidebarOpen, toggleSidebar }) => {
       <div className="d-flex align-items-center gap-3">
         {/* Show Hamburger icon when sidebar is hidden */}
         <button className="btn btn-primary"> Top Up</button>
-        <span className="d-flex flex-column px-3 bg-primary rounded-5 text-white">
+        <span className="d-flex flex-column px-3 bg-primary rounded-2 text-white">
           <p style={{ fontSize: 14 }}>Credits</p>
           <p style={{ fontSize: 14 }}>Days lefts: 30</p>
         </span>

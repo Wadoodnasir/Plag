@@ -1,14 +1,15 @@
 import Navbar from "../../component/Navbar";
 import { useState } from "react";
-import Subscriptions from "../../component/Employee/EmployeeOrders";
-import Services from "../../component/Employee/Services";
 import Orders from "../../component/Employee/Orders";
-import History from "../../component/Employee/History";
 import Settings from "../../component/Employee/Settings";
-import EmployeeSlider from "../../component/Employee/EmployeeSlider"; // Import the new Slider component
-import UserFiles from "../../component/Employee/UserFiles";
-import EmployeeInvoices from "../../component/Employee/EmployeeInvoices";
-const EmployerDashboard = () => {
+import Slider from "../../component/User/UserSlider"; // Import the new Slider component
+import Subscriptions from "../../component/User/Subscriptions";
+import Services from "../../component/User/Services";
+import ServiceHistory from "../../component/User/ServiceHistory";
+import SubscriptionHistory from "../../component/User/SubscriptionHistory";
+import Rewriter from "../../component/User/Rewriter";
+import UserInvoice from "../../component/User/UserInvoice";
+const User = () => {
   const [sidebarOpen, setSidebarOpen] = useState(true); // State to control the sidebar
   const [selectedComponent, setSelectedComponent] = useState("Subscriptions");
 
@@ -16,29 +17,29 @@ const EmployerDashboard = () => {
 
   const renderComponent = () => {
     switch (selectedComponent) {
-      case "Subscriptions":
-        return <Subscriptions />;
-      case "Services":
-        return <Services />;
       case "Orders":
         return <Orders />;
-      case "EmployeeInvoices":
-        return <EmployeeInvoices />;
-      case "History":
-        return <History />;
       case "Settings":
         return <Settings />;
+      case "Services":
+        return <Services />;
+      case "ServicesHistory":
+        return <ServiceHistory />;
+      case "SubscriptionHistory":
+        return <SubscriptionHistory />;
+      case "Rewriter":
+        return <Rewriter />;
+      case "UserInvoice":
+        return <UserInvoice />;
       default:
         return <Subscriptions />; // Default to Subscriptions if none is selected
-      case "UserFiles":
-        return <UserFiles />;
     }
   };
 
   return (
     <div className="container-fluid flex p-0">
       {/* Slider Component */}
-      <EmployeeSlider
+      <Slider
         sidebarOpen={sidebarOpen}
         toggleSidebar={toggleSidebar}
         setSelectedComponent={setSelectedComponent}
@@ -56,4 +57,4 @@ const EmployerDashboard = () => {
   );
 };
 
-export default EmployerDashboard;
+export default User;

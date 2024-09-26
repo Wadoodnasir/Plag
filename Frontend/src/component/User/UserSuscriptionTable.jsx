@@ -8,7 +8,7 @@ import UploadIcon from "@mui/icons-material/Upload";
 import CurrencyExchangeIcon from "@mui/icons-material/CurrencyExchange";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import DeleteIcon from "@mui/icons-material/Delete"; // Import Delete icon
-import SubmissionForm from "../component/UploadForm";
+import SubmissionForm from "../UploadForm";
 import ReactPaginate from "react-paginate";
 import { Modal } from "react-bootstrap";
 
@@ -48,7 +48,7 @@ const IOSSwitch = styled((props) => (
   },
 }));
 
-const HomePage = () => {
+const UserSuscriptionTable = () => {
   const [showModal, setShowModal] = useState(false); // State to show/hide form modal
   const [tableData, setTableData] = useState([
     {
@@ -278,4 +278,4 @@ const TableComponent = ({ data }) => {
   );
 };
 
-export default HomePage;
+export default UserSuscriptionTable;

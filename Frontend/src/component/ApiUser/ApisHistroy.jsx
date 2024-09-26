@@ -1,17 +1,17 @@
 // Orders.jsx
-import HistoryTable from "./HistroyTable";
-const History = () => {
+import ApiHistoryTable from "./ApiHistoryTable";
+const ApiHistory = () => {
   return (
     <div className="container-fluid bg-light">
       <p style={{ fontSize: 14 }} className="text-muted">
         Dashborad / Analytic
       </p>
-      <h1 className="fs-3">History Table</h1>
+      <h1 className="fs-3">Api History Table</h1>
       <div className="container w-100 my-3">
-        <HistoryTable />
+        <ApiHistoryTable />
       </div>
     </div>
   );
 };
 
-export default History;
+export default ApiHistory;

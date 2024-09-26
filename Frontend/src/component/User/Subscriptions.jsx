@@ -1,7 +1,7 @@
 // File: ../../component/Employee/Subscriptions.jsx
 
 import React from "react";
-import SuscriptinTable from "./SuscriptinTable";
+import UserSuscriptionTable from "./UserSuscriptionTable.jsx";
 
 const Subscriptions = () => {
   return (
@@ -11,7 +11,7 @@ const Subscriptions = () => {
       </p>
       <h1 className="fs-3">Subscription Table</h1>
       <div className="container w-100 my-3">
-        <SuscriptinTable />
+        <UserSuscriptionTable />
       </div>
     </div>
   );

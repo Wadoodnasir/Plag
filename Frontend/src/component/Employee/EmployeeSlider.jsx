@@ -1,6 +1,10 @@
 import React from "react";
 
-const Slider = ({ sidebarOpen, toggleSidebar, setSelectedComponent }) => {
+const EmployeeSlider = ({
+  sidebarOpen,
+  toggleSidebar,
+  setSelectedComponent,
+}) => {
   return (
     <div
       className={`bg-white shadow-md h-screen transition-all duration-700  ${
@@ -63,7 +67,24 @@ const Slider = ({ sidebarOpen, toggleSidebar, setSelectedComponent }) => {
         <li>
           <a
             href="#"
-            onClick={() => setSelectedComponent("Subscriptions")}
+            onClick={() => setSelectedComponent("/")}
+            className="flex items-center py-2 px-4 hover:bg-blue-100 hover:text-blue-600 text-sm transition-colors duration-200"
+          >
+            <svg
+              className="w-4 h-4 mr-2"
+              fill="currentColor"
+              viewBox="0 0 20 20"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM3 10a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1v-6zM14 9a1 1 0 00-1 1v6a1 1 0 001 1h2a1 1 0 001-1v-6a1 1 0 00-1-1h-2z" />
+            </svg>
+            Dashboard
+          </a>
+        </li>
+        <li>
+          <a
+            href="#"
+            onClick={() => setSelectedComponent("Employee")}
             className="flex items-center py-2 px-4 hover:bg-blue-100 hover:text-blue-600 text-sm transition-colors duration-200"
           >
             <svg
@@ -74,34 +95,58 @@ const Slider = ({ sidebarOpen, toggleSidebar, setSelectedComponent }) => {
             >
               <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3 3 0 013.75-2.906z"></path>
             </svg>
-            Subscriptions
+            Employee
           </a>
+          <ul className="ml-6 mt-2 space-y-2">
+            <li>
+              <a
+                href="#"
+                onClick={() => setSelectedComponent("EmployeeOrders")}
+                className="flex items-center py-1 px-4 hover:bg-blue-100 hover:text-blue-600 text-xs transition-colors duration-200"
+              >
+                <svg
+                  className="w-3 h-3 mr-2"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"></path>
+                  <path
+                    fillRule="evenodd"
+                    d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z"
+                    clipRule="evenodd"
+                  ></path>
+                </svg>
+                Employee Orders
+              </a>
+            </li>
+            <li>
+              <a
+                href="#"
+                onClick={() => setSelectedComponent("UserFiles")}
+                className="flex items-center py-1 px-4 hover:bg-blue-100 hover:text-blue-600 text-xs transition-colors duration-200"
+              >
+                <svg
+                  className="w-3 h-3 mr-2"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 6a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1zm1 3a1 1 0 100 2h6a1 1 0 100-2H7z"
+                    clipRule="evenodd"
+                  ></path>
+                </svg>
+                User Files
+              </a>
+            </li>
+          </ul>
         </li>
         <li>
           <a
             href="#"
-            onClick={() => setSelectedComponent("Services")}
-            className="flex items-center py-2 px-4 hover:bg-blue-100 hover:text-blue-600 text-sm transition-colors duration-200"
-          >
-            <svg
-              className="w-4 h-4 mr-2"
-              fill="currentColor"
-              viewBox="0 0 20 20"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                fillRule="evenodd"
-                d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z"
-                clipRule="evenodd"
-              ></path>
-            </svg>
-            Services
-          </a>
-        </li>
-        <li>
-          <a
-            href="#"
-            onClick={() => setSelectedComponent("Orders")}
+            onClick={() => setSelectedComponent("History")}
             className="flex items-center py-2 px-4 hover:bg-blue-100 hover:text-blue-600 text-sm transition-colors duration-200"
           >
             <svg
@@ -112,13 +157,13 @@ const Slider = ({ sidebarOpen, toggleSidebar, setSelectedComponent }) => {
             >
               <path d="M3 1a1 1 0 000 2h1.22l.305 1.222a.997.997 0 00.01.042l1.358 5.43-.893.892C3.74 11.846 4.632 14 6.414 14H15a1 1 0 000-2H6.414l1-1H14a1 1 0 00.894-.553l3-6A1 1 0 0017 3H6.28l-.31-1.243A1 1 0 005 1H3zM16 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM6.5 18a1.5 1.5 0 100-3 1.5 1.5 0 000 3z"></path>
             </svg>
-            Orders
+            History
           </a>
         </li>
         <li>
           <a
             href="#"
-            onClick={() => setSelectedComponent("Invoices")}
+            onClick={() => setSelectedComponent("EmployeeInvoices")}
             className="flex items-center py-2 px-4 hover:bg-blue-100 hover:text-blue-600 text-sm transition-colors duration-200"
           >
             <svg
@@ -134,28 +179,6 @@ const Slider = ({ sidebarOpen, toggleSidebar, setSelectedComponent }) => {
               ></path>
             </svg>
             Invoices
-          </a>
-        </li>
-        <li>
-          <a
-            href="#"
-            onClick={() => setSelectedComponent("History")}
-            className="flex items-center py-2 px-4 hover:bg-blue-100 hover:text-blue-600 text-sm transition-colors duration-200"
-          >
-            <svg
-              className="w-4 h-4 mr-2"
-              fill="currentColor"
-              viewBox="0 0 20 20"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"></path>
-              <path
-                fillRule="evenodd"
-                d="M4 5a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V7a2 2 0 00-2-2H4zm5 2a1 1 0 011 1v2h2a1 1 0 110 2H9a1 1 0 01-1-1V8a1 1 0 011-1z"
-                clipRule="evenodd"
-              ></path>
-            </svg>
-            History
           </a>
         </li>
         <li>
@@ -184,4 +207,4 @@ const Slider = ({ sidebarOpen, toggleSidebar, setSelectedComponent }) => {
   );
 };
 
-export default Slider;
+export default EmployeeSlider;
