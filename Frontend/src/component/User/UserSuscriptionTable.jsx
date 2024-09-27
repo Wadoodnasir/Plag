@@ -112,26 +112,15 @@ const UserSuscriptionTable = () => {
               <h5>Reports</h5>
             </div>
             <div className="group-button d-flex">
-              <FormGroup>
-                <FormControlLabel
-                  control={<IOSSwitch sx={{ m: 1 }} defaultChecked />}
-                  label="Exclude bibliography"
-                />
-              </FormGroup>
-              <FormGroup>
-                <FormControlLabel
-                  control={<IOSSwitch sx={{ m: 1 }} defaultChecked />}
-                  label="Exclude quotes"
-                />
-              </FormGroup>
               <Button
                 variant="contained"
                 startIcon={<UploadIcon />}
                 style={{
-                  backgroundColor: "#2E9ECA",
                   color: "white",
-                  width: 100,
                   fontSize: "12px",
+                  padding: "5px 10px",
+                  minWidth: "auto",
+                  borderRadius: "5px",
                 }}
                 onClick={() => setShowModal(true)} // Show modal on click
               >
@@ -139,14 +128,15 @@ const UserSuscriptionTable = () => {
               </Button>
               <Button
                 variant="contained"
-                startIcon={<CurrencyExchangeIcon style={{ width: "15px" }} />}
+                startIcon={<CurrencyExchangeIcon style={{ width: "18px" }} />}
                 endIcon={<ArrowDropDownIcon />}
                 style={{
-                  backgroundColor: "#2E9ECA",
                   color: "white",
-                  width: 120,
+                  fontSize: "14px",
+                  padding: "6px 12px",
+                  minWidth: "auto",
                   marginLeft: 10,
-                  fontSize: "12px",
+                  borderRadius: "5px",
                 }}
               >
                 slots:299
@@ -232,12 +222,12 @@ const TableComponent = ({ data }) => {
               <td>{row.similarity}</td>
               <td>
                 <button
-                  className="btn btn-sm"
+                  className="btn btn-sm w-75"
                   style={{
                     ...getStatusButtonStyle(row.status),
                     fontSize: "12px",
                     padding: "2px 8px",
-                    borderRadius: "12px",
+                    borderRadius: "5px",
                   }}
                 >
                   {row.status}

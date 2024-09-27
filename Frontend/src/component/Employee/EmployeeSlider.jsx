@@ -56,10 +56,10 @@ const EmployeeSlider = ({
       )}
       <div className=" d-flex justify-content-center py-1 bg-dark ">
         <button
-          className=" text-white btn btn-sm py-1 px-lg-5 rounded-1 btn-secondary "
+          className=" text-white btn btn-sm py-1 px-lg-5 rounded-1 btn-secondary  "
           style={{ fontSize: "12px" }}
         >
-          Place New Oder
+          PLACE NEW ODER
         </button>
       </div>
 

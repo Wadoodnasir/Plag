@@ -1,10 +1,6 @@
 import React from "react";
 
-const EmployeeSlider = ({
-  sidebarOpen,
-  toggleSidebar,
-  setSelectedComponent,
-}) => {
+const UserSlider = ({ sidebarOpen, toggleSidebar, setSelectedComponent }) => {
   return (
     <div
       className={`bg-white shadow-md h-screen transition-all duration-700  ${
@@ -13,16 +9,19 @@ const EmployeeSlider = ({
     >
       {sidebarOpen && (
         <div className="flex items-center p-2 ">
-          <span className="pe-1">
-            <img
-              src="https://vue.vristo.sbthemes.com/assets/images/logo.svg"
-              width={35}
-              alt="Logo"
-            />
-          </span>
-          <h1 style={{ fontSize: "24px" }}>
-            <span>VRISTO</span>
-          </h1>
+          <a href="/" className=" d-flex">
+            <span className="pe-1">
+              <img
+                src="https://vue.vristo.sbthemes.com/assets/images/logo.svg"
+                width={35}
+                alt="Logo"
+              />
+            </span>
+            <h1 style={{ fontSize: "24px" }}>
+              <span>VRISTO</span>
+            </h1>
+          </a>
+
           <button
             onClick={toggleSidebar}
             className="text-gray-500 hover:text-gray-700 ms-auto"
@@ -59,7 +58,7 @@ const EmployeeSlider = ({
           className=" text-white btn btn-sm py-1 px-lg-5 rounded-1 btn-secondary "
           style={{ fontSize: "12px" }}
         >
-          Place New Oder
+          PLACE NEW ODER
         </button>
       </div>
 
@@ -273,4 +272,4 @@ const EmployeeSlider = ({
   );
 };
 
-export default EmployeeSlider;
+export default UserSlider;

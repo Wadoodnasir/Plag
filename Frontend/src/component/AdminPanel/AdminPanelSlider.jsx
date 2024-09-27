@@ -1,69 +1,72 @@
 import React from "react";
 
-const ApiUserSlider = ({
+const AdminPanelSlider = ({
   sidebarOpen,
   toggleSidebar,
   setSelectedComponent,
 }) => {
   return (
     <div
-      className={`bg-white shadow-md h-screen transition-all duration-700  ${
+      className={`bg-white shadow-md h-screen transition-all duration-700 ${
         sidebarOpen ? "w-64" : "w-0"
       } overflow-hidden`}
+      e
     >
       {sidebarOpen && (
-        <div className="flex items-center p-2 ">
-          <span className="pe-1">
-            <img
-              src="https://vue.vristo.sbthemes.com/assets/images/logo.svg"
-              width={35}
-              alt="Logo"
-            />
-          </span>
-          <h1 style={{ fontSize: "24px" }}>
-            <span>VRISTO</span>
-          </h1>
-          <button
-            onClick={toggleSidebar}
-            className="text-gray-500 hover:text-gray-700 ms-auto"
-          >
-            <svg
-              width="25"
-              height="25"
-              viewBox="0 0 24 24"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-              className="m-auto rotate-90"
+        <>
+          <div className="flex items-center p-2">
+            <span className="pr-1">
+              <img
+                src="https://vue.vristo.sbthemes.com/assets/images/logo.svg"
+                width={35}
+                alt="Logo"
+              />
+            </span>
+            <h1 style={{ fontSize: "24px" }}>
+              <span>VRISTO</span>
+            </h1>
+            <button
+              onClick={toggleSidebar}
+              className="text-gray-500 hover:text-gray-700 ml-auto"
             >
-              <path
-                d="M19 11L12 17L5 11"
-                stroke="currentColor"
-                strokeWidth="1.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              ></path>
-              <path
-                opacity="0.5"
-                d="M19 7L12 13L5 7"
-                stroke="currentColor"
-                strokeWidth="1.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              ></path>
-            </svg>
-          </button>
-        </div>
+              <svg
+                width="25"
+                height="25"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                className="rotate-90"
+              >
+                <path
+                  d="M19 11L12 17L5 11"
+                  stroke="currentColor"
+                  strokeWidth="1.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                ></path>
+                <path
+                  opacity="0.5"
+                  d="M19 7L12 13L5 7"
+                  stroke="currentColor"
+                  strokeWidth="1.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                ></path>
+              </svg>
+            </button>
+          </div>
+          <div className="flex justify-center py-1 bg-dark">
+            <button
+              className="text-white btn btn-sm py-1 px-4 rounded btn-secondary"
+              style={{ fontSize: "12px" }}
+            >
+              Place New Order
+            </button>
+          </div>
+        </>
       )}
-      <div className=" d-flex justify-content-center py-1 bg-dark ">
-        <button
-          className=" text-white btn btn-sm py-1 px-lg-5 rounded-1 btn-secondary "
-          style={{ fontSize: "12px" }}
-        >
-          PLACE NEW ODER
-        </button>
-      </div>
 
-      <ul className="space-y-2 mt-4 ">
+      <ul className="space-y-2 mt-4">
         <li>
           <a
             href="#"
@@ -157,32 +160,11 @@ const ApiUserSlider = ({
             >
               <path
                 fillRule="evenodd"
-                d="M4 4a2 2 0 00-2 2v4a2 2 0 002 2V6h10a2 2 0 00-2-2H4zm2 6a2 2 0 012-2h8a2 2 0 012 2v4a2 2 0 01-2 2H8a2 2 0 01-2-2v-4zm6 4a2 2 0 100-4 2 2 0 000 4z"
+                d="M4 4a2 2 0 00-2 2v4a2 2 0 002 2V6h10a2 2 0 00-2-2H4zm0 4v4a2 2 0 002 2v2a2 2 0 002-2v-2a2 2 0 002-2V8a2 2 0 00-2-2H4a2 2 0 00-2 2z"
                 clipRule="evenodd"
-              ></path>
+              />
             </svg>
             Invoices
-          </a>
-        </li>
-        <li>
-          <a
-            href="#"
-            onClick={() => setSelectedComponent("Settings")}
-            className="flex items-center py-2 px-4 hover:bg-blue-100 hover:text-blue-600 text-sm transition-colors duration-200"
-          >
-            <svg
-              className="w-4 h-4 mr-2"
-              fill="currentColor"
-              viewBox="0 0 20 20"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                fillRule="evenodd"
-                d="M11.983 2.167A1 1 0 0113 3v.61c.668.33 1.294.732 1.866 1.197l.512-.296a1 1 0 011.366.366l1.5 2.598a1 1 0 01-.366 1.366l-.513.296c.097.672.097 1.36 0 2.032l.513.296a1 1 0 01.366 1.366l-1.5 2.598a1 1 0 01-1.366.366l-.512-.296a11.58 11.58 0 01-1.866 1.197V17a1 1 0 01-1.017.833h-3A1 1 0 017 17v-.61a11.58 11.58 0 01-1.866-1.197l-.512.296a1 1 0 01-1.366-.366l-1.5-2.598a1 1 0 01.366-1.366l.513-.296a11.497 11.497 0 010-2.032l-.513-.296a1 1 0 01-.366-1.366l1.5-2.598a1 1 0 011.366-.366l.512.296A11.58 11.58 0 017 3.61V3a1 1 0 011.017-.833h3zM10 13a3 3 0 100-6 3 3 0 000 6z"
-                clipRule="evenodd"
-              ></path>
-            </svg>
-            Settings
           </a>
         </li>
       </ul>
@@ -190,4 +172,4 @@ const ApiUserSlider = ({
   );
 };
 
-export default ApiUserSlider;
+export default AdminPanelSlider;

@@ -1,15 +1,13 @@
 import Navbar from "../../component/Navbar";
 import { useState } from "react";
-import Orders from "../../component/Employee/Orders";
 import Settings from "../../component/Employee/Settings";
-import UserSlider from "../../component/User/UserSlider"; // Import the new Slider component
-import Subscriptions from "../../component/User/Subscriptions";
-import Services from "../../component/User/Services";
-import ServiceHistory from "../../component/User/ServiceHistory";
-import SubscriptionHistory from "../../component/User/SubscriptionHistory";
-import Rewriter from "../../component/User/Rewriter";
-import UserInvoice from "../../component/User/UserInvoice";
-const User = () => {
+import AdminPanelSlider from "../../component/AdminPanel/AdminPanelSlider"; // Import the new Slider component
+import Apis from "../../component/ApiUser/Apis";
+import ApiHistory from "../../component/ApiUser/ApisHistroy";
+import ApiUserInvoices from "../../component/ApiUser/ApiUserInvoices";
+import AdminPanelSlider from "../../component/AdminPanel/AdminPanelSlider";
+
+const AdminPanel = () => {
   const [sidebarOpen, setSidebarOpen] = useState(true); // State to control the sidebar
   const [selectedComponent, setSelectedComponent] = useState("Subscriptions");
 
@@ -17,29 +15,23 @@ const User = () => {
 
   const renderComponent = () => {
     switch (selectedComponent) {
-      case "Orders":
-        return <Orders />;
       case "Settings":
         return <Settings />;
-      case "Services":
-        return <Services />;
-      case "ServicesHistory":
-        return <ServiceHistory />;
-      case "SubscriptionHistory":
-        return <SubscriptionHistory />;
-      case "Rewriter":
-        return <Rewriter />;
-      case "UserInvoice":
-        return <UserInvoice />;
+      case "Apis":
+        return <Apis />;
+      case "ApiHistory":
+        return <ApiHistory />;
+      case "ApiUserInvoices":
+        return <ApiUserInvoices />;
       default:
-        return <Subscriptions />; // Default to Subscriptions if none is selected
+        return <Apis />; // Default to Subscriptions if none is selected
     }
   };
 
   return (
     <div className="container-fluid flex p-0">
       {/* Slider Component */}
-      <UserSlider
+      <AdminPanelSlider
         sidebarOpen={sidebarOpen}
         toggleSidebar={toggleSidebar}
         setSelectedComponent={setSelectedComponent}
@@ -57,4 +49,4 @@ const User = () => {
   );
 };
 
-export default User;
+export default AdminPanel;
