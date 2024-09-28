@@ -9,9 +9,10 @@ import ServiceHistory from "../../component/User/ServiceHistory";
 import SubscriptionHistory from "../../component/User/SubscriptionHistory";
 import Rewriter from "../../component/User/Rewriter";
 import UserInvoice from "../../component/User/UserInvoice";
+import UserDashborad from "../../component/User/UserDashborad";
 const User = () => {
   const [sidebarOpen, setSidebarOpen] = useState(true); // State to control the sidebar
-  const [selectedComponent, setSelectedComponent] = useState("Subscriptions");
+  const [selectedComponent, setSelectedComponent] = useState("UserDashborad");
 
   const toggleSidebar = () => setSidebarOpen(!sidebarOpen); // Toggle sidebar open/close
 
@@ -21,6 +22,8 @@ const User = () => {
         return <Orders />;
       case "Settings":
         return <Settings />;
+      case "UserDashborad":
+        return <UserDashborad />;
       case "Services":
         return <Services />;
       case "ServicesHistory":
@@ -31,8 +34,10 @@ const User = () => {
         return <Rewriter />;
       case "UserInvoice":
         return <UserInvoice />;
+      case "Subscriptions":
+        return <Subscriptions />;
       default:
-        return <Subscriptions />; // Default to Subscriptions if none is selected
+        return <UserDashborad />;
     }
   };
 

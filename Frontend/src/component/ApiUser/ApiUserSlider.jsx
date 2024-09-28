@@ -1,10 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 
 const ApiUserSlider = ({
   sidebarOpen,
   toggleSidebar,
   setSelectedComponent,
 }) => {
+  const [isSubscriptionOpen, setSubscriptionOpen] = useState(false);
+  const [isApiUserOpen, setApiUserOpen] = useState(false); // New state for Api User
+  const [isServicesOpen, setServicesOpen] = useState(false); // New state for Services
+
   return (
     <div
       className={`bg-white shadow-md h-screen transition-all duration-700  ${
@@ -67,7 +71,7 @@ const ApiUserSlider = ({
         <li>
           <a
             href="#"
-            onClick={() => setSelectedComponent("/")}
+            onClick={() => setSelectedComponent("ApiDashborad")}
             className="flex items-center py-2 px-4 hover:bg-blue-100 hover:text-blue-600 text-sm transition-colors duration-200"
           >
             <svg
@@ -84,7 +88,106 @@ const ApiUserSlider = ({
         <li>
           <a
             href="#"
-            onClick={() => setSelectedComponent("Employee")}
+            onClick={() => {
+              setSubscriptionOpen(!isSubscriptionOpen);
+            }}
+            className="flex items-center py-2 px-4 hover:bg-blue-100 hover:text-blue-600 text-sm transition-colors duration-200"
+          >
+            <svg
+              className="w-4 h-4 mr-2"
+              fill="currentColor"
+              viewBox="0 0 20 20"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3 3 0 013.75-2.906z"></path>
+            </svg>
+            Subscription
+            <svg
+              className={`w-4 h-4 ml-auto transition-transform duration-200 ${
+                isSubscriptionOpen ? "rotate-180" : ""
+              }`} // Down arrow with rotation
+              fill="currentColor"
+              viewBox="0 0 20 20"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path d="M5 8l5 5 5-5H5z" /> {/* Down arrow icon */}
+            </svg>
+          </a>
+          {isSubscriptionOpen && (
+            <ul className="ml-6 mt-2 space-y-2">
+              <li>
+                <a
+                  href="#"
+                  onClick={() => setSelectedComponent("ApiSubscription")}
+                  className="flex items-center py-1 px-4 hover:bg-blue-100 hover:text-blue-600 text-xs transition-colors duration-200"
+                >
+                  <svg
+                    className="w-3 h-3 mr-2"
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"></path>
+                    <path
+                      fillRule="evenodd"
+                      d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z"
+                      clipRule="evenodd"
+                    ></path>
+                  </svg>
+                  Ai and Plagiarism Checker
+                </a>
+              </li>
+              <li>
+                <a
+                  href="#"
+                  onClick={() => setSelectedComponent("ApiRewrite")}
+                  className="flex items-center py-1 px-4 hover:bg-blue-100 hover:text-blue-600 text-xs transition-colors duration-200"
+                >
+                  <svg
+                    className="w-3 h-3 mr-2"
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 6a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1zm1 3a1 1 0 100 2h6a1 1 0 100-2H7z"
+                      clipRule="evenodd"
+                    ></path>
+                  </svg>
+                  Rewriter
+                </a>
+              </li>
+              <li>
+                <a
+                  href="#"
+                  onClick={() => setSelectedComponent("ApiSubscriptionHistory")}
+                  className="flex items-center py-1 px-4 hover:bg-blue-100 hover:text-blue-600 text-xs transition-colors duration-200"
+                >
+                  <svg
+                    className="w-3 h-3 mr-2"
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 6a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1zm1 3a1 1 0 100 2h6a1 1 0 100-2H7z"
+                      clipRule="evenodd"
+                    ></path>
+                  </svg>
+                  Subscription History
+                </a>
+              </li>
+            </ul>
+          )}
+        </li>
+        <li>
+          <a
+            href="#"
+            onClick={() => {
+              setApiUserOpen(!isApiUserOpen); // Toggle Api User submenu
+            }}
             className="flex items-center py-2 px-4 hover:bg-blue-100 hover:text-blue-600 text-sm transition-colors duration-200"
           >
             <svg
@@ -96,52 +199,140 @@ const ApiUserSlider = ({
               <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3 3 0 013.75-2.906z"></path>
             </svg>
             Api User
+            <svg
+              className={`w-4 h-4 ml-auto transition-transform duration-200 ${
+                isApiUserOpen ? "rotate-180" : ""
+              }`} // Down arrow with rotation
+              fill="currentColor"
+              viewBox="0 0 20 20"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path d="M5 8l5 5 5-5H5z" /> {/* Down arrow icon */}
+            </svg>
           </a>
-          <ul className="ml-6 mt-2 space-y-2">
-            <li>
-              <a
-                href="#"
-                onClick={() => setSelectedComponent("Apis")}
-                className="flex items-center py-1 px-4 hover:bg-blue-100 hover:text-blue-600 text-xs transition-colors duration-200"
-              >
-                <svg
-                  className="w-3 h-3 mr-2"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                  xmlns="http://www.w3.org/2000/svg"
+          {isApiUserOpen && ( // Render submenu if open
+            <ul className="ml-6 mt-2 space-y-2">
+              <li>
+                <a
+                  href="#"
+                  onClick={() => setSelectedComponent("Apis")}
+                  className="flex items-center py-1 px-4 hover:bg-blue-100 hover:text-blue-600 text-xs transition-colors duration-200"
                 >
-                  <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"></path>
-                  <path
-                    fillRule="evenodd"
-                    d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z"
-                    clipRule="evenodd"
-                  ></path>
-                </svg>
-                APIS
-              </a>
-            </li>
-            <li>
-              <a
-                href="#"
-                onClick={() => setSelectedComponent("ApiHistory")}
-                className="flex items-center py-1 px-4 hover:bg-blue-100 hover:text-blue-600 text-xs transition-colors duration-200"
-              >
-                <svg
-                  className="w-3 h-3 mr-2"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                  xmlns="http://www.w3.org/2000/svg"
+                  <svg
+                    className="w-3 h-3 mr-2"
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"></path>
+                    <path
+                      fillRule="evenodd"
+                      d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z"
+                      clipRule="evenodd"
+                    ></path>
+                  </svg>
+                  APIS
+                </a>
+              </li>
+              <li>
+                <a
+                  href="#"
+                  onClick={() => setSelectedComponent("ApiHistory")}
+                  className="flex items-center py-1 px-4 hover:bg-blue-100 hover:text-blue-600 text-xs transition-colors duration-200"
                 >
-                  <path
-                    fillRule="evenodd"
-                    d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 6a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1zm1 3a1 1 0 100 2h6a1 1 0 100-2H7z"
-                    clipRule="evenodd"
-                  ></path>
-                </svg>
-                History
-              </a>
-            </li>
-          </ul>
+                  <svg
+                    className="w-3 h-3 mr-2"
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 6a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1zm1 3a1 1 0 100 2h6a1 1 0 100-2H7z"
+                      clipRule="evenodd"
+                    ></path>
+                  </svg>
+                  History
+                </a>
+              </li>
+            </ul>
+          )}
+        </li>
+        <li>
+          <a
+            href="#"
+            onClick={() => {
+              setServicesOpen(!isServicesOpen); // Toggle Services submenu
+            }}
+            className="flex items-center py-2 px-4 hover:bg-blue-100 hover:text-blue-600 text-sm transition-colors duration-200"
+          >
+            <svg
+              className="w-4 h-4 mr-2"
+              fill="currentColor"
+              viewBox="0 0 20 20"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3 3 0 013.75-2.906z"></path>
+            </svg>
+            Services
+            <svg
+              className={`w-4 h-4 ml-auto transition-transform duration-200 ${
+                isServicesOpen ? "rotate-180" : ""
+              }`} // Down arrow with rotation
+              fill="currentColor"
+              viewBox="0 0 20 20"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path d="M5 8l5 5 5-5H5z" /> {/* Down arrow icon */}
+            </svg>
+          </a>
+          {isServicesOpen && ( // Render submenu if open
+            <ul className="ml-6 mt-2 space-y-2">
+              <li>
+                <a
+                  href="#"
+                  onClick={() => setSelectedComponent("ApiService")}
+                  className="flex items-center py-1 px-4 hover:bg-blue-100 hover:text-blue-600 text-xs transition-colors duration-200"
+                >
+                  <svg
+                    className="w-3 h-3 mr-2"
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"></path>
+                    <path
+                      fillRule="evenodd"
+                      d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z"
+                      clipRule="evenodd"
+                    ></path>
+                  </svg>
+                  Services
+                </a>
+              </li>
+              <li>
+                <a
+                  href="#"
+                  onClick={() => setSelectedComponent("ApiServiceHistory")}
+                  className="flex items-center py-1 px-4 hover:bg-blue-100 hover:text-blue-600 text-xs transition-colors duration-200"
+                >
+                  <svg
+                    className="w-3 h-3 mr-2"
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 6a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1zm1 3a1 1 0 100 2h6a1 1 0 100-2H7z"
+                      clipRule="evenodd"
+                    ></path>
+                  </svg>
+                  Services History
+                </a>
+              </li>
+            </ul>
+          )}
         </li>
         <li>
           <a

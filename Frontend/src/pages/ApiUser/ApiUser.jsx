@@ -5,6 +5,12 @@ import ApiUserSlider from "../../component/ApiUser/ApiUserSlider"; // Import the
 import Apis from "../../component/ApiUser/Apis";
 import ApiHistory from "../../component/ApiUser/ApisHistroy";
 import ApiUserInvoices from "../../component/ApiUser/ApiUserInvoices";
+import ApiDashborad from "../../component/ApiUser/ApiDashborad";
+import ApiSubscription from "../../component/ApiUser/ApiSubscription";
+import ApiRewrite from "../../component/ApiUser/ApiRewrite";
+import ApiSubscriptionHistory from "../../component/ApiUser/ApiSubscriptionHistory";
+import ApiServiceHistory from "../../component/ApiUser/ApiServiceHistory";
+import ApiService from "../../component/ApiUser/ApiService";
 
 const ApiUser = () => {
   const [sidebarOpen, setSidebarOpen] = useState(true); // State to control the sidebar
@@ -16,6 +22,16 @@ const ApiUser = () => {
     switch (selectedComponent) {
       case "Settings":
         return <Settings />;
+      case "ApiSubscription":
+        return <ApiSubscription />;
+      case "ApiRewrite":
+        return <ApiRewrite />;
+      case "ApiSubscriptionHistory":
+        return <ApiSubscriptionHistory />;
+      case "ApiServiceHistory":
+        return <ApiServiceHistory />;
+      case "ApiService":
+        return <ApiService />;
       case "Apis":
         return <Apis />;
       case "ApiHistory":
@@ -23,7 +39,7 @@ const ApiUser = () => {
       case "ApiUserInvoices":
         return <ApiUserInvoices />;
       default:
-        return <Apis />; // Default to Subscriptions if none is selected
+        return <ApiDashborad />; // Default to Subscriptions if none is selected
     }
   };
 

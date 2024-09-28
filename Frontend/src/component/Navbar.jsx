@@ -81,7 +81,7 @@ const Navbar = ({ sidebarOpen, toggleSidebar }) => {
 
         <span className=" align-self-lg-center">
           <div className="d-flex align-items-center">
-            <ul class="d-flex text-dark ">
+            {/* <ul class="d-flex text-dark ">
               <li>
                 <a
                   href="/apps/calendar"
@@ -179,7 +179,7 @@ const Navbar = ({ sidebarOpen, toggleSidebar }) => {
                 </a>
               </li>
               <li></li>
-            </ul>
+            </ul> */}
           </div>
         </span>
       </div>
@@ -192,7 +192,7 @@ const Navbar = ({ sidebarOpen, toggleSidebar }) => {
           <p style={{ fontSize: 14 }}>Days lefts: 30</p>
         </span>
         <ThemeAdjustIcon />
-        <div>
+        {/* <div>
           <button
             type="button"
             className="btn p-2 rounded-circle bg-light border-0 hover-text-primary"
@@ -226,7 +226,7 @@ const Navbar = ({ sidebarOpen, toggleSidebar }) => {
               />
             </svg>
           </button>
-        </div>
+        </div> */}
         <div>
           <button
             type="button"
