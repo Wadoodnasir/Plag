@@ -14,6 +14,7 @@ import EmployeeSubscriptions from "../../component/Employee/EmployeeSubscription
 import EmployeeRewriter from "../../component/Employee/EmployeeRewriter";
 import EmployeeSubscriptionHistory from "../../component/Employee/EmployeeSubscriptionHistory";
 import EmployeeService from "../../component/Employee/EmployeeService";
+import PlaceOrderNow from "../../component/PlaceOderNow";
 const EmployerDashboard = () => {
   const [sidebarOpen, setSidebarOpen] = useState(true); // State to control the sidebar
   const [selectedComponent, setSelectedComponent] =
@@ -45,6 +46,8 @@ const EmployerDashboard = () => {
         return <EmployeeSubscriptionHistory />;
       case "EmployeeService":
         return <EmployeeService />;
+      case "PlaceOrderNow":
+        return <PlaceOrderNow />;
       default:
         return <EmployeeDashborad />; // Default to Subscriptions if none is selected
       case "UserFiles":
