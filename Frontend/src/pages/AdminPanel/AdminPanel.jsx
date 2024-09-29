@@ -5,13 +5,12 @@ import AdminPanelSlider from "../../component/AdminPanel/AdminPanelSlider"; // I
 import Apis from "../../component/ApiUser/Apis";
 import ApiHistory from "../../component/ApiUser/ApisHistroy";
 import ApiUserInvoices from "../../component/ApiUser/ApiUserInvoices";
-import AdminPanelSlider from "../../component/AdminPanel/AdminPanelSlider";
 
 const AdminPanel = () => {
-  const [sidebarOpen, setSidebarOpen] = useState(true); // State to control the sidebar
+  const [sidebarOpen, setSidebarOpen] = useState(true);
   const [selectedComponent, setSelectedComponent] = useState("Subscriptions");
 
-  const toggleSidebar = () => setSidebarOpen(!sidebarOpen); // Toggle sidebar open/close
+  const toggleSidebar = () => setSidebarOpen(!sidebarOpen);
 
   const renderComponent = () => {
     switch (selectedComponent) {

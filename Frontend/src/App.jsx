@@ -11,7 +11,7 @@ import EmployerDashboard from "./pages/EmployeeDashboard/EmployerDashboard";
 import ApiUser from "./pages/ApiUser/ApiUser";
 // Add this new import
 import User from "./pages/User/User";
-import AdminPanel from "./component/AdminPanel/AdminPanelSlider";
+import AdminPanel from "./pages/AdminPanel/AdminPanel";
 
 const App = () => {
   return (
