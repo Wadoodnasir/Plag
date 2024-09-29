@@ -73,7 +73,7 @@ const EmployeeSlider = ({
         <li>
           <a
             href="#"
-            onClick={() => setSelectedComponent("/")}
+            onClick={() => setSelectedComponent("EmployeeDashborad")}
             className="flex items-center py-2 px-4 hover:bg-blue-100 hover:text-blue-600 text-sm transition-colors duration-200"
           >
             <svg
@@ -91,7 +91,7 @@ const EmployeeSlider = ({
           <a
             href="#"
             onClick={() => {
-              setSelectedComponent("Subscription");
+              setSelectedComponent("");
               toggleSubMenu("Subscription");
             }}
             className="flex items-center py-2 px-4 hover:bg-blue-100 hover:text-blue-600 text-sm transition-colors duration-200"
@@ -121,7 +121,7 @@ const EmployeeSlider = ({
               <li>
                 <a
                   href="#"
-                  onClick={() => setSelectedComponent("Subscriptions")}
+                  onClick={() => setSelectedComponent("EmployeeSubscriptions")}
                   className="flex items-center py-1 px-4 hover:bg-blue-100 hover:text-blue-600 text-xs transition-colors duration-200"
                 >
                   <svg
@@ -143,7 +143,7 @@ const EmployeeSlider = ({
               <li>
                 <a
                   href="#"
-                  onClick={() => setSelectedComponent("Rewriter")}
+                  onClick={() => setSelectedComponent("EmployeeRewriter")}
                   className="flex items-center py-1 px-4 hover:bg-blue-100 hover:text-blue-600 text-xs transition-colors duration-200"
                 >
                   <svg
@@ -164,7 +164,9 @@ const EmployeeSlider = ({
               <li>
                 <a
                   href="#"
-                  onClick={() => setSelectedComponent("SubscriptionHistory")}
+                  onClick={() =>
+                    setSelectedComponent("EmployeeSubscriptionHistory")
+                  }
                   className="flex items-center py-1 px-4 hover:bg-blue-100 hover:text-blue-600 text-xs transition-colors duration-200"
                 >
                   <svg
@@ -189,7 +191,7 @@ const EmployeeSlider = ({
           <a
             href="#"
             onClick={() => {
-              setSelectedComponent("Employee");
+              setSelectedComponent("");
               toggleSubMenu("Employee");
             }}
             className="flex items-center py-2 px-4 hover:bg-blue-100 hover:text-blue-600 text-sm transition-colors duration-200"
@@ -266,7 +268,7 @@ const EmployeeSlider = ({
           <a
             href="#"
             onClick={() => {
-              setSelectedComponent("Services");
+              setSelectedComponent("");
               toggleSubMenu("Services");
             }}
             className="flex items-center py-2 px-4 hover:bg-blue-100 hover:text-blue-600 text-sm transition-colors duration-200"
@@ -296,7 +298,7 @@ const EmployeeSlider = ({
               <li>
                 <a
                   href="#"
-                  onClick={() => setSelectedComponent("Services")}
+                  onClick={() => setSelectedComponent("EmployeeService")}
                   className="flex items-center py-1 px-4 hover:bg-blue-100 hover:text-blue-600 text-xs transition-colors duration-200"
                 >
                   <svg

@@ -87,7 +87,7 @@ const UserSlider = ({ sidebarOpen, toggleSidebar, setSelectedComponent }) => {
           <a
             href="#"
             onClick={() => {
-              setSelectedComponent("/");
+              setSelectedComponent("");
               setSubscriptionOpen(!isSubscriptionOpen); // Toggle Subscription submenu
             }}
             className="flex items-center py-2 px-4 hover:bg-blue-100 hover:text-blue-600 text-sm transition-colors duration-200"

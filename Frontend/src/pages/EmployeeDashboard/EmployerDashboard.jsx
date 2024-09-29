@@ -8,9 +8,16 @@ import Settings from "../../component/Employee/Settings";
 import EmployeeSlider from "../../component/Employee/EmployeeSlider"; // Import the new Slider component
 import UserFiles from "../../component/Employee/UserFiles";
 import EmployeeInvoices from "../../component/Employee/EmployeeInvoices";
+import EmployeeDashborad from "../../component/Employee/EmployeeDashborad";
+import EmployeeOrders from "../../component/Employee/EmployeeOrders";
+import EmployeeSubscriptions from "../../component/Employee/EmployeeSubscriptions";
+import EmployeeRewriter from "../../component/Employee/EmployeeRewriter";
+import EmployeeSubscriptionHistory from "../../component/Employee/EmployeeSubscriptionHistory";
+import EmployeeService from "../../component/Employee/EmployeeService";
 const EmployerDashboard = () => {
   const [sidebarOpen, setSidebarOpen] = useState(true); // State to control the sidebar
-  const [selectedComponent, setSelectedComponent] = useState("Subscriptions");
+  const [selectedComponent, setSelectedComponent] =
+    useState("EmployeeDashborad");
 
   const toggleSidebar = () => setSidebarOpen(!sidebarOpen); // Toggle sidebar open/close
 
@@ -28,8 +35,18 @@ const EmployerDashboard = () => {
         return <History />;
       case "Settings":
         return <Settings />;
+      case "EmployeeOrders":
+        return <EmployeeOrders />;
+      case "EmployeeSubscriptions":
+        return <EmployeeSubscriptions />;
+      case "EmployeeRewriter":
+        return <EmployeeRewriter />;
+      case "EmployeeSubscriptionHistory":
+        return <EmployeeSubscriptionHistory />;
+      case "EmployeeService":
+        return <EmployeeService />;
       default:
-        return <Subscriptions />; // Default to Subscriptions if none is selected
+        return <EmployeeDashborad />; // Default to Subscriptions if none is selected
       case "UserFiles":
         return <UserFiles />;
     }
