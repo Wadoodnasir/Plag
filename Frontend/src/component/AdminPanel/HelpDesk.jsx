@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { Table, Menu, Dropdown, Button } from "antd";
 import { MoreOutlined } from "@ant-design/icons";
-import { useLocation } from 'react-router-dom';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 const StatusButton = ({ status }) => {
   const getColor = (status) => {
     switch (status.toLowerCase()) {
-      case "completed":
+      case "resolved":
         return "#52c41a"; // green
       case "pending":
         return "#faad14"; // yellow
@@ -27,6 +27,8 @@ const StatusButton = ({ status }) => {
         height: "24px",
         fontSize: "12px",
         textTransform: "capitalize",
+        display: 'inline-block',
+        margin: '0 5px',
       }}
     >
       {status}
@@ -34,21 +36,25 @@ const StatusButton = ({ status }) => {
   );
 };
 
-const OrdersTable = () => {
+const HelpDeskTable = () => {
   const [data, setData] = useState([
     // Sample data, replace with your actual data
     {
       id: 1,
       name: "John Doe",
       date: "2023-04-15",
-      sale: 100,
-      status: "Completed",
+      message: "My account is not working.",
+      reply: "We're sorry to hear that. Our team is working on it.",
+      description: "Account login issue",
+      status: "Resolved",
     },
     {
       id: 2,
       name: "Jane Smith",
       date: "2023-04-16",
-      sale: 150,
+      message: "I forgot my password.",
+      reply: "Please reset your password using the forgot password feature.",
+      description: "Password reset",
       status: "Pending",
     },
     // Add more rows as needed
@@ -64,22 +70,38 @@ const OrdersTable = () => {
       title: "Name",
       dataIndex: "name",
       key: "name",
+      width: '10%',
     },
     {
       title: "Date",
       dataIndex: "date",
       key: "date",
+      width: '10%',
     },
     {
-      title: "Sale",
-      dataIndex: "sale",
-      key: "sale",
+      title: "Message",
+      dataIndex: "message",
+      key: "message",
+      width: '20%',
+    },
+    {
+      title: "Reply",
+      dataIndex: "reply",
+      key: "reply",
+      width: '20%',
+    },
+    {
+      title: "Description",
+      dataIndex: "description",
+      key: "description",
+      width: '20%',
     },
     {
       title: "Status",
       dataIndex: "status",
       key: "status",
       render: (status) => <StatusButton status={status} />,
+      width: '10%',
     },
     {
       title: "Action",
@@ -99,46 +121,39 @@ const OrdersTable = () => {
           <Button icon={<MoreOutlined />} />
         </Dropdown>
       ),
+      width: '10%',
     },
   ];
 
-  const location = useLocation();
-  useEffect(() => {
-    const filterData = () => {
-      if (location.pathname.includes('new-orders')) {
-        setData(data.filter(item => item.status === 'Pending'));
-      } else if (location.pathname.includes('processing-orders')) {
-        setData(data.filter(item => item.status === 'Processing'));
-      } else if (location.pathname.includes('total-orders')) {
-        setData(data);
-      }
-    };
-
-    filterData();
-  }, [location.pathname]);
-
   return (
-    <Table
-      className="tc"
-      columns={columns}
-      dataSource={data}
-      rowKey="id"
-      style={{
-        fontSize: "14px",
-        backgroundColor: "#ffff",
-      }}
-      components={{
-        header: {
-          cell: (props) => (
-            <th
-              {...props}
-              style={{ ...props.style, backgroundColor: "white" }}
-            />
-          ),
-        },
-      }}
-    />
+    <div className="">
+      <h2 style={{ marginBottom: '20px' }}>Last 5 Helpdesk Messages</h2>
+      {data.length > 0 ? (
+        <Table
+          columns={columns}
+          dataSource={data}
+          rowKey="id"
+          style={{
+            fontSize: "14px",
+            backgroundColor: "#ffff",
+            width: '100%', // Set table width to 100%
+          }}
+          components={{
+            header: {
+              cell: (props) => (
+                <th
+                  {...props}
+                  style={{ ...props.style, backgroundColor: "white", textAlign: 'center' }}
+                />
+              ),
+            },
+          }}
+        />
+      ) : (
+        <div className="alert alert-info">No data to display</div>
+      )}
+    </div>
   );
 };
 
-export default OrdersTable;
+export default HelpDeskTable;

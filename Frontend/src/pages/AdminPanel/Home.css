@@ -1,0 +1,29 @@
+.stat-card {
+    transition: transform 0.3s ease-in-out;
+}
+
+.stat-card:hover {
+    transform: translateY(-5px);
+}
+
+.main-value {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.change {
+    font-size: 0.9rem;
+    margin-left: 0.5rem;
+}
+
+.positive { color: #4caf50; }
+.negative { color: #f44336; }
+
+.last-week {
+    font-size: 0.8rem;
+    margin-top: 0.5rem;
+}
+
+.eye-icon {
+    margin-right: 0.3rem;
+}

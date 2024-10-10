@@ -1,35 +1,59 @@
-import {
-  BrowserRouter as Router,
-  Route,
-  Routes,
-  Navigate,
-} from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import SignUpForm from "./pages/SignUp/SignUp";
 import LoginForm from "./pages/SignIn/SignIn";
 import EmployerDashboard from "./pages/EmployeeDashboard/EmployerDashboard";
 import ApiUser from "./pages/ApiUser/ApiUser";
-// Add this new import
 import User from "./pages/User/User";
 import AdminPanel from "./pages/AdminPanel/AdminPanel";
+import Home from "./pages/AdminPanel/Home"; // Import your individual components
+import Settings from "./component/Employee/Settings";
+import Apis from "./component/ApiUser/Apis";
+import ApiHistory from "./component/ApiUser/ApisHistroy";
+import ApiUserInvoices from "./component/ApiUser/ApiUserInvoices";
+import TotalUsersTable from "./component/AdminPanel/Totalusers";
+import OrdersTable from "./component/Employee/OrdersTables";
+import TodayEarningTable from "./component/AdminPanel/TodayEarning";
+import FilesTable from "./component/AdminPanel/FilesTable";
+import ProcessingFilesTable from "./component/AdminPanel/ProcessingFilesTable";
 
 const App = () => {
   return (
     <Router>
       <Routes>
+        {/* Login and Signup Routes */}
         <Route path="/login" element={<LoginForm />} />
         <Route path="/signup" element={<SignUpForm />} />
-        {/* <Route path="/home" element={<HomePage />} /> */}
-        {/* <Route path="/my-account" element={<MyAccount />} /> */}
-        <Route path="/admin" element={<AdminPanel />} />
+
+        {/* Admin Panel Routes with nested paths */}
+        <Route path="/admin" element={<AdminPanel />}>
+          <Route path="home" element={<Home />} />
+          <Route path="total-users" element={<TotalUsersTable />} />
+          <Route path="online-users" element={<TotalUsersTable />} />
+          <Route path="total-orders" element={< OrdersTable/>} />
+          <Route path="new-orders" element={< OrdersTable/>} />
+          <Route path="processing-orders" element={< OrdersTable/>} />
+          <Route path="total-earning" element={< TodayEarningTable/>} />
+          <Route path="today-earning" element={< TodayEarningTable/>} />
+          <Route path="total-files-checked" element={< ProcessingFilesTable/>} />
+          <Route path="processing-files" element={< FilesTable/>} />
+          <Route path="tickets" element={< OrdersTable/>} />
+          <Route path="settings" element={<Settings />} />
+          <Route path="apis" element={<Apis />} />
+          <Route path="api-history" element={<ApiHistory />} />
+          <Route path="api-user-invoices" element={<ApiUserInvoices />} />
+          <Route index element={<Navigate to="/admin/home" />} /> 
+        </Route>
+
+        {/* Other Routes */}
         <Route path="/employee" element={<EmployerDashboard />} />
-        {/* Add new route for ApiUser */}
         <Route path="/api-user" element={<ApiUser />} />
-        {/* Add new route for User */}
         <Route path="/user" element={<User />} />
-        {/* New route for root path */}
+
+        {/* Default root path */}
         <Route path="/" element={<Navigate to="/user" />} />
-        {/* Changed default route to go to login */}
+
+        {/* Catch-all route for unknown paths */}
         <Route path="*" element={<Navigate to="/login" />} />
       </Routes>
     </Router>
