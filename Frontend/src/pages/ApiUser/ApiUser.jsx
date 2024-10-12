@@ -12,6 +12,7 @@ import ApiSubscriptionHistory from "../../component/ApiUser/ApiSubscriptionHisto
 import ApiServiceHistory from "../../component/ApiUser/ApiServiceHistory";
 import ApiService from "../../component/ApiUser/ApiService";
 import PlaceOrderNow from "../../component/PlaceOderNow";
+import EarnCredit from "../../component/EarnCredit";
 
 const ApiUser = () => {
   const [sidebarOpen, setSidebarOpen] = useState(true); // State to control the sidebar
@@ -41,6 +42,8 @@ const ApiUser = () => {
         return <ApiUserInvoices />;
       case "PlaceOrderNow":
         return <PlaceOrderNow />;
+      case "EarnCredit":
+        return <EarnCredit />;
       default:
         return <ApiDashborad />; // Default to Subscriptions if none is selected
     }

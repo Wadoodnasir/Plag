@@ -11,6 +11,7 @@ import Rewriter from "../../component/User/Rewriter";
 import UserInvoice from "../../component/User/UserInvoice";
 import UserDashborad from "../../component/User/UserDashborad";
 import PlaceOrderNow from "../../component/PlaceOderNow";
+import EarnCredit from "../../component/EarnCredit";
 const User = () => {
   const [sidebarOpen, setSidebarOpen] = useState(true); // State to control the sidebar
   const [selectedComponent, setSelectedComponent] = useState("UserDashborad");
@@ -39,6 +40,8 @@ const User = () => {
         return <Subscriptions />;
       case "PlaceOrderNow":
         return <PlaceOrderNow />;
+      case "EarnCredit":
+        return <EarnCredit />;
       default:
         return <UserDashborad />;
     }
