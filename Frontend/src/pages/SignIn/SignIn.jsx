@@ -53,7 +53,7 @@ const LoginForm = () => {
 
     try {
       // Call the backend API
-      const response = await axios.post("http://localhost:4000/auth/login", {
+      const response = await axios.post("http://localhost:4001/auth/login", {
         email: username,
         password: password,
       });
@@ -61,7 +61,7 @@ const LoginForm = () => {
       // Handle success
       if (response.data.msg === "User logged in successfully") {
         // Navigate to the HomePage after successful login
-        navigate("/home");
+        navigate("/user");
       }
     } catch (error) {
       // Handle error (e.g., invalid credentials)
@@ -72,48 +72,6 @@ const LoginForm = () => {
       }
     }
   };
-  // const [username, setUsername] = useState("wadoodnasir4@gmail.com"); // State for username
-  // const [password, setPassword] = useState("wadood123"); // State for password
-  // const [usernameError, setUsernameError] = useState(false); // State for username validation
-  // const [passwordError, setPasswordError] = useState(false); // State for password validation
-
-  // const navigate = useNavigate(); // useNavigate hook to navigate to HomePage
-
-  // const handleUsernameChange = (event) => {
-  //   setUsername(event.target.value); // Update username state
-  //   setUsernameError(false); // Reset error state on change
-  // };
-
-  // const handlePasswordChange = (event) => {
-  //   setPassword(event.target.value); // Update password state
-  //   setPasswordError(false); // Reset error state on change
-  // };
-
-  // const handleSubmit = (event) => {
-  //   event.preventDefault();
-
-  //   // Reset validation errors
-  //   let hasError = false;
-
-  //   // Validation
-  //   if (!username) {
-  //     setUsernameError(true);
-  //     hasError = true;
-  //   }
-  //   if (!password) {
-  //     setPasswordError(true);
-  //     hasError = true;
-  //   }
-
-  //   // Stop submission if any validation failed
-  //   if (hasError) return;
-
-  //   // Proceed if validation passed
-  //   // alert("Successfully Logged In");
-
-  //   // Navigate to the HomePage after successful login
-  //   navigate("/home");
-  // };
 
   return (
     <div className="row bg-primary sign-container m-0">

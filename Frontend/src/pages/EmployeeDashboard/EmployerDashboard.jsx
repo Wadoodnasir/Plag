@@ -15,6 +15,7 @@ import EmployeeRewriter from "../../component/Employee/EmployeeRewriter";
 import EmployeeSubscriptionHistory from "../../component/Employee/EmployeeSubscriptionHistory";
 import EmployeeService from "../../component/Employee/EmployeeService";
 import PlaceOrderNow from "../../component/PlaceOderNow";
+import EmployeeServiceHistory from "../../component/Employee/EmployeeServiceHistory";
 const EmployerDashboard = () => {
   const [sidebarOpen, setSidebarOpen] = useState(true); // State to control the sidebar
   const [selectedComponent, setSelectedComponent] =
@@ -44,6 +45,8 @@ const EmployerDashboard = () => {
         return <EmployeeRewriter />;
       case "EmployeeSubscriptionHistory":
         return <EmployeeSubscriptionHistory />;
+      case "EmployeeServiceHistory":
+        return <EmployeeServiceHistory />;
       case "EmployeeService":
         return <EmployeeService />;
       case "PlaceOrderNow":

@@ -1,5 +1,6 @@
 // Orders.jsx
-import HistoryTable from "./HistroyTable";
+
+import EmployeeOderTable from "./EmployeeOderTable";
 const History = () => {
   return (
     <div className="container-fluid bg-light">
@@ -8,7 +9,7 @@ const History = () => {
       </p>
       <h1 className="fs-3">History Table</h1>
       <div className="container w-100 my-3">
-        <HistoryTable />
+        <EmployeeOderTable />
       </div>
     </div>
   );

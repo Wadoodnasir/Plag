@@ -38,9 +38,19 @@ app.use(
 
 const authRouter = require("./routes/auth");
 const indexRouter = require("./routes/index");
+const subscriptionPackageDetailRouter = require("./routes/packages");
+const subscriptionRouter = require("./routes/subscriptions");
+const invoiceRouter = require("./routes/invoices");
+const serviceRouter = require("./routes/services");
+const orderRouter = require("./routes/orders");
 
 app.use("/", indexRouter);
 app.use("/auth", authRouter);
+app.use("/packages", subscriptionPackageDetailRouter);
+app.use("/subscriptions", subscriptionRouter);
+app.use("/invoices", invoiceRouter);
+app.use("/services", serviceRouter);
+app.use("/orders", orderRouter);
 
 app.listen(port, () => {
   console.log(`Server running on http://localhost:${port}`);

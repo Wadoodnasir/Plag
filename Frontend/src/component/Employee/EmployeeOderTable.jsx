@@ -33,24 +33,26 @@ const StatusButton = ({ status }) => {
   );
 };
 
-const EmployeeOderTable = () => {
+const EmployeeOrderTable = () => {
   const [data, setData] = useState([
-    // Sample data, replace with your actual data
     {
       id: 1,
-      name: "John Doe",
-      date: "2023-04-15",
-      sale: 100,
+      orderNo: "ORD101", // orderId in the Order model
+      serviceName: "Website Development", // service name from the related Service model
+      startDate: "2023-10-01T10:00:00Z",
+      endDate: "2023-11-01T10:00:00Z",
+      deadline: "2023-10-31T23:59:59Z",
       status: "Completed",
     },
     {
       id: 2,
-      name: "Jane Smith",
-      date: "2023-04-16",
-      sale: 150,
+      orderNo: "ORD102", // orderId in the Order model
+      serviceName: "SEO Optimization", // service name from the related Service model
+      startDate: "2023-10-05T12:00:00Z",
+      endDate: "2023-11-05T12:00:00Z",
+      deadline: "2023-11-04T23:59:59Z",
       status: "Pending",
     },
-    // Add more rows as needed
   ]);
 
   const handleDelete = (id) => {
@@ -60,19 +62,29 @@ const EmployeeOderTable = () => {
 
   const columns = [
     {
-      title: "Name",
-      dataIndex: "name",
-      key: "name",
+      title: "Order No.",
+      dataIndex: "orderNo",
+      key: "orderNo",
     },
     {
-      title: "Date",
-      dataIndex: "date",
-      key: "date",
+      title: "Service Name",
+      dataIndex: "serviceName",
+      key: "serviceName",
     },
     {
-      title: "Sale",
-      dataIndex: "sale",
-      key: "sale",
+      title: "Start Date",
+      dataIndex: "startDate",
+      key: "startDate",
+    },
+    {
+      title: "End Date",
+      dataIndex: "endDate",
+      key: "endDate",
+    },
+    {
+      title: "Deadline",
+      dataIndex: "deadline",
+      key: "deadline",
     },
     {
       title: "Status",
@@ -83,21 +95,22 @@ const EmployeeOderTable = () => {
     {
       title: "Action",
       key: "action",
-      render: (_, record) => (
-        <Dropdown
-          overlay={
-            <Menu>
-              <Menu.Item key="delete" onClick={() => handleDelete(record.id)}>
-                Delete
-              </Menu.Item>
-              {/* Add more menu items for other actions */}
-            </Menu>
-          }
-          trigger={["click"]}
-        >
-          <Button icon={<MoreOutlined />} />
-        </Dropdown>
-      ),
+      render: (_, record) => {
+        return record.status.toLowerCase() === "pending" ? (
+          <Dropdown
+            overlay={
+              <Menu>
+                <Menu.Item key="delete" onClick={() => handleDelete(record.id)}>
+                  Delete
+                </Menu.Item>
+              </Menu>
+            }
+            trigger={["click"]}
+          >
+            <Button icon={<MoreOutlined />} />
+          </Dropdown>
+        ) : null; // No action if status is not pending
+      },
     },
   ];
 
@@ -125,4 +138,4 @@ const EmployeeOderTable = () => {
   );
 };
 
-export default EmployeeOderTable;
+export default EmployeeOrderTable;

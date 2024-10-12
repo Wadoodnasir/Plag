@@ -321,7 +321,7 @@ const EmployeeSlider = ({
               <li>
                 <a
                   href="#"
-                  onClick={() => setSelectedComponent("ServicesHistory")}
+                  onClick={() => setSelectedComponent("EmployeeServiceHistory")}
                   className="flex items-center py-1 px-4 hover:bg-blue-100 hover:text-blue-600 text-xs transition-colors duration-200"
                 >
                   <svg

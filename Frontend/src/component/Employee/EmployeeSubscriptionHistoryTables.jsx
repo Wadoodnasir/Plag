@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Table, Menu, Dropdown, Button } from "antd";
+import React, { useState, useEffect } from "react";
+import { Table, Menu, Dropdown, Button, message } from "antd";
 import { MoreOutlined } from "@ant-design/icons";
 
 const StatusButton = ({ status }) => {
@@ -33,67 +33,77 @@ const StatusButton = ({ status }) => {
   );
 };
 
-const EmployeeSubscriptionHistoryTables = () => {
-  const [data, setData] = useState([
-    // Sample data, replace with your actual data
-    {
-      id: 1,
-      name: "John Doe",
-      date: "2023-04-15",
-      sale: 100,
-      status: "Completed",
-    },
-    {
-      id: 2,
-      name: "Jane Smith",
-      date: "2023-04-16",
-      sale: 150,
-      status: "Pending",
-    },
-    // Add more rows as needed
-  ]);
+const EmployeeSubscriptionHistoryTables = ({ userId }) => {
+  const [data, setData] = useState([]); // Subscriptions data
+  const [loading, setLoading] = useState(true); // Loading state
 
-  const handleDelete = (id) => {
-    // Implement delete logic here
-    setData(data.filter((item) => item.id !== id));
+  // Fetch subscriptions on component mount
+  useEffect(() => {
+    const fetchSubscriptions = async () => {
+      try {
+        const response = await fetch(`/api/subscriptions/${userId}`);
+        const result = await response.json();
+
+        if (response.ok) {
+          setData(result); // Set subscription data
+        } else {
+          message.error(result.msg || "Failed to fetch subscriptions");
+        }
+      } catch (error) {
+        message.error("Error fetching subscriptions");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchSubscriptions();
+  }, [userId]);
+
+  // Delete subscription
+  const handleDelete = async (id) => {
+    try {
+      const response = await fetch(`/api/subscriptions/${id}`, {
+        method: "DELETE",
+      });
+      const result = await response.json();
+
+      if (response.ok) {
+        message.success(result.msg || "Subscription deleted successfully");
+        setData(data.filter((item) => item.id !== id)); // Remove from state
+      } else {
+        message.error(result.msg || "Failed to delete subscription");
+      }
+    } catch (error) {
+      message.error("Error deleting subscription");
+    }
   };
-
   const columns = [
     {
-      title: "Name",
-      dataIndex: "name",
-      key: "name",
+      title: "Subscription Name",
+      dataIndex: "subscriptionName",
+      key: "subscriptionName",
     },
     {
-      title: "Date",
-      dataIndex: "date",
-      key: "date",
+      title: "Deadline",
+      dataIndex: "deadline",
+      key: "deadline",
     },
     {
-      title: "Sale",
-      dataIndex: "sale",
-      key: "sale",
-    },
-    {
-      title: "Status",
-      dataIndex: "status",
-      key: "status",
-      render: (status) => <StatusButton status={status} />,
+      title: "No. of Documents",
+      dataIndex: "documents",
+      key: "documents",
     },
     {
       title: "Action",
       key: "action",
       render: (_, record) => (
         <Dropdown
-          overlay={
-            <Menu>
-              <Menu.Item key="delete" onClick={() => handleDelete(record.id)}>
-                Delete
-              </Menu.Item>
-              {/* Add more menu items for other actions */}
-            </Menu>
-          }
           trigger={["click"]}
+          overlay={
+            <Button type="primary" onClick={() => handleDelete(record)}>
+              Buy
+            </Button>
+          }
         >
           <Button icon={<MoreOutlined />} />
         </Dropdown>
@@ -102,27 +112,83 @@ const EmployeeSubscriptionHistoryTables = () => {
   ];
 
   return (
-    <Table
-      className="tc"
-      columns={columns}
-      dataSource={data}
-      rowKey="id"
-      style={{
-        fontSize: "14px",
-        backgroundColor: "#ffff",
-      }}
-      components={{
-        header: {
-          cell: (props) => (
-            <th
-              {...props}
-              style={{ ...props.style, backgroundColor: "white" }}
-            />
-          ),
-        },
-      }}
-    />
+    <div>
+      <Table
+        columns={columns}
+        dataSource={data}
+        rowKey="id"
+        style={{ fontSize: "14px", backgroundColor: "#fff" }}
+      />
+    </div>
   );
 };
+
+// Define table columns
+//   const columns = [
+//     {
+//       title: "Name",
+//       dataIndex: "name",
+//       key: "name",
+//     },
+//     {
+//       title: "Date",
+//       dataIndex: "date",
+//       key: "date",
+//     },
+//     {
+//       title: "Sale",
+//       dataIndex: "sale",
+//       key: "sale",
+//     },
+//     {
+//       title: "Status",
+//       dataIndex: "status",
+//       key: "status",
+//       render: (status) => <StatusButton status={status} />,
+//     },
+//     {
+//       title: "Action",
+//       key: "action",
+//       render: (_, record) => (
+//         <Dropdown
+//           overlay={
+//             <Menu>
+//               <Menu.Item key="delete" onClick={() => handleDelete(record.id)}>
+//                 Delete
+//               </Menu.Item>
+//             </Menu>
+//           }
+//           trigger={["click"]}
+//         >
+//           <Button icon={<MoreOutlined />} />
+//         </Dropdown>
+//       ),
+//     },
+//   ];
+
+//   return (
+//     <Table
+//       className="tc"
+//       columns={columns}
+//       dataSource={data}
+//       rowKey="id"
+//       loading={loading} // Show loading spinner while data is loading
+//       style={{
+//         fontSize: "14px",
+//         backgroundColor: "#ffff",
+//       }}
+//       components={{
+//         header: {
+//           cell: (props) => (
+//             <th
+//               {...props}
+//               style={{ ...props.style, backgroundColor: "white" }}
+//             />
+//           ),
+//         },
+//       }}
+//     />
+//   );
+// };
 
 export default EmployeeSubscriptionHistoryTables;
