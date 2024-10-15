@@ -6,7 +6,7 @@ generator client {
 
 datasource db {
   provider = "mysql"
-  url      = "mysql://root:root@localhost:3306"
+  url      = env("DATABASE_URL")
 }
 
 model Order {
@@ -49,6 +49,23 @@ model SubscriptionPackageDetail {
   subscription   Subscription @relation(fields: [subscriptionId], references: [id], onDelete: Cascade)
 }
 
+model Report {
+  id                  Int      @id @default(autoincrement())
+  fileName            String?
+  aiPercentage        Float?
+  similarityPercentage Float?
+  status              String?
+  date                DateTime?
+  submittedFileUrl    String?
+  plagReportUrl       String?
+  aiReportUrl         String?
+  plagFilePath        String?
+  aiFilePath          String?
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+  user                Auth?    @relation(fields: [userId], references: [id], name: "UserReports") 
+  userId              Int?
+}
 
 model Auth {
   id                   Int           @id @default(autoincrement())
@@ -65,7 +82,9 @@ model Auth {
   services             Service[]     @relation("AuthServices")
   orders               Order[]       @relation("AuthOrders")
   invoices             Invoice[]     @relation("AuthInvoices")
+  reports              Report[]      @relation("UserReports") // <-- Add this line
 }
+
 
 model Profile {
   id        Int     @id @default(autoincrement())
@@ -161,20 +180,5 @@ enum Role {
 
 
 
-model Report {
-  id                  Int      @id @default(autoincrement())
-  fileName            String?
-  aiPercentage        Float?
-  similarityPercentage Float?
-  status              String?
-  date                DateTime?
-  submittedFileUrl    String?
-  plagReportUrl       String?
-  aiReportUrl         String?
-  plagFilePath        String?
-  aiFilePath          String?
-  createdAt           DateTime @default(now())
-  updatedAt           DateTime @updatedAt
-  user                Auth?    @relation(fields: [userId], references: [id])
-  userId              Int?
-}
+
+
