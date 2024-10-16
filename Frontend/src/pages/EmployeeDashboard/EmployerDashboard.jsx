@@ -14,8 +14,12 @@ import EmployeeRewriter from "../../component/Employee/EmployeeRewriter";
 import EmployeeSubscriptionHistory from "../../component/Employee/EmployeeSubscriptionHistory";
 import EmployeeService from "../../component/Employee/EmployeeService";
 import PlaceOrderNow from "../../component/PlaceOderNow";
+
 import EmployeeServiceHistory from "../../component/Employee/EmployeeServiceHistory";
 import EmployeeAIPledge from "../../component/Employee/EmployeeAIPledge";
+
+import EarnCredit from "../../component/EarnCredit";
+
 const EmployerDashboard = () => {
   const [sidebarOpen, setSidebarOpen] = useState(true); // State to control the sidebar
   const [selectedComponent, setSelectedComponent] =
@@ -51,6 +55,8 @@ const EmployerDashboard = () => {
         return <EmployeeService />;
       case "PlaceOrderNow":
         return <PlaceOrderNow />;
+      case "EarnCredit":
+        return <EarnCredit />;
       default:
         return <EmployeeDashborad />; // Default to Subscriptions if none is selected
       case "UserFiles":

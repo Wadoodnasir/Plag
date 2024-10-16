@@ -11,6 +11,7 @@ const PlaceOrderNow = () => {
   const [deadline, setDeadline] = React.useState(""); // Added state for deadline
   const [poster, setPoster] = React.useState(""); // Added state for poster
   const [pptSlide, setPptSlide] = React.useState(""); // Added state for PPT slide
+  const [isSubscription, setIsSubscription] = React.useState(true); // New state to track subscription/service
 
   const handleOrder = () => {
     // Logic for placing an order
@@ -31,198 +32,226 @@ const PlaceOrderNow = () => {
         <div className=" row pt-3">
           <div className="col-9">
             <h1 className=" fs-5 fw-normal text-dark py-3">Your Requirement</h1>
-            <div
-              className=" d-flex gap-5 align-items-center justify-content-between"
-              style={{ fontSize: "14px" }} // Updated font size to 14px
-            >
-              <label className=" d-block">Academic Level:</label>
-              <div
-                className="btn-group d-flex gap-5"
-                role="group"
-                aria-label="Academic Level"
+            <div className="d-flex justify-content-center gap-4 mb-3">
+              <button
+                className={`btn ${
+                  isSubscription ? "btn-primary" : "btn-light"
+                }`}
+                onClick={() => setIsSubscription(true)} // Set subscription active
               >
-                {["Undergraduate", "Graduate", "Postgraduate", "PHD"].map(
-                  (level) => (
-                    <button
-                      key={level}
-                      type="button"
-                      className={`btn rounded border  ${
-                        selectedLevel === level ? "btn-primary" : "btn-light"
-                      }`}
-                      onClick={() => setSelectedLevel(level)}
-                    >
-                      {level}
-                    </button>
-                  )
-                )}
-              </div>
+                Subscription
+              </button>
+              <button
+                className={`btn ${
+                  !isSubscription ? "btn-primary" : "btn-light"
+                }`}
+                onClick={() => setIsSubscription(false)} // Set service active
+              >
+                Services
+              </button>
             </div>
-            <div
-              className=" d-flex align-items-center justify-content-between py-3"
-              style={{ fontSize: "14px" }} // Updated font size to 14px
-            >
-              <label className=" d-block" style={{ width: 120 }}>
-                Document Type:
-              </label>
-              <select
-                className="form-select w-50"
-                value={documentType}
-                onChange={(e) => setDocumentType(e.target.value)}
-                style={{ fontSize: "14px" }} // Updated font size to 14px
-              >
-                <option value="">Select Document Type</option>
-                <option value="Essay">Essay</option>
-                <option value="Research Paper">Research Paper</option>
-                <option value="Thesis">Thesis</option>
-              </select>
-              <label className=" d-block ms-2" style={{ width: 120 }}>
-                Subject Area:
-              </label>
-              <select
-                className="form-select w-50"
-                value={subjectArea}
-                onChange={(e) => setSubjectArea(e.target.value)}
-                style={{ fontSize: "14px" }} // Updated font size to 14px
-              >
-                <option value="">Select Subject Area</option>
-                <option value="Science">Science</option>
-                <option value="Arts">Arts</option>
-                <option value="Commerce">Commerce</option>
-              </select>
-            </div>
-            <div className=" d-flex justify-content-center align-items-center">
-              <label className="form-label me-2" style={{ fontSize: "14px" }}>
-                Topic:
-              </label>{" "}
-              <input
-                type="text"
-                className="form-control"
-                placeholder="Enter Topic"
-                value={topic}
-                onChange={(e) => setTopic(e.target.value)}
-                style={{ fontSize: "14px" }} // Updated font size to 14px
-              />
-            </div>
-            <div className=" d-flex justify-content-center align-items-center mt-3">
-              <label
-                className="form-label me-2"
-                style={{ width: 180, fontSize: "14px" }}
-              >
-                Paper Instructions:
-              </label>{" "}
-              <input
-                type="text"
-                className="form-control"
-                placeholder="Enter Paper Instructions"
-                style={{ height: "70px", fontSize: "14px" }} // Updated font size to 14px
-              />
-            </div>
-            <div className=" d-flex justify-content-between py-3">
-              <label
-                className=" d-block"
-                style={{ width: 120, fontSize: "14px" }} // Updated font size to 14px
-              >
-                Pages:
-              </label>{" "}
-              <select
-                className="form-select w-50"
-                value={pages}
-                onChange={(e) => setPages(e.target.value)}
-                style={{ fontSize: "14px" }} // Updated font size to 14px
-              >
-                <option value="">Select Pages</option>
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                {/* Add more options as needed */}
-              </select>
-              <label
-                className=" d-block ms-2"
-                style={{ width: 120, fontSize: "14px" }} // Updated font size to 14px
-              >
-                Deadline:
-              </label>{" "}
-              <select
-                className="form-select w-50"
-                value={deadline}
-                onChange={(e) => setDeadline(e.target.value)}
-                style={{ fontSize: "14px" }} // Updated font size to 14px
-              >
-                <option value="">Select Deadline</option>
-                <option value="24 hours">24 hours</option>
-                <option value="3 days">3 days</option>
-                <option value="1 week">1 week</option>
-                {/* Add more options as needed */}
-              </select>
-            </div>
-            <div className=" d-flex justify-content-between py-3">
-              <label
-                className=" d-block"
-                style={{ width: 120, fontSize: "14px" }} // Updated font size to 14px
-              >
-                Poster:
-              </label>{" "}
-              <select
-                className="form-select w-50"
-                value={poster}
-                onChange={(e) => setPoster(e.target.value)}
-                style={{ fontSize: "14px" }} // Updated font size to 14px
-              >
-                <option value="">Select Poster Type</option>
-                <option value="A4">A4</option>
-                <option value="A3">A3</option>
-                {/* Add more options as needed */}
-              </select>
-              <label
-                className=" d-block ms-2"
-                style={{ width: 120, fontSize: "14px" }} // Updated font size to 14px
-              >
-                PPT Slide:
-              </label>{" "}
-              <select
-                className="form-select w-50"
-                value={pptSlide}
-                onChange={(e) => setPptSlide(e.target.value)}
-                style={{ fontSize: "14px" }} // Updated font size to 14px
-              >
-                <option value="">Select PPT Slide Type</option>
-                <option value="Standard">Standard</option>
-                <option value="Custom">Custom</option>
-                {/* Add more options as needed */}
-              </select>
-            </div>
-            <div className="d-flex justify-content-center align-items-center mt-3">
-              <label
-                className="form-label me-2"
-                style={{ width: 180, fontSize: "14px" }}
-              >
-                Additional Materials:
-              </label>{" "}
-              <div className="w-100">
-                <input
-                  type="file"
-                  className="form-control"
-                  style={{ height: "70px", display: "none" }} // Hide the default file input
-                  id="additionalMaterials"
-                  onChange={(e) => console.log(e.target.files[0])} // Handle file selection
-                />
-                <label
-                  htmlFor="additionalMaterials"
-                  className="btn btn-light d-flex align-items-center justify-content-center"
-                  style={{
-                    height: "70px",
-                    cursor: "pointer",
-                    backgroundColor: "white",
-                    border: "dotted",
-                    color: "gray",
-                    fontSize: "14px", // Updated font size to 14px
-                  }} // Set height and cursor
+
+            {isSubscription && ( // Render forms only if subscription is active
+              <>
+                <div
+                  className=" d-flex gap-5 align-items-center justify-content-between"
+                  style={{ fontSize: "14px" }} // Updated font size to 14px
                 >
-                  <i className="fas fa-upload me-2"></i> {/* Upload icon */}
-                  Upload File
-                </label>
-              </div>
-            </div>
+                  <label className=" d-block">Academic Level:</label>
+                  <div
+                    className="btn-group d-flex gap-5"
+                    role="group"
+                    aria-label="Academic Level"
+                  >
+                    {["Undergraduate", "Graduate", "Postgraduate", "PHD"].map(
+                      (level) => (
+                        <button
+                          key={level}
+                          type="button"
+                          className={`btn rounded border  ${
+                            selectedLevel === level
+                              ? "btn-primary"
+                              : "btn-light"
+                          }`}
+                          onClick={() => setSelectedLevel(level)}
+                        >
+                          {level}
+                        </button>
+                      )
+                    )}
+                  </div>
+                </div>
+                <div
+                  className=" d-flex align-items-center justify-content-between py-3"
+                  style={{ fontSize: "14px" }} // Updated font size to 14px
+                >
+                  <label className=" d-block" style={{ width: 120 }}>
+                    Document Type:
+                  </label>
+                  <select
+                    className="form-select w-50"
+                    value={documentType}
+                    onChange={(e) => setDocumentType(e.target.value)}
+                    style={{ fontSize: "14px" }} // Updated font size to 14px
+                  >
+                    <option value="">Select Document Type</option>
+                    <option value="Essay">Essay</option>
+                    <option value="Research Paper">Research Paper</option>
+                    <option value="Thesis">Thesis</option>
+                  </select>
+                  <label className=" d-block ms-2" style={{ width: 120 }}>
+                    Subject Area:
+                  </label>
+                  <select
+                    className="form-select w-50"
+                    value={subjectArea}
+                    onChange={(e) => setSubjectArea(e.target.value)}
+                    style={{ fontSize: "14px" }} // Updated font size to 14px
+                  >
+                    <option value="">Select Subject Area</option>
+                    <option value="Science">Science</option>
+                    <option value="Arts">Arts</option>
+                    <option value="Commerce">Commerce</option>
+                  </select>
+                </div>
+                <div className=" d-flex justify-content-center align-items-center">
+                  <label
+                    className="form-label me-2"
+                    style={{ fontSize: "14px" }}
+                  >
+                    Topic:
+                  </label>{" "}
+                  <input
+                    type="text"
+                    className="form-control"
+                    placeholder="Enter Topic"
+                    value={topic}
+                    onChange={(e) => setTopic(e.target.value)}
+                    style={{ fontSize: "14px" }} // Updated font size to 14px
+                  />
+                </div>
+                <div className=" d-flex justify-content-center align-items-center mt-3">
+                  <label
+                    className="form-label me-2"
+                    style={{ width: 180, fontSize: "14px" }}
+                  >
+                    Paper Instructions:
+                  </label>{" "}
+                  <input
+                    type="text"
+                    className="form-control"
+                    placeholder="Enter Paper Instructions"
+                    style={{ height: "70px", fontSize: "14px" }} // Updated font size to 14px
+                  />
+                </div>
+                <div className=" d-flex justify-content-between py-3">
+                  <label
+                    className=" d-block"
+                    style={{ width: 120, fontSize: "14px" }} // Updated font size to 14px
+                  >
+                    Pages:
+                  </label>{" "}
+                  <select
+                    className="form-select w-50"
+                    value={pages}
+                    onChange={(e) => setPages(e.target.value)}
+                    style={{ fontSize: "14px" }} // Updated font size to 14px
+                  >
+                    <option value="">Select Pages</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    {/* Add more options as needed */}
+                  </select>
+                  <label
+                    className=" d-block ms-2"
+                    style={{ width: 120, fontSize: "14px" }} // Updated font size to 14px
+                  >
+                    Deadline:
+                  </label>{" "}
+                  <select
+                    className="form-select w-50"
+                    value={deadline}
+                    onChange={(e) => setDeadline(e.target.value)}
+                    style={{ fontSize: "14px" }} // Updated font size to 14px
+                  >
+                    <option value="">Select Deadline</option>
+                    <option value="24 hours">24 hours</option>
+                    <option value="3 days">3 days</option>
+                    <option value="1 week">1 week</option>
+                    {/* Add more options as needed */}
+                  </select>
+                </div>
+                <div className=" d-flex justify-content-between py-3">
+                  <label
+                    className=" d-block"
+                    style={{ width: 120, fontSize: "14px" }} // Updated font size to 14px
+                  >
+                    Poster:
+                  </label>{" "}
+                  <select
+                    className="form-select w-50"
+                    value={poster}
+                    onChange={(e) => setPoster(e.target.value)}
+                    style={{ fontSize: "14px" }} // Updated font size to 14px
+                  >
+                    <option value="">Select Poster Type</option>
+                    <option value="A4">A4</option>
+                    <option value="A3">A3</option>
+                    {/* Add more options as needed */}
+                  </select>
+                  <label
+                    className=" d-block ms-2"
+                    style={{ width: 120, fontSize: "14px" }} // Updated font size to 14px
+                  >
+                    PPT Slide:
+                  </label>{" "}
+                  <select
+                    className="form-select w-50"
+                    value={pptSlide}
+                    onChange={(e) => setPptSlide(e.target.value)}
+                    style={{ fontSize: "14px" }} // Updated font size to 14px
+                  >
+                    <option value="">Select PPT Slide Type</option>
+                    <option value="Standard">Standard</option>
+                    <option value="Custom">Custom</option>
+                    {/* Add more options as needed */}
+                  </select>
+                </div>
+                <div className="d-flex justify-content-center align-items-center mt-3">
+                  <label
+                    className="form-label me-2"
+                    style={{ width: 180, fontSize: "14px" }}
+                  >
+                    Additional Materials:
+                  </label>{" "}
+                  <div className="w-100">
+                    <input
+                      type="file"
+                      className="form-control"
+                      style={{ height: "70px", display: "none" }} // Hide the default file input
+                      id="additionalMaterials"
+                      onChange={(e) => console.log(e.target.files[0])} // Handle file selection
+                    />
+                    <label
+                      htmlFor="additionalMaterials"
+                      className="btn btn-light d-flex align-items-center justify-content-center"
+                      style={{
+                        height: "70px",
+                        cursor: "pointer",
+                        backgroundColor: "white",
+                        border: "dotted",
+                        color: "gray",
+                        fontSize: "14px", // Updated font size to 14px
+                      }} // Set height and cursor
+                    >
+                      <i className="fas fa-upload me-2"></i> {/* Upload icon */}
+                      Upload File
+                    </label>
+                  </div>
+                </div>
+              </>
+            )}
           </div>
 
           <div className="col-3 p-0 ">

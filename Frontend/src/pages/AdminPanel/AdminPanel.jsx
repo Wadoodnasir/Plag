@@ -1,48 +1,32 @@
-import Navbar from "../../component/Navbar";
+import Navbar from "../../component/Navbar"; // Adjust the path based on your structure
 import { useState } from "react";
-import Settings from "../../component/Employee/Settings";
-import AdminPanelSlider from "../../component/AdminPanel/AdminPanelSlider"; // Import the new Slider component
-import Apis from "../../component/ApiUser/Apis";
-import ApiHistory from "../../component/ApiUser/ApisHistroy";
-import ApiUserInvoices from "../../component/ApiUser/ApiUserInvoices";
+import AdminPanelSlider from "../../component/AdminPanel/AdminPanelSlider"; // Sidebar component
+import { Outlet } from "react-router-dom"; // Outlet for rendering nested routes
+import "bootstrap/dist/css/bootstrap.min.css";
+import "./Home.css";
 
 const AdminPanel = () => {
   const [sidebarOpen, setSidebarOpen] = useState(true);
-  const [selectedComponent, setSelectedComponent] = useState("Subscriptions");
 
   const toggleSidebar = () => setSidebarOpen(!sidebarOpen);
 
-  const renderComponent = () => {
-    switch (selectedComponent) {
-      case "Settings":
-        return <Settings />;
-      case "Apis":
-        return <Apis />;
-      case "ApiHistory":
-        return <ApiHistory />;
-      case "ApiUserInvoices":
-        return <ApiUserInvoices />;
-      default:
-        return <Apis />; // Default to Subscriptions if none is selected
-    }
-  };
-
   return (
     <div className="container-fluid flex p-0">
-      {/* Slider Component */}
+      {/* Sidebar Component */}
       <AdminPanelSlider
         sidebarOpen={sidebarOpen}
         toggleSidebar={toggleSidebar}
-        setSelectedComponent={setSelectedComponent}
       />
 
-      {/* Main content */}
       <div className="flex-1">
-        <Navbar
-          sidebarOpen={sidebarOpen}
-          toggleSidebar={toggleSidebar} // Pass toggleSidebar to Navbar to control hamburger menu
-        />
-        <div className="p-4 bg-light">{renderComponent()}</div>
+        <Navbar sidebarOpen={sidebarOpen} toggleSidebar={toggleSidebar} />
+        <div className="p-4 bg-light">
+          <div className="admin-home container-fluid">
+            <h1 className="mt-4 mb-4">Admin Panel Home</h1>
+            {/* <p className="mb-4">Welcome to the admin panel. Here you can manage various aspects of your application.</p> */}
+            <Outlet />
+          </div>
+        </div>
       </div>
     </div>
   );
