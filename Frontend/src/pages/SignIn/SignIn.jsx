@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom"; // Import useNavigate for programmatic navigation
+import { Link, useNavigate } from "react-router-dom";
 import {
   Form,
   FormGroup,
@@ -12,33 +12,31 @@ import "../../App.css";
 import axios from "axios";
 
 const LoginForm = () => {
-  const [username, setUsername] = useState("raheelanjum255@gmail.com "); // State for username
-  const [password, setPassword] = useState("123456789"); // State for password
-  const [usernameError, setUsernameError] = useState(false); // State for username validation
-  const [passwordError, setPasswordError] = useState(false); // State for password validation
-  const [loginError, setLoginError] = useState(""); // State for login error message
+  const [username, setUsername] = useState("raheelanjum255@gmail.com");
+  const [password, setPassword] = useState("123456789");
+  const [usernameError, setUsernameError] = useState(false);
+  const [passwordError, setPasswordError] = useState(false);
+  const [loginError, setLoginError] = useState("");
 
-  const navigate = useNavigate(); // useNavigate hook to navigate to HomePage
+  const navigate = useNavigate();
 
   const handleUsernameChange = (event) => {
-    setUsername(event.target.value); // Update username state
-    setUsernameError(false); // Reset error state on change
-    setLoginError(""); // Reset login error
+    setUsername(event.target.value);
+    setUsernameError(false);
+    setLoginError("");
   };
 
   const handlePasswordChange = (event) => {
-    setPassword(event.target.value); // Update password state
-    setPasswordError(false); // Reset error state on change
-    setLoginError(""); // Reset login error
+    setPassword(event.target.value);
+    setPasswordError(false);
+    setLoginError("");
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    // Reset validation errors
     let hasError = false;
 
-    // Validation
     if (!username) {
       setUsernameError(true);
       hasError = true;
@@ -48,23 +46,30 @@ const LoginForm = () => {
       hasError = true;
     }
 
-    // Stop submission if any validation failed
     if (hasError) return;
 
     try {
-      // Call the backend API
       const response = await axios.post("http://localhost:4001/auth/login", {
         email: username,
         password: password,
       });
 
-      // Handle success
-      if (response.data.msg === "User logged in successfully") {
-        // Navigate to the HomePage after successful login
+      const { token, role } = response.data;
+
+      // Save token to localStorage or state for future use
+      localStorage.setItem("token", token);
+
+      // Redirect based on role
+      if (role === "ADMIN") {
+        navigate("/admin");
+      } else if (role === "EMPLOYEE") {
+        navigate("/employee");
+      } else if (role === "API-USER") {
+        navigate("/api-user");
+      } else {
         navigate("/user");
       }
     } catch (error) {
-      // Handle error (e.g., invalid credentials)
       if (error.response && error.response.data) {
         setLoginError(error.response.data.msg || "Login failed");
       } else {
@@ -89,7 +94,7 @@ const LoginForm = () => {
               type="email"
               value={username}
               onChange={handleUsernameChange}
-              invalid={usernameError} // Shows error if true
+              invalid={usernameError}
             />
             {usernameError && <FormFeedback>Email is required</FormFeedback>}
           </FormGroup>
@@ -102,7 +107,7 @@ const LoginForm = () => {
               type="password"
               value={password}
               onChange={handlePasswordChange}
-              invalid={passwordError} // Shows error if true
+              invalid={passwordError}
             />
             {passwordError && <FormFeedback>Password is required</FormFeedback>}
           </FormGroup>
