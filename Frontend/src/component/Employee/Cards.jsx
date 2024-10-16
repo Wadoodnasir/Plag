@@ -7,33 +7,33 @@ const Cards = () => {
   const [activeSubscription, setActiveSubscription] = useState(null);
   const [activeService, setActiveService] = useState(null);
 
-  useEffect(() => {
-    // Fetch active subscription
-    const fetchActiveSubscription = async () => {
-      try {
-        const res = await axios.get(`/api/subscriptions/active/${userId}`);
-        setActiveSubscription(res.data);
-      } catch (err) {
-        console.error("Error fetching active subscription", err);
-      }
-    };
+  // useEffect(() => {
+  //   // Fetch active subscription
+  //   const fetchActiveSubscription = async () => {
+  //     try {
+  //       const res = await axios.get(`/api/subscriptions/active`);
+  //       setActiveSubscription(res.data);
+  //     } catch (err) {
+  //       console.error("Error fetching active subscription", err);
+  //     }
+  //   };
 
-    fetchActiveSubscription();
-  }, []);
+  //   fetchActiveSubscription();
+  // }, []);
 
-  useEffect(() => {
-    // Fetch active service
-    const fetchActiveService = async () => {
-      try {
-        const res = await axios.get(`/api/services/active/${userId}`);
-        setActiveService(res.data);
-      } catch (err) {
-        console.error("Error fetching active service", err);
-      }
-    };
+  // useEffect(() => {
+  //   // Fetch active service
+  //   const fetchActiveService = async () => {
+  //     try {
+  //       const res = await axios.get(`/api/services/active/${userId}`);
+  //       setActiveService(res.data);
+  //     } catch (err) {
+  //       console.error("Error fetching active service", err);
+  //     }
+  //   };
 
-    fetchActiveService();
-  }, []);
+  //   fetchActiveService();
+  // }, []);
 
   // Add funds to balance
   const handleAddFunds = () => {
