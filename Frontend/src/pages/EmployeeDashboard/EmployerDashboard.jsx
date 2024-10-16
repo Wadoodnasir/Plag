@@ -10,12 +10,12 @@ import UserFiles from "../../component/Employee/UserFiles";
 import EmployeeInvoices from "../../component/Employee/EmployeeInvoices";
 import EmployeeDashborad from "../../component/Employee/EmployeeDashborad";
 import EmployeeOrders from "../../component/Employee/EmployeeOrders";
-import EmployeeSubscriptions from "../../component/Employee/EmployeeSubscriptions";
 import EmployeeRewriter from "../../component/Employee/EmployeeRewriter";
 import EmployeeSubscriptionHistory from "../../component/Employee/EmployeeSubscriptionHistory";
 import EmployeeService from "../../component/Employee/EmployeeService";
 import PlaceOrderNow from "../../component/PlaceOderNow";
 import EmployeeServiceHistory from "../../component/Employee/EmployeeServiceHistory";
+import EmployeeAIPledge from "../../component/Employee/EmployeeAIPledge";
 const EmployerDashboard = () => {
   const [sidebarOpen, setSidebarOpen] = useState(true); // State to control the sidebar
   const [selectedComponent, setSelectedComponent] =
@@ -39,8 +39,8 @@ const EmployerDashboard = () => {
         return <Settings />;
       case "EmployeeOrders":
         return <EmployeeOrders />;
-      case "EmployeeSubscriptions":
-        return <EmployeeSubscriptions />;
+      case "EmployeeAIPledge":
+        return <EmployeeAIPledge />;
       case "EmployeeRewriter":
         return <EmployeeRewriter />;
       case "EmployeeSubscriptionHistory":

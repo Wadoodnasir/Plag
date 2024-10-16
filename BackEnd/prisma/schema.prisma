@@ -52,8 +52,8 @@ model SubscriptionPackageDetail {
 model Report {
   id                  Int      @id @default(autoincrement())
   fileName            String?
-  aiPercentage        Float?
-  similarityPercentage Float?
+  aiPercentage        String?
+  similarityPercentage String?
   status              String?
   date                DateTime?
   submittedFileUrl    String?

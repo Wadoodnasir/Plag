@@ -52,7 +52,9 @@ app.use("/subscriptions", subscriptionRouter);
 app.use("/invoices", invoiceRouter);
 app.use("/services", serviceRouter);
 app.use("/orders", orderRouter);
-app.use("/method2",method2Router);
+app.use("/method2", method2Router);
+app.use("/reports", method2Router);
+app.use("/report", method2Router);
 
 app.listen(port, () => {
   console.log(`Server running on http://localhost:${port}`);
