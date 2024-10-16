@@ -5,7 +5,7 @@ const { generateToken } = require("../middleware/auth-middleware");
 
 const prisma = new PrismaClient();
 
-// Login function
+// Login function with role check
 exports.login = async (req, res) => {
   const { email, password } = req.body;
   const user = await prisma.auth.findUnique({ where: { email } });
@@ -19,11 +19,14 @@ exports.login = async (req, res) => {
     return res.status(400).json({ message: "Invalid credentials." });
   }
 
-  // Generate JWT token
+  // Include the role in the token payload
   const token = generateToken(user);
-  res.json({ token });
+
+  // Return the token and the user's role
+  res.json({ token, role: user.role });
 };
-// Register function
+
+// Register function remains unchanged
 exports.register = async (req, res) => {
   const { email, password } = req.body;
 
@@ -35,7 +38,7 @@ exports.register = async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, salt);
 
     user = await prisma.auth.create({
-      data: { email, password: hashedPassword, role: "USER" },
+      data: { email, password: hashedPassword, role: "USER" }, // Default role is "USER"
     });
 
     await prisma.profile.create({ data: { userId: user.id } });
@@ -46,6 +49,7 @@ exports.register = async (req, res) => {
     res.status(500).json({ msg: "Server error" });
   }
 };
+
 //forgot Password
 exports.forgot = async (req, res) => {
   const { email } = req.body;

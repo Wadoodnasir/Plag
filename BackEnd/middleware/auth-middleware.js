@@ -6,7 +6,6 @@ const generateToken = (user) => {
   return jwt.sign({ id: user.id, email: user.email }, JWT_SECRET, {});
 };
 
-
 const verifyToken = (token) => {
   try {
     return jwt.verify(token, JWT_SECRET);
@@ -14,9 +13,13 @@ const verifyToken = (token) => {
     return null;
   }
 };
-
+const isAdmin = (req, res, next) => {
+  if (req.user.role !== "ADMIN") return res.sendStatus(403);
+  next();
+};
 
 module.exports = {
   generateToken,
-  verifyToken
+  verifyToken,
+  isAdmin,
 };

@@ -44,6 +44,7 @@ const invoiceRouter = require("./routes/invoices");
 const serviceRouter = require("./routes/services");
 const orderRouter = require("./routes/orders");
 const method2Router = require("./routes/upload");
+const methods = require("./routes/methodCCC");
 
 app.use("/", indexRouter);
 app.use("/auth", authRouter);
@@ -55,6 +56,7 @@ app.use("/orders", orderRouter);
 app.use("/method2", method2Router);
 app.use("/reports", method2Router);
 app.use("/report", method2Router);
+app.use("/method", methods);
 
 app.listen(port, () => {
   console.log(`Server running on http://localhost:${port}`);
