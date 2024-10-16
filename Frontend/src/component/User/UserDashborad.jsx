@@ -1,7 +1,7 @@
 import React from "react";
 import Cards from "../Employee/Cards";
-import UserHistoryTable from "./UserHistoryTable";
-import UserInvoiceTable from "./UserInvoiceTable";
+import UserSubscriptionTable from "./UserSuscriptionTable";
+import UserOrderTable from "./UserOrderTable";
 
 const UserDashborad = () => {
   return (
@@ -10,10 +10,10 @@ const UserDashborad = () => {
         <Cards />
         <div className=" w-75 mx-auto ">
           <h1 className=" fs-2 text-center py-1">Oders Table</h1>
-          <UserHistoryTable />
+          <UserOrderTable />
           <h1 className="fs-2 text-center py-1">Subscription Table</h1>
 
-          <UserInvoiceTable />
+          <UserSubscriptionTable />
         </div>
       </div>
     </>

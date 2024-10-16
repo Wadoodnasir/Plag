@@ -11,6 +11,8 @@ import Rewriter from "../../component/User/Rewriter";
 import UserInvoice from "../../component/User/UserInvoice";
 import UserDashborad from "../../component/User/UserDashborad";
 import PlaceOrderNow from "../../component/PlaceOderNow";
+
+import UserAiPladge from "../../component/User/UserAiPladge";
 import EarnCredit from "../../component/EarnCredit";
 const User = () => {
   const [sidebarOpen, setSidebarOpen] = useState(true); // State to control the sidebar
@@ -30,6 +32,8 @@ const User = () => {
         return <Services />;
       case "ServicesHistory":
         return <ServiceHistory />;
+      case "UserAiAndPledge":
+        return <UserAiPladge />;
       case "SubscriptionHistory":
         return <SubscriptionHistory />;
       case "Rewriter":

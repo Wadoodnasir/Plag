@@ -1,6 +1,7 @@
-import React, { useState } from "react";
-import { Table, Menu, Dropdown, Button } from "antd";
+import React, { useState, useEffect } from "react";
+import { Table, Menu, Dropdown, Button, message } from "antd";
 import { MoreOutlined } from "@ant-design/icons";
+import axios from "axios";
 
 const StatusButton = ({ status }) => {
   const getColor = (status) => {
@@ -34,28 +35,35 @@ const StatusButton = ({ status }) => {
 };
 
 const ServiceHistoryTable = () => {
-  const [data, setData] = useState([
-    // Sample data, replace with your actual data
-    {
-      id: 1,
-      name: "John Doe",
-      date: "2023-04-15",
-      sale: 100,
-      status: "Completed",
-    },
-    {
-      id: 2,
-      name: "Jane Smith",
-      date: "2023-04-16",
-      sale: 150,
-      status: "Pending",
-    },
-    // Add more rows as needed
-  ]);
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  const handleDelete = (id) => {
-    // Implement delete logic here
-    setData(data.filter((item) => item.id !== id));
+  // Fetch service history data
+  const fetchServiceHistory = async () => {
+    try {
+      const response = await axios.get(`/service-history/${userId}`);
+      setData(response.data);
+    } catch (error) {
+      message.error("Failed to load service history");
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchServiceHistory();
+  }, []);
+
+  const handleDelete = async (id) => {
+    try {
+      await axios.delete(`/service-history/${userId}`);
+      setData(data.filter((item) => item.id !== id));
+      message.success("Record deleted successfully");
+    } catch (error) {
+      message.error("Failed to delete record");
+      console.error(error);
+    }
   };
 
   const columns = [
@@ -103,7 +111,7 @@ const ServiceHistoryTable = () => {
 
   return (
     <Table
-      className="tc"
+      loading={loading}
       columns={columns}
       dataSource={data}
       rowKey="id"

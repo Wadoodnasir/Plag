@@ -1,269 +1,104 @@
 import React, { useState } from "react";
-import Switch from "@mui/material/Switch";
-import { styled } from "@mui/material/styles";
-import Button from "@mui/material/Button";
-import UploadIcon from "@mui/icons-material/Upload";
-import CurrencyExchangeIcon from "@mui/icons-material/CurrencyExchange";
-import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
-import DeleteIcon from "@mui/icons-material/Delete"; // Import Delete icon
-import SubmissionForm from "../UploadForm";
-import ReactPaginate from "react-paginate";
-import { Modal } from "react-bootstrap";
+import { Table, Dropdown, Button, Modal } from "antd";
+import { MoreOutlined } from "@ant-design/icons";
 
-// Define the iOS style switch (without TypeScript types)
-const IOSSwitch = styled((props) => (
-  <Switch focusVisibleClassName=".Mui-focusVisible" disableRipple {...props} />
-))(({ theme }) => ({
-  width: 42,
-  height: 26,
-  padding: 0,
-  "& .MuiSwitch-switchBase": {
-    padding: 0,
-    margin: 2,
-    transitionDuration: "300ms",
-    "&.Mui-checked": {
-      transform: "translateX(16px)",
-      color: "#fff",
-      "& + .MuiSwitch-track": {
-        backgroundColor: "#65C466",
-        opacity: 1,
-        border: 0,
-      },
-    },
-  },
-  "& .MuiSwitch-thumb": {
-    boxSizing: "border-box",
-    width: 22,
-    height: 22,
-  },
-  "& .MuiSwitch-track": {
-    borderRadius: 26 / 2,
-    backgroundColor: "#E9E9EA",
-    opacity: 1,
-    transition: theme.transitions.create(["background-color"], {
-      duration: 500,
-    }),
-  },
-}));
-
-const EmployeeService = () => {
-  const [showModal, setShowModal] = useState(false); // State to show/hide form modal
-  const [tableData, setTableData] = useState([
+const EmployeeSubscriptionTable = ({ balance, onBuySubscription }) => {
+  const [data] = useState([
     {
-      id: "1",
-      file: "document1.pdf",
-      ai: "AI Model A",
-      similarity: "20%",
-      status: "complete",
-      flags: "None",
-      createdAt: "2024-09-10",
+      id: 1,
+      subscriptionName: "Basic Plan",
+      deadline: "30 Days",
+      documents: 5,
+      cost: 100, // Cost of subscription
     },
     {
-      id: "2",
-      file: "document2.docx",
-      ai: "AI Model B",
-      similarity: "35%",
-      status: "Pending",
-      flags: "Flagged",
-      createdAt: "2024-09-11",
-    },
-    {
-      id: "3",
-      file: "document3.txt",
-      ai: "AI Model C",
-      similarity: "50%",
-      status: "In Review",
-      flags: "None",
-      createdAt: "2024-09-12",
-    },
-    {
-      id: "4",
-      file: "document4.pdf",
-      ai: "AI Model A",
-      similarity: "10%",
-      status: "Processed",
-      flags: "None",
-      createdAt: "2024-09-13",
-    },
-    {
-      id: "5",
-      file: "document5.docx",
-      ai: "AI Model B",
-      similarity: "60%",
-      status: "Processed",
-      flags: "Flagged",
-      createdAt: "2024-09-14",
+      id: 2,
+      subscriptionName: "Premium Plan",
+      deadline: "60 Days",
+      documents: 10,
+      cost: 500,
     },
   ]);
 
-  const handleFormSubmit = (data) => {
-    setTableData([...tableData, data]); // Add new data to table
-    setShowModal(false); // Close the modal
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [selectedSubscription, setSelectedSubscription] = useState(null);
+
+  const handleBuy = (record) => {
+    setSelectedSubscription(record);
+    setIsModalVisible(true);
   };
 
-  return (
-    <>
-      <div className="container-fluid p-0 m-0 bg-light">
-        <div className="container">
-          <div className="p-3 d-flex justify-content-between">
-            <div className="align-self-center">
-              <h5>Reports</h5>
-            </div>
-            <div className="group-button d-flex">
-              <Button
-                variant="contained"
-                startIcon={<UploadIcon />}
-                style={{
-                  color: "white",
-                  fontSize: "12px",
-                  padding: "5px 10px",
-                  minWidth: "auto",
-                  borderRadius: "5px",
-                }}
-                onClick={() => setShowModal(true)} // Show modal on click
-              >
-                Upload
-              </Button>
-              <Button
-                variant="contained"
-                startIcon={<CurrencyExchangeIcon style={{ width: "18px" }} />}
-                endIcon={<ArrowDropDownIcon />}
-                style={{
-                  color: "white",
-                  fontSize: "14px",
-                  padding: "6px 12px",
-                  minWidth: "auto",
-                  marginLeft: 10,
-                  borderRadius: "5px",
-                }}
-              >
-                slots:299
-              </Button>
-            </div>
-          </div>
-
-          {/* Table Component */}
-          <TableComponent data={tableData} />
-
-          {/* Modal for Submission Form */}
-          <Modal show={showModal} onHide={() => setShowModal(false)}>
-            <Modal.Header closeButton>
-              <Modal.Title>Upload Form</Modal.Title>
-            </Modal.Header>
-            <Modal.Body>
-              <SubmissionForm onSubmit={handleFormSubmit} />
-            </Modal.Body>
-          </Modal>
-        </div>
-      </div>
-    </>
-  );
-};
-
-const TableComponent = ({ data }) => {
-  const [currentPage, setCurrentPage] = useState(0);
-  const rowsPerPage = 5;
-
-  // Calculate the displayed rows for the current page
-  const pageCount = Math.ceil(data.length / rowsPerPage);
-  const offset = currentPage * rowsPerPage;
-  const currentPageData = data.slice(offset, offset + rowsPerPage);
-
-  // Handle page change
-  const handlePageClick = ({ selected }) => {
-    setCurrentPage(selected);
-  };
-
-  const getStatusButtonStyle = (status) => {
-    switch (status.toLowerCase()) {
-      case "pending":
-        return { backgroundColor: "#8e44ad", color: "white" };
-      case "complete":
-        return { backgroundColor: "green", color: "white" };
-      case "processed":
-        return { backgroundColor: "#3498db", color: "white" };
-      case "in progress":
-      case "in review":
-        return { backgroundColor: "#f39c12", color: "white" };
-      case "cancel":
-      case "cancelled":
-        return { backgroundColor: "#e74c3c", color: "white" };
-      default:
-        return { backgroundColor: "#95a5a6", color: "white" };
+  const handleConfirmBuy = () => {
+    if (selectedSubscription) {
+      const subscriptionCost = selectedSubscription.cost;
+      onBuySubscription(subscriptionCost); // Call the buy subscription handler from props
     }
+    setIsModalVisible(false);
   };
 
+  const handleCancel = () => {
+    setIsModalVisible(false);
+    setSelectedSubscription(null);
+  };
+
+  const columns = [
+    {
+      title: "Subscription Name",
+      dataIndex: "subscriptionName",
+      key: "subscriptionName",
+    },
+    {
+      title: "Deadline",
+      dataIndex: "deadline",
+      key: "deadline",
+    },
+    {
+      title: "No. of Documents",
+      dataIndex: "documents",
+      key: "documents",
+    },
+    {
+      title: "Action",
+      key: "action",
+      render: (_, record) => (
+        <Dropdown
+          trigger={["click"]}
+          overlay={
+            <Button type="primary" onClick={() => handleBuy(record)}>
+              Buy
+            </Button>
+          }
+        >
+          <Button icon={<MoreOutlined />} />
+        </Dropdown>
+      ),
+    },
+  ];
+
   return (
-    <div className="container">
-      <table
-        className="table table-bordered p-3 text-center"
-        style={{ backgroundColor: "#fff", fontSize: "14px" }}
-      >
-        <thead>
-          <tr style={{ backgroundColor: "#f8f9fa" }}>
-            <th>Unique ID</th>
-            <th>Submitted File</th>
-            <th>AI</th>
-            <th>Similarity</th>
-            <th>Status</th>
-            <th>Flags</th>
-            <th>Created At</th>
-            <th>Delete</th>
-          </tr>
-        </thead>
-        <tbody>
-          {currentPageData.map((row) => (
-            <tr key={row.id}>
-              <td>{row.id}</td>
-              <td>{row.file}</td>
-              <td>{row.ai}</td>
-              <td>{row.similarity}</td>
-              <td>
-                <button
-                  className="btn btn-sm w-75"
-                  style={{
-                    ...getStatusButtonStyle(row.status),
-                    fontSize: "12px",
-                    padding: "2px 8px",
-                    borderRadius: "5px",
-                  }}
-                >
-                  {row.status}
-                </button>
-              </td>
-              <td>{row.flags}</td>
-              <td>{row.createdAt}</td>
-              <td>
-                <DeleteIcon
-                  style={{
-                    color: "red",
-                    cursor: "pointer",
-                    fontSize: "large",
-                  }}
-                />
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-      <ReactPaginate
-        previousLabel={"Previous"}
-        nextLabel={"Next"}
-        pageCount={pageCount}
-        onPageChange={handlePageClick}
-        containerClassName={"pagination"}
-        activeClassName={"active"}
-        pageClassName={"page-item"}
-        pageLinkClassName={"page-link"}
-        previousClassName={"page-item"}
-        previousLinkClassName={"page-link"}
-        nextClassName={"page-item"}
-        nextLinkClassName={"page-link"}
-        breakClassName={"page-item"}
-        breakLinkClassName={"page-link"}
+    <div>
+      <Table
+        columns={columns}
+        dataSource={data}
+        rowKey="id"
+        style={{ fontSize: "14px", backgroundColor: "#fff" }}
       />
+
+      {/* Buy Confirmation Modal */}
+      <Modal
+        title="Confirm Purchase"
+        visible={isModalVisible}
+        onCancel={handleCancel}
+        onOk={handleConfirmBuy}
+        okText="Buy"
+        cancelText="Cancel"
+      >
+        <p>Are you sure you want to buy this subscription?</p>
+        <p>{selectedSubscription?.subscriptionName}</p>
+        <p>Cost: ${selectedSubscription?.cost}</p>
+      </Modal>
     </div>
   );
 };
 
-export default EmployeeService;
+export default EmployeeSubscriptionTable;

@@ -99,11 +99,9 @@ const SignUpForm = ({ onSignUp }) => {
     }
 
     try {
-      // API call to register the user
-      const response = await axios.post("http://localhost:4000/auth/register", {
+      const response = await axios.post("http://localhost:4001/auth/register", {
         email,
         password,
-        // You may also include additional fields such as username, phone, etc., depending on your backend
       });
 
       if (response.status === 200) {

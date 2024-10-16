@@ -5,7 +5,7 @@ const SubmissionForm = ({ onSubmit }) => {
   // Internal state for form fields
   const [region, setRegion] = useState("international");
   const [title, setTitle] = useState("");
-  const [uploadFile, setUploadFile] = useState(null);
+  const [file, setfile] = useState(null);
   const [isExcludeBibliography, setExcludeBibliography] = useState(true);
   const [isExcludeQuoted, setExcludeQuoted] = useState(false);
   const [isExcludeByWordCount, setExcludeByWordCount] = useState(false);
@@ -18,21 +18,31 @@ const SubmissionForm = ({ onSubmit }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     setIsSubmitting(true);
-
     // Prepare form data to pass to parent or server
-    const formData = {
-      region,
-      title,
-      uploadFile,
-      exclusion_options: {
-        isExcludeBibliography,
-        isExcludeQuoted,
-        isExcludeByWordCount,
-        wordCount,
-        isExcludeByPercentage,
-        percentage,
-      },
-    };
+    const formData = new FormData();
+
+    formData.append("region", region);
+    formData.append("title", title);
+    formData.append("file", file); // Assuming `file` is a File object
+
+    // For the exclusion options, either append individually or serialize to JSON
+    formData.append(
+      "exclusion_options[isExcludeBibliography]",
+      isExcludeBibliography
+    );
+    formData.append("exclusion_options[isExcludeQuoted]", isExcludeQuoted);
+    formData.append(
+      "exclusion_options[isExcludeByWordCount]",
+      isExcludeByWordCount
+    );
+    formData.append("exclusion_options[wordCount]", wordCount);
+    formData.append(
+      "exclusion_options[isExcludeByPercentage]",
+      isExcludeByPercentage
+    );
+    formData.append("exclusion_options[percentage]", percentage);
+
+    // Or you could stringify the entire object as JSON:
 
     // Simulate form submission (replace with actual API call or logic)
     setTimeout(() => {
@@ -72,7 +82,7 @@ const SubmissionForm = ({ onSubmit }) => {
           <input
             type="file"
             className="form-control"
-            onChange={(e) => setUploadFile(e.target.files[0])}
+            onChange={(e) => setfile(e.target.files[0])}
             required
           />
         </div>

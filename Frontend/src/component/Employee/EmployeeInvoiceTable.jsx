@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Table, Menu, Dropdown, Button } from "antd";
-import { MoreOutlined } from "@ant-design/icons";
+import { MoreOutlined, CloseOutlined } from "@ant-design/icons";
 
 const StatusButton = ({ status }) => {
   const getColor = (status) => {
@@ -35,44 +35,54 @@ const StatusButton = ({ status }) => {
 
 const EmployeeInvoiceTable = () => {
   const [data, setData] = useState([
-    // Sample data, replace with your actual data
     {
       id: 1,
-      name: "John Doe",
-      date: "2023-04-15",
-      sale: 100,
-      status: "Completed",
+      reference: "INV-1001", // Adding a reference number
+      amount: 250.75,
+      userId: 1, // Assuming the user with id 1 exists in the Auth table
+      orderId: 101, // Assuming the order with id 101 exists in the Order table
+      status: "paid",
+      createdAt: "2023-10-01T12:30:00Z",
+      updatedAt: "2023-10-01T12:30:00Z",
     },
     {
       id: 2,
-      name: "Jane Smith",
-      date: "2023-04-16",
-      sale: 150,
-      status: "Pending",
+      reference: "INV-1002", // Adding a reference number
+      amount: 150.5,
+      userId: 2, // Assuming the user with id 2 exists in the Auth table
+      orderId: 102, // Assuming the order with id 102 exists in the Order table
+      status: "unpaid",
+      createdAt: "2023-10-03T15:45:00Z",
+      updatedAt: "2023-10-03T15:45:00Z",
     },
-    // Add more rows as needed
   ]);
 
-  const handleDelete = (id) => {
-    // Implement delete logic here
-    setData(data.filter((item) => item.id !== id));
+  const handleEdit = (id) => {
+    // Implement edit logic here
+    console.log("Edit invoice with id:", id);
   };
 
   const columns = [
     {
-      title: "Name",
-      dataIndex: "name",
-      key: "name",
+      title: "Reference No.",
+      dataIndex: "reference", // This now matches the key in your data
+      key: "reference",
     },
     {
-      title: "Date",
-      dataIndex: "date",
-      key: "date",
+      title: "Order Id",
+      dataIndex: "orderId", // Updated to match the correct key
+      key: "orderId",
     },
     {
-      title: "Sale",
-      dataIndex: "sale",
-      key: "sale",
+      title: "Amount",
+      dataIndex: "amount",
+      key: "amount",
+    },
+    {
+      title: "Paid Date",
+      dataIndex: "createdAt", // Show the date when the invoice was created
+      key: "createdAt",
+      render: (date) => new Date(date).toLocaleDateString(), // Format date
     },
     {
       title: "Status",
@@ -83,21 +93,26 @@ const EmployeeInvoiceTable = () => {
     {
       title: "Action",
       key: "action",
-      render: (_, record) => (
-        <Dropdown
-          overlay={
-            <Menu>
-              <Menu.Item key="delete" onClick={() => handleDelete(record.id)}>
-                Delete
-              </Menu.Item>
-              {/* Add more menu items for other actions */}
-            </Menu>
-          }
-          trigger={["click"]}
-        >
-          <Button icon={<MoreOutlined />} />
-        </Dropdown>
-      ),
+      render: (_, record) => {
+        if (record.status.toLowerCase() === "unpaid") {
+          return (
+            <Dropdown
+              overlay={
+                <Menu>
+                  <Menu.Item key="edit" onClick={() => handleEdit(record.id)}>
+                    Edit
+                  </Menu.Item>
+                </Menu>
+              }
+              trigger={["click"]}
+            >
+              <Button icon={<MoreOutlined />} />
+            </Dropdown>
+          );
+        } else if (record.status.toLowerCase() === "paid") {
+          return <Button icon={<CloseOutlined />} />;
+        }
+      },
     },
   ];
 
