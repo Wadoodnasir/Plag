@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Switch from "@mui/material/Switch";
 import { styled } from "@mui/material/styles";
 import Button from "@mui/material/Button";
@@ -48,58 +48,52 @@ const IOSSwitch = styled((props) => (
 
 const ApiSubscriptionTable = () => {
   const [showModal, setShowModal] = useState(false); // State to show/hide form modal
-  const [tableData, setTableData] = useState([
-    {
-      id: "1",
-      file: "document1.pdf",
-      ai: "AI Model A",
-      similarity: "20%",
-      status: "complete",
-      flags: "None",
-      createdAt: "2024-09-10",
-    },
-    {
-      id: "2",
-      file: "document2.docx",
-      ai: "AI Model B",
-      similarity: "35%",
-      status: "Pending",
-      flags: "Flagged",
-      createdAt: "2024-09-11",
-    },
-    {
-      id: "3",
-      file: "document3.txt",
-      ai: "AI Model C",
-      similarity: "50%",
-      status: "In Review",
-      flags: "None",
-      createdAt: "2024-09-12",
-    },
-    {
-      id: "4",
-      file: "document4.pdf",
-      ai: "AI Model A",
-      similarity: "10%",
-      status: "Processed",
-      flags: "None",
-      createdAt: "2024-09-13",
-    },
-    {
-      id: "5",
-      file: "document5.docx",
-      ai: "AI Model B",
-      similarity: "60%",
-      status: "Processed",
-      flags: "Flagged",
-      createdAt: "2024-09-14",
-    },
-  ]);
+  const [tableData, setTableData] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  const handleFormSubmit = (data) => {
-    setTableData([...tableData, data]); // Add new data to table
-    setShowModal(false); // Close the modal
+  const handleFormSubmit = async (formData) => {
+    const config = {
+      method: 'post',
+      url: 'http://localhost:4001/method2/upload/submit',
+      headers: {
+        'Cookie': 'connect.sid=s%3A5zutap1Nz4YgUEqMZduBpolgUn_A8lj3.4dAKW%2BZC3OG4a%2B6Imrul3rlMQUSV7G5hnqGv3oK7fPE',
+        ...formData.getHeaders()
+      },
+      data: formData
+    };
+
+    try {
+      const response = await axios.request(config);
+      console.log(JSON.stringify(response.data));
+      fetchData();
+    } catch (error) {
+      console.error(error);
+    }
   };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch('http://localhost:4001/reports/reports', {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        const data = await response.json();
+        setTableData(data);
+        setLoading(false);
+      } catch (error) {
+        console.error('There was a problem with the fetch operation:', error);
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   return (
     <>
@@ -143,7 +137,7 @@ const ApiSubscriptionTable = () => {
           </div>
 
           {/* Table Component */}
-          <TableComponent data={tableData} />
+          <TableComponent data={tableData} loading={loading} />
 
           {/* Modal for Submission Form */}
           <Modal show={showModal} onHide={() => setShowModal(false)}>
@@ -160,7 +154,7 @@ const ApiSubscriptionTable = () => {
   );
 };
 
-const TableComponent = ({ data }) => {
+const TableComponent = ({ data, loading }) => {
   const [currentPage, setCurrentPage] = useState(0);
   const rowsPerPage = 5;
 
@@ -176,16 +170,16 @@ const TableComponent = ({ data }) => {
 
   const getStatusButtonStyle = (status) => {
     switch (status.toLowerCase()) {
-      case "pending":
+      case "processing":
         return { backgroundColor: "#8e44ad", color: "white" };
-      case "complete":
+      case "completed":
         return { backgroundColor: "green", color: "white" };
       case "processed":
         return { backgroundColor: "#3498db", color: "white" };
-      case "in progress":
       case "in review":
         return { backgroundColor: "#f39c12", color: "white" };
-      case "cancel":
+      case "retry again later":
+        return { backgroundColor: "red", color: "white" };
       case "cancelled":
         return { backgroundColor: "#e74c3c", color: "white" };
       default:
@@ -215,9 +209,9 @@ const TableComponent = ({ data }) => {
           {currentPageData.map((row) => (
             <tr key={row.id}>
               <td>{row.id}</td>
-              <td>{row.file}</td>
-              <td>{row.ai}</td>
-              <td>{row.similarity}</td>
+              <td>{row.fileName ? row.fileName : "--"}</td>
+              <td>{row.aiPercentage ? row.aiPercentage : "--"}</td>
+              <td>{row.similarityPercentage ? row.similarityPercentage : "--"}</td>
               <td>
                 <button
                   className="btn btn-sm w-75"
@@ -232,7 +226,7 @@ const TableComponent = ({ data }) => {
                 </button>
               </td>
               <td>{row.flags}</td>
-              <td>{row.createdAt}</td>
+              <td>{new Date(row.createdAt).toLocaleString()}</td>
               <td>
                 <DeleteIcon
                   style={{

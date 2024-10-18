@@ -150,16 +150,16 @@ const EmployeeAIPledgeTable = () => {
   // Get status button style
   const getStatusButtonStyle = (status) => {
     switch (status.toLowerCase()) {
-      case "pending":
+      case "processing":
         return { backgroundColor: "#8e44ad", color: "white" };
-      case "complete":
+      case "completed":
         return { backgroundColor: "green", color: "white" };
       case "processed":
         return { backgroundColor: "#3498db", color: "white" };
-      case "in progress":
       case "in review":
         return { backgroundColor: "#f39c12", color: "white" };
-      case "cancel":
+      case "retry again later":
+        return { backgroundColor: "red", color: "white" };
       case "cancelled":
         return { backgroundColor: "#e74c3c", color: "white" };
       default:
@@ -251,6 +251,26 @@ const EmployeeAIPledgeTable = () => {
   );
 };
 
+const getStatusButtonStyle = (status) => {
+  switch (status.toLowerCase()) {
+    case "processing":
+      return { backgroundColor: "#8e44ad", color: "white" };
+    case "completed":
+      return { backgroundColor: "green", color: "white" };
+    case "processed":
+      return { backgroundColor: "#3498db", color: "white" };
+    // case "in progress":
+    case "in review":
+      return { backgroundColor: "#f39c12", color: "white" };
+    case "retry again later":
+      return { backgroundColor: "red", color: "white" };
+    case "cancelled":
+      return { backgroundColor: "#e74c3c", color: "white" };
+    default:
+      return { backgroundColor: "#95a5a6", color: "white" };
+  }
+};
+
 // Table Component
 const TableComponent = ({ data, onDelete }) => {
   return (
@@ -275,14 +295,15 @@ const TableComponent = ({ data, onDelete }) => {
           {data?.map((row) => (
             <tr key={row.id}>
               <td>{row.id}</td>
-              <td>{row.fileName}</td>
-              <td>{row.ai}</td>
-              <td>{row.similarity}</td>
-              <td>{row.fileName}</td>
+              <td>{row.fileName ? row.fileName : "--"}</td>
+              <td>{row.aiPercentage ? row.aiPercentage : "--"}</td>
+              <td>{row.similarityPercentage ? row.similarityPercentage : "--"}</td>
+              <td>{row.status}</td>
               <td>
                 <button
                   className="btn btn-sm w-75"
                   style={{
+                    ...getStatusButtonStyle(row.status),
                     fontSize: "12px",
                     padding: "2px 8px",
                     borderRadius: "5px",
