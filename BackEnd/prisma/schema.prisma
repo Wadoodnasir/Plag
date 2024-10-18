@@ -1,3 +1,5 @@
+// This is your Prisma schema file
+
 generator client {
   provider = "prisma-client-js"
 }
@@ -14,43 +16,83 @@ model Order {
   status    String   @default("pending")
   createdAt DateTime @default(now())
 
+  // Relation to Auth (User)
   user      Auth     @relation(fields: [userId], references: [id], name: "AuthOrders")
+
+  // Relation to Invoice
   invoices  Invoice[] @relation("OrderInvoices")
 }
 
 model Method {
-  methodId        Int      @id @default(autoincrement())
-  methodWebsite   String   @unique
-  status          String   @default("Active")
-  access          String 
-  multipleTaskRun Boolean  @default(false)
-
-  // Relation to CCC
-  cccAccounts     CCC[]    @relation("MethodCCC")
-
-  // Relation to Subscription
-  subscriptions   Subscription[] @relation("MethodSubscriptions")
+  methodId Int @id @default(autoincrement())
+  methodWebsite String @unique
+  status String @default("Active")
+  access String 
+  multipleTaskRun bool @default(false)
+  sortId int @default(autoincrement())
 }
 
 model CCC {
-  accountId            Int      @id @default(autoincrement())
-  methodId             Int      // Foreign key to Method
-  email                String   @unique
-  password             String
-  status               String   @default("active")
-  access               String
-  multipleTaskRun      Boolean  @default(false)
-  useAccount           String
-  totalLimit           Int 
-  usedLimit            Int 
-  remainingLimit       Int 
-  refreshLimit         Int
+  accountId Int @id @default(autoincrement())
+  methodId 
+  email String @unique
+  password String
+  status    String   @default("active")
+  access String
+  multipleTaskRun bool @default(false)
+  useAccount String
+  totalLimit int 
+  usedLimit int 
+  remaingingLimit int 
+  refreshLimit int
   subscriptionExpiresDate DateTime
-
-  // Foreign key relation to Method
-  method               Method   @relation(fields: [methodId], references: [methodId], onDelete: Cascade, name: "MethodCCC")
+  sortId int @default(autoincrement())
 }
 
+
+model Service {
+  id        Int      @id @default(autoincrement())
+  userId    Int      // Foreign key to Auth or User model
+  name      String   
+  status    String   @default("active")
+  startDate DateTime @default(now())
+  endDate   DateTime
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relation to Auth (User)
+  user      Auth     @relation(fields: [userId], references: [id], onDelete: Cascade, name: "AuthServices")
+}
+
+model SubscriptionPackageDetail {
+  id                Int      @id @default(autoincrement())
+  packageName       String   // Name of the package
+  expiryDate        DateTime // Expiry date of the package
+  availableDocuments Int      // How many documents are available in this package
+  cost              Float    // Package cost
+
+  // Correct relation to Subscription with @unique for one-to-one relationship
+  subscriptionId Int      @unique
+  subscription   Subscription @relation(fields: [subscriptionId], references: [id], onDelete: Cascade)
+}
+
+model Report {
+  id                  Int      @id @default(autoincrement())
+  fileName            String?
+  aiPercentage        String?
+  similarityPercentage String?
+  status              String?
+  date                DateTime?
+  submittedFileUrl    String?
+  plagReportUrl       String?
+  aiReportUrl         String?
+  plagFilePath        String?
+  aiFilePath          String?
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+  user                Auth?    @relation(fields: [userId], references: [id], name: "UserReports") 
+  userId              Int?
+}
 model Subscription {
   id          Int      @id @default(autoincrement())
   userId      Int      // Foreign key to Auth
@@ -87,15 +129,78 @@ model Auth {
   reports              Report[]      @relation("UserReports")
 }
 
+
 model Profile {
   id        Int     @id @default(autoincrement())
   userId    Int     @unique
-  firstName String? 
-  lastName  String? 
+  firstName String? // First name from signup form
+  lastName  String? // Last name from signup form
   bio       String?
-  avatar    String? 
+  avatar    String? // Optional field for a profile picture URL
 
-  user      Auth     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  // Relation to Auth (User)
+  user Auth @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Submissions {
+  id        Int       @id @default(autoincrement())
+  userId    Int       // Foreign key to Auth model
+  status    String?   @default("pending")
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  // Relation to Auth (User)
+  user      Auth      @relation(fields: [userId], references: [id])
+
+  turnitin  Turnitin?
+}
+
+model Turnitin {
+  id                          Int         @id @default(autoincrement())
+  minioId                     String?     // Unique ID for the file in Minio
+  processSettings             Json?
+  turnitinSubmissionId        BigInt?     // Unique ID for the submission in Turnitin.com
+  wordCount                   String?
+  isPlagiarismReportAvailable Boolean?    @default(false)
+  similarity                  String?
+  plagiarismReportMinio       String?
+  isAiReportAvailable         Boolean?    @default(false)
+  aiPlag                      String?
+  aiPlagReportMinio           String?
+  pageCount                   String?
+  aiReportStatus              String?
+  isAiReportError             Boolean?    @default(false)
+  aiReportErrorCode           String?
+  aiReportErrorMessage        String?
+
+  // Foreign key to Submissions model
+  submissionId                Int         @unique
+  submission                  Submissions @relation(fields: [submissionId], references: [id], onDelete: Cascade)
+}
+
+model Packages {
+  id        Int      @id @default(autoincrement())
+  name      String
+  price     Float    // Package price
+  duration  Int      // Duration in days
+  features  String?  // Optional field for package features (could be JSON or a string description)
+  
+  // Relation to subscriptions
+  subscriptions Subscription[]
+}
+
+
+
+model Invoice {
+  id        Int      @id @default(autoincrement())
+  amount    Float
+  userId    Int
+  orderId   Int
+  status    String   @default("unpaid")
+
+  // Relations to Auth and Order
+  user      Auth     @relation(fields: [userId], references: [id], name: "AuthInvoices")
+  order     Order    @relation(fields: [orderId], references: [id], name: "OrderInvoices")
 }
 
 enum Role {

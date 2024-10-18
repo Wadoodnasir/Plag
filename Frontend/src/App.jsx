@@ -1,4 +1,9 @@
-import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes,
+  Navigate,
+} from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import SignUpForm from "./pages/SignUp/SignUp";
 import LoginForm from "./pages/SignIn/SignIn";
@@ -16,6 +21,7 @@ import OrdersTable from "./component/Employee/OrdersTables";
 import TodayEarningTable from "./component/AdminPanel/TodayEarning";
 import FilesTable from "./component/AdminPanel/FilesTable";
 import ProcessingFilesTable from "./component/AdminPanel/ProcessingFilesTable";
+import Method from "./component/AdminPanel/Method";
 
 const App = () => {
   return (
@@ -30,19 +36,24 @@ const App = () => {
           <Route path="home" element={<Home />} />
           <Route path="total-users" element={<TotalUsersTable />} />
           <Route path="online-users" element={<TotalUsersTable />} />
-          <Route path="total-orders" element={< OrdersTable/>} />
-          <Route path="new-orders" element={< OrdersTable/>} />
-          <Route path="processing-orders" element={< OrdersTable/>} />
-          <Route path="total-earning" element={< TodayEarningTable/>} />
-          <Route path="today-earning" element={< TodayEarningTable/>} />
-          <Route path="total-files-checked" element={< ProcessingFilesTable/>} />
-          <Route path="processing-files" element={< FilesTable/>} />
-          <Route path="tickets" element={< OrdersTable/>} />
+          <Route path="total-orders" element={<OrdersTable />} />
+          <Route path="new-orders" element={<OrdersTable />} />
+          <Route path="processing-orders" element={<OrdersTable />} />
+          <Route path="total-earning" element={<TodayEarningTable />} />
+          <Route path="today-earning" element={<TodayEarningTable />} />
+          <Route
+            path="total-files-checked"
+            element={<ProcessingFilesTable />}
+          />
+          <Route path="processing-files" element={<FilesTable />} />
+          <Route path="tickets" element={<OrdersTable />} />
           <Route path="settings" element={<Settings />} />
           <Route path="apis" element={<Apis />} />
           <Route path="api-history" element={<ApiHistory />} />
           <Route path="api-user-invoices" element={<ApiUserInvoices />} />
-          <Route index element={<Navigate to="/admin/home" />} /> 
+          <Route path="method" element={<Method />} />
+          <Route index element={<Navigate to="/admin/home" />} />
+          <Route index element={<Navigate to="/admin/method" />} />
         </Route>
 
         {/* Other Routes */}

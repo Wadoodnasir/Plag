@@ -1,4 +1,7 @@
 import React, { useState } from "react"; // Import useState
+import { Link, Navigate } from "react-router-dom";
+import Method from "./Method";
+import { Switch } from "antd";
 
 const AdminPanelSlider = ({
   sidebarOpen,
@@ -346,7 +349,7 @@ const AdminPanelSlider = ({
               <li>
                 <a
                   href="#"
-                  onClick={() => setSelectedComponent("method")}
+                  onClick={() => setSelectedComponent("Method")}
                   className="flex items-center py-1 px-4 hover:bg-blue-100 hover:text-blue-600 text-xs transition-colors duration-200"
                 >
                   <svg
