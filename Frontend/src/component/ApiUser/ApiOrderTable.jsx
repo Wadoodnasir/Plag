@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { Table, Menu, Dropdown, Button, message } from "antd";
+import { Table, Menu, Dropdown, Button } from "antd";
 import { MoreOutlined } from "@ant-design/icons";
-import axios from "axios";
 
 const StatusButton = ({ status }) => {
   const getColor = (status) => {
@@ -34,53 +33,59 @@ const StatusButton = ({ status }) => {
   );
 };
 
-const ServicesTables = () => {
+const ApiOrderTable = () => {
   const [data, setData] = useState([]);
-  const [loading, setLoading] = useState(true);
 
-  // Fetch service history data
-  const fetchServiceHistory = async () => {
-    try {
-      const response = await axios.get(`/service-history/${userId}`);
-      setData(response.data);
-    } catch (error) {
-      message.error("Failed to load service history");
-      console.error(error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
+  // Fetch data from backend API
   useEffect(() => {
-    fetchServiceHistory();
+    const fetchOrders = async () => {
+      try {
+        const response = await fetch("/api/orders/1"); // assuming userId is 1
+        const orders = await response.json();
+        setData(orders);
+      } catch (error) {
+        console.error("Failed to fetch orders:", error);
+      }
+    };
+
+    fetchOrders();
   }, []);
 
   const handleDelete = async (id) => {
+    // Implement delete logic here (make a DELETE request to the backend)
     try {
-      await axios.delete(`/service-history/${userId}`);
+      await fetch(`/api/orders/${id}`, { method: "DELETE" });
       setData(data.filter((item) => item.id !== id));
-      message.success("Record deleted successfully");
     } catch (error) {
-      message.error("Failed to delete record");
-      console.error(error);
+      console.error("Failed to delete order:", error);
     }
   };
 
   const columns = [
     {
-      title: "Name",
-      dataIndex: "name",
-      key: "name",
+      title: "Order No.",
+      dataIndex: "orderNo",
+      key: "orderNo",
     },
     {
-      title: "Date",
-      dataIndex: "date",
-      key: "date",
+      title: "Service Name",
+      dataIndex: "serviceName",
+      key: "serviceName",
     },
     {
-      title: "Sale",
-      dataIndex: "sale",
-      key: "sale",
+      title: "Start Date",
+      dataIndex: "startDate",
+      key: "startDate",
+    },
+    {
+      title: "End Date",
+      dataIndex: "endDate",
+      key: "endDate",
+    },
+    {
+      title: "Deadline",
+      dataIndex: "deadline",
+      key: "deadline",
     },
     {
       title: "Status",
@@ -91,27 +96,28 @@ const ServicesTables = () => {
     {
       title: "Action",
       key: "action",
-      render: (_, record) => (
-        <Dropdown
-          overlay={
-            <Menu>
-              <Menu.Item key="delete" onClick={() => handleDelete(record.id)}>
-                Delete
-              </Menu.Item>
-              {/* Add more menu items for other actions */}
-            </Menu>
-          }
-          trigger={["click"]}
-        >
-          <Button icon={<MoreOutlined />} />
-        </Dropdown>
-      ),
+      render: (_, record) => {
+        return record.status.toLowerCase() === "pending" ? (
+          <Dropdown
+            overlay={
+              <Menu>
+                <Menu.Item key="delete" onClick={() => handleDelete(record.id)}>
+                  Delete
+                </Menu.Item>
+              </Menu>
+            }
+            trigger={["click"]}
+          >
+            <Button icon={<MoreOutlined />} />
+          </Dropdown>
+        ) : null; // No action if status is not pending
+      },
     },
   ];
 
   return (
     <Table
-      loading={loading}
+      className="tc"
       columns={columns}
       dataSource={data}
       rowKey="id"
@@ -133,4 +139,4 @@ const ServicesTables = () => {
   );
 };
 
-export default ServicesTables;
+export default ApiOrderTable;

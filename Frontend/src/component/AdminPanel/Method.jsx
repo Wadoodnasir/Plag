@@ -1,7 +1,18 @@
 import React, { useState, useEffect } from "react";
-import { Table, Menu, Dropdown, Button, message } from "antd";
+import {
+  Table,
+  Menu,
+  Dropdown,
+  Button,
+  message,
+  Modal,
+  Form,
+  Input,
+} from "antd";
 import { MoreOutlined } from "@ant-design/icons";
+import axios from "axios";
 
+// StatusButton component remains the same
 const StatusButton = ({ status }) => {
   const getColor = (status) => {
     switch (status.toLowerCase()) {
@@ -34,64 +45,104 @@ const StatusButton = ({ status }) => {
 };
 
 const Method = ({ userId }) => {
-  const [data, setData] = useState([]);
+  const [methodData, setMethodData] = useState([]);
+  const [cccData, setCccData] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [isEditing, setIsEditing] = useState(false);
+  const [currentEditData, setCurrentEditData] = useState(null);
+  const [editForm] = Form.useForm();
 
   useEffect(() => {
-    const fetchSubscriptions = async () => {
+    const fetchData = async () => {
       try {
-        const response = await fetch(`/api/service/${userId}`);
-        const result = await response.json();
+        // Fetch Methods
+        const methodResponse = await axios.get(
+          "http://localhost:4001/method/method"
+        );
 
-        if (response.ok) {
-          setData(result);
-        } else {
-          message.error(result.msg || "Failed to fetch service");
-        }
+        // Fetch CCCs
+        const cccResponse = await axios.get("http://localhost:4001/method/ccc");
+
+        setMethodData(methodResponse.data);
+        setCccData(cccResponse.data);
       } catch (error) {
-        message.error("Error fetching service");
+        message.error("Error fetching data: " + error.message);
       } finally {
         setLoading(false);
       }
     };
 
-    fetchSubscriptions();
+    fetchData();
   }, [userId]);
 
-  const handleDelete = async (id) => {
+  const handleDeleteMethod = async (id) => {
     try {
-      const response = await fetch(`/api/service/${id}`, {
-        method: "DELETE",
-      });
-      const result = await response.json();
-
-      if (response.ok) {
-        message.success(result.msg || "Service deleted successfully");
-        setData(data.filter((item) => item.id !== id)); // Remove from state
-      } else {
-        message.error(result.msg || "Failed to delete service");
-      }
+      await axios.delete(`http://localhost:4001/method/method/${id}`);
+      message.success("Method deleted successfully");
+      setMethodData(methodData.filter((item) => item.methodId !== id));
     } catch (error) {
-      message.error("Error deleting service", error);
+      message.error("Error deleting method: " + error.message);
     }
   };
 
-  // Define table columns
-  const columns = [
+  const handleDeleteCCC = async (id) => {
+    try {
+      await axios.delete(`http://localhost:4001/method/ccc/${id}`);
+      message.success("CCC deleted successfully");
+      setCccData(cccData.filter((item) => item.accountId !== id));
+    } catch (error) {
+      message.error("Error deleting CCC: " + error.message);
+    }
+  };
+
+  const handleEditMethod = (record) => {
+    setIsEditing(true);
+    setCurrentEditData(record);
+    editForm.setFieldsValue(record); // Pre-fill form with current record data
+  };
+
+  const handleEditCCC = (record) => {
+    setIsEditing(true);
+    setCurrentEditData(record);
+    editForm.setFieldsValue(record); // Pre-fill form with current record data
+  };
+
+  const handleUpdate = async (values) => {
+    const endpoint = currentEditData.methodId
+      ? `http://localhost:4001/method/method/${currentEditData.methodId}`
+      : `http://localhost:4001/method/ccc/${currentEditData.accountId}`;
+
+    try {
+      const response = await axios.put(endpoint, values);
+      message.success("Updated successfully");
+
+      if (currentEditData.methodId) {
+        setMethodData((prev) =>
+          prev.map((item) =>
+            item.methodId === response.data.methodId ? response.data : item
+          )
+        );
+      } else {
+        setCccData((prev) =>
+          prev.map((item) =>
+            item.accountId === response.data.accountId ? response.data : item
+          )
+        );
+      }
+
+      setIsEditing(false);
+      setCurrentEditData(null);
+    } catch (error) {
+      message.error("Error updating data: " + error.message);
+    }
+  };
+
+  // Define table columns for Methods
+  const methodColumns = [
     {
-      title: "Name",
-      dataIndex: "name",
-      key: "name",
-    },
-    {
-      title: "Date",
-      dataIndex: "date",
-      key: "date",
-    },
-    {
-      title: "Sale",
-      dataIndex: "sale",
-      key: "sale",
+      title: "Method Website",
+      dataIndex: "methodWebsite",
+      key: "methodWebsite",
     },
     {
       title: "Status",
@@ -100,13 +151,73 @@ const Method = ({ userId }) => {
       render: (status) => <StatusButton status={status} />,
     },
     {
+      title: "Access",
+      dataIndex: "access",
+      key: "access",
+    },
+    {
       title: "Action",
       key: "action",
       render: (_, record) => (
         <Dropdown
           overlay={
             <Menu>
-              <Menu.Item key="delete" onClick={() => handleDelete(record.id)}>
+              <Menu.Item key="edit" onClick={() => handleEditMethod(record)}>
+                Edit
+              </Menu.Item>
+              <Menu.Item
+                key="delete"
+                onClick={() => handleDeleteMethod(record.methodId)}
+              >
+                Delete
+              </Menu.Item>
+            </Menu>
+          }
+          trigger={["click"]}
+        >
+          <Button icon={<MoreOutlined />} />
+        </Dropdown>
+      ),
+    },
+  ];
+
+  // Define table columns for CCCs
+  const cccColumns = [
+    {
+      title: "Email",
+      dataIndex: "email",
+      key: "email",
+    },
+    {
+      title: "Status",
+      dataIndex: "status",
+      key: "status",
+      render: (status) => <StatusButton status={status} />,
+    },
+    {
+      title: "Total Limit",
+      dataIndex: "totalLimit",
+      key: "totalLimit",
+    },
+    {
+      title: "Remaining Limit",
+      dataIndex: "remainingLimit",
+      key: "remainingLimit",
+    },
+    {
+      title: "Action",
+      key: "action",
+      render: (_, record) => (
+        <Dropdown
+          overlay={
+            <Menu>
+              <Menu.Item key="edit" onClick={() => handleEditCCC(record)}>
+                Edit
+              </Menu.Item>
+              <Menu.Item
+                key="delete"
+                onClick={() => handleDeleteCCC(record.accountId)}
+              >
                 Delete
               </Menu.Item>
             </Menu>
@@ -121,48 +232,75 @@ const Method = ({ userId }) => {
 
   return (
     <>
+      {/* Table for Methods */}
       <Table
         className="tc"
-        columns={columns}
-        dataSource={data}
-        rowKey="id"
-        loading={loading} // Show loading spinner while data is loading
-        style={{
-          fontSize: "14px",
-          backgroundColor: "#ffff",
-        }}
-        components={{
-          header: {
-            cell: (props) => (
-              <th
-                {...props}
-                style={{ ...props.style, backgroundColor: "white" }}
-              />
-            ),
-          },
-        }}
+        columns={methodColumns}
+        dataSource={methodData}
+        rowKey="methodId"
+        loading={loading}
+        style={{ fontSize: "14px", backgroundColor: "#ffff" }}
       />
+
+      {/* Table for CCCs */}
       <Table
         className="tc"
-        columns={columns}
-        dataSource={data}
-        rowKey="id"
-        loading={loading} // Show loading spinner while data is loading
-        style={{
-          fontSize: "14px",
-          backgroundColor: "#ffff",
-        }}
-        components={{
-          header: {
-            cell: (props) => (
-              <th
-                {...props}
-                style={{ ...props.style, backgroundColor: "white" }}
-              />
-            ),
-          },
-        }}
+        columns={cccColumns}
+        dataSource={cccData}
+        rowKey="accountId"
+        loading={loading}
+        style={{ fontSize: "14px", backgroundColor: "#ffff" }}
       />
+
+      {/* Edit Modal */}
+      <Modal
+        title="Edit Record"
+        visible={isEditing}
+        onCancel={() => setIsEditing(false)}
+        onOk={() => {
+          editForm.validateFields().then((values) => handleUpdate(values));
+        }}
+      >
+        <Form form={editForm} layout="vertical">
+          <Form.Item
+            name="methodWebsite"
+            label="Method Website"
+            rules={[
+              { required: true, message: "Please input the Method Website!" },
+            ]}
+          >
+            <Input />
+          </Form.Item>
+
+          <Form.Item
+            name="access"
+            label="Access"
+            rules={[{ required: true, message: "Please input the Access!" }]}
+          >
+            <Input />
+          </Form.Item>
+
+          <Form.Item
+            name="totalLimit"
+            label="Total Limit"
+            rules={[
+              { required: true, message: "Please input the Total Limit!" },
+            ]}
+          >
+            <Input />
+          </Form.Item>
+
+          <Form.Item
+            name="remainingLimit"
+            label="Remaining Limit"
+            rules={[
+              { required: true, message: "Please input the Remaining Limit!" },
+            ]}
+          >
+            <Input />
+          </Form.Item>
+        </Form>
+      </Modal>
     </>
   );
 };

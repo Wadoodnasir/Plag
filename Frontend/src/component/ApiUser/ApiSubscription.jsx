@@ -2,6 +2,7 @@
 
 import React from "react";
 import ApiSubscriptionTable from "./ApiSubscriptionTable.jsx";
+import ApiAIandPledge from "./ApiAIandPledge.jsx";
 
 const ApiSubscription = () => {
   return (
@@ -11,7 +12,7 @@ const ApiSubscription = () => {
       </p>
       <h1 className="fs-3">Subscription History Table</h1>
       <div className="container w-100 my-3">
-        <ApiSubscriptionTable />
+        <ApiAIandPledge />
       </div>
     </div>
   );

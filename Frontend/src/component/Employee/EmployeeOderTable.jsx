@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Table, Menu, Dropdown, Button } from "antd";
 import { MoreOutlined } from "@ant-design/icons";
 
@@ -34,30 +34,31 @@ const StatusButton = ({ status }) => {
 };
 
 const EmployeeOrderTable = () => {
-  const [data, setData] = useState([
-    {
-      id: 1,
-      orderNo: "ORD101", // orderId in the Order model
-      serviceName: "Website Development", // service name from the related Service model
-      startDate: "2023-10-01T10:00:00Z",
-      endDate: "2023-11-01T10:00:00Z",
-      deadline: "2023-10-31T23:59:59Z",
-      status: "Completed",
-    },
-    {
-      id: 2,
-      orderNo: "ORD102", // orderId in the Order model
-      serviceName: "SEO Optimization", // service name from the related Service model
-      startDate: "2023-10-05T12:00:00Z",
-      endDate: "2023-11-05T12:00:00Z",
-      deadline: "2023-11-04T23:59:59Z",
-      status: "Pending",
-    },
-  ]);
+  const [data, setData] = useState([]);
 
-  const handleDelete = (id) => {
-    // Implement delete logic here
-    setData(data.filter((item) => item.id !== id));
+  // Fetch data from backend API
+  useEffect(() => {
+    const fetchOrders = async () => {
+      try {
+        const response = await fetch("/api/orders/1"); // assuming userId is 1
+        const orders = await response.json();
+        setData(orders);
+      } catch (error) {
+        console.error("Failed to fetch orders:", error);
+      }
+    };
+
+    fetchOrders();
+  }, []);
+
+  const handleDelete = async (id) => {
+    // Implement delete logic here (make a DELETE request to the backend)
+    try {
+      await fetch(`/api/orders/${id}`, { method: "DELETE" });
+      setData(data.filter((item) => item.id !== id));
+    } catch (error) {
+      console.error("Failed to delete order:", error);
+    }
   };
 
   const columns = [

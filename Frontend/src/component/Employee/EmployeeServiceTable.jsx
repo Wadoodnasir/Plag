@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Table, Menu, Dropdown, Button } from "antd";
+import React, { useState, useEffect } from "react";
+import { Table, Menu, Dropdown, Button, message } from "antd";
 import { MoreOutlined } from "@ant-design/icons";
 
 const StatusButton = ({ status }) => {
@@ -33,31 +33,50 @@ const StatusButton = ({ status }) => {
   );
 };
 
-const EmployeeServiceTable = () => {
-  const [data, setData] = useState([
-    // Sample data, replace with your actual data
-    {
-      id: 1,
-      name: "John Doe",
-      date: "2023-04-15",
-      sale: 100,
-      status: "Completed",
-    },
-    {
-      id: 2,
-      name: "Jane Smith",
-      date: "2023-04-16",
-      sale: 150,
-      status: "Pending",
-    },
-    // Add more rows as needed
-  ]);
+const EmployeeServiceTable = ({ userId }) => {
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  const handleDelete = (id) => {
-    // Implement delete logic here
-    setData(data.filter((item) => item.id !== id));
+  useEffect(() => {
+    const fetchSubscriptions = async () => {
+      try {
+        const response = await fetch(`/api/service/${userId}`);
+        const result = await response.json();
+
+        if (response.ok) {
+          setData(result);
+        } else {
+          message.error(result.msg || "Failed to fetch service");
+        }
+      } catch (error) {
+        message.error("Error fetching service");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchSubscriptions();
+  }, [userId]);
+
+  const handleDelete = async (id) => {
+    try {
+      const response = await fetch(`/api/service/${id}`, {
+        method: "DELETE",
+      });
+      const result = await response.json();
+
+      if (response.ok) {
+        message.success(result.msg || "Service deleted successfully");
+        setData(data.filter((item) => item.id !== id)); // Remove from state
+      } else {
+        message.error(result.msg || "Failed to delete service");
+      }
+    } catch (error) {
+      message.error("Error deleting service", error);
+    }
   };
 
+  // Define table columns
   const columns = [
     {
       title: "Name",
@@ -90,7 +109,6 @@ const EmployeeServiceTable = () => {
               <Menu.Item key="delete" onClick={() => handleDelete(record.id)}>
                 Delete
               </Menu.Item>
-              {/* Add more menu items for other actions */}
             </Menu>
           }
           trigger={["click"]}
@@ -107,6 +125,7 @@ const EmployeeServiceTable = () => {
       columns={columns}
       dataSource={data}
       rowKey="id"
+      loading={loading} // Show loading spinner while data is loading
       style={{
         fontSize: "14px",
         backgroundColor: "#ffff",

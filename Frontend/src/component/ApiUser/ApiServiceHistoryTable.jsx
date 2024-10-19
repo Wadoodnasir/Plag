@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Table, Menu, Dropdown, Button, message } from "antd";
 import { MoreOutlined } from "@ant-design/icons";
+import axios from "axios";
 
 const StatusButton = ({ status }) => {
   const getColor = (status) => {
@@ -33,46 +34,35 @@ const StatusButton = ({ status }) => {
   );
 };
 
-const ApiServiceHistoryTable = ({ userId }) => {
+const ApiServiceHistoryTable = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  // Fetch service history data
+  const fetchServiceHistory = async () => {
+    try {
+      const response = await axios.get(`/service-history/${userId}`);
+      setData(response.data);
+    } catch (error) {
+      message.error("Failed to load service history");
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
-    const fetchServiceHistory = async () => {
-      try {
-        const response = await fetch(`/api/service-history/${userId}`);
-        const result = await response.json();
-
-        if (response.ok) {
-          setData(result);
-        } else {
-          message.error(result.msg || "Failed to fetch service history");
-        }
-      } catch (error) {
-        message.error("Error fetching service history");
-      } finally {
-        setLoading(false);
-      }
-    };
-
     fetchServiceHistory();
-  }, [userId]);
+  }, []);
 
   const handleDelete = async (id) => {
     try {
-      const response = await fetch(`/api/service-history/${id}`, {
-        method: "DELETE",
-      });
-      const result = await response.json();
-
-      if (response.ok) {
-        message.success(result.msg || "Service deleted successfully");
-        setData(data.filter((item) => item.id !== id));
-      } else {
-        message.error(result.msg || "Failed to delete service");
-      }
+      await axios.delete(`/service-history/${userId}`);
+      setData(data.filter((item) => item.id !== id));
+      message.success("Record deleted successfully");
     } catch (error) {
-      message.error("Error deleting service");
+      message.error("Failed to delete record");
+      console.error(error);
     }
   };
 
@@ -108,6 +98,7 @@ const ApiServiceHistoryTable = ({ userId }) => {
               <Menu.Item key="delete" onClick={() => handleDelete(record.id)}>
                 Delete
               </Menu.Item>
+              {/* Add more menu items for other actions */}
             </Menu>
           }
           trigger={["click"]}
@@ -120,10 +111,10 @@ const ApiServiceHistoryTable = ({ userId }) => {
 
   return (
     <Table
+      loading={loading}
       columns={columns}
       dataSource={data}
       rowKey="id"
-      loading={loading}
       style={{
         fontSize: "14px",
         backgroundColor: "#ffff",

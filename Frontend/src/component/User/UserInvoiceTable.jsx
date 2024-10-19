@@ -1,13 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Table, Menu, Dropdown, Button } from "antd";
 import { MoreOutlined, CloseOutlined } from "@ant-design/icons";
 
 const StatusButton = ({ status }) => {
   const getColor = (status) => {
     switch (status.toLowerCase()) {
-      case "completed":
+      case "paid":
         return "#52c41a"; // green
-      case "pending":
+      case "unpaid":
         return "#faad14"; // yellow
       default:
         return "#1890ff"; // blue
@@ -34,43 +34,46 @@ const StatusButton = ({ status }) => {
 };
 
 const UserInvoiceTable = () => {
-  const [data, setData] = useState([
-    {
-      id: 1,
-      reference: "INV-1001", // Adding a reference number
-      amount: 250.75,
-      userId: 1, // Assuming the user with id 1 exists in the Auth table
-      orderId: 101, // Assuming the order with id 101 exists in the Order table
-      status: "paid",
-      createdAt: "2023-10-01T12:30:00Z",
-      updatedAt: "2023-10-01T12:30:00Z",
-    },
-    {
-      id: 2,
-      reference: "INV-1002", // Adding a reference number
-      amount: 150.5,
-      userId: 2, // Assuming the user with id 2 exists in the Auth table
-      orderId: 102, // Assuming the order with id 102 exists in the Order table
-      status: "unpaid",
-      createdAt: "2023-10-03T15:45:00Z",
-      updatedAt: "2023-10-03T15:45:00Z",
-    },
-  ]);
+  const [data, setData] = useState([]);
+
+  // Fetch invoices from backend
+  useEffect(() => {
+    const fetchInvoices = async () => {
+      try {
+        const response = await fetch("/api/invoices/1"); // assuming userId is 1
+        const invoices = await response.json();
+        setData(invoices);
+      } catch (error) {
+        console.error("Failed to fetch invoices:", error);
+      }
+    };
+
+    fetchInvoices();
+  }, []);
 
   const handleEdit = (id) => {
-    // Implement edit logic here
     console.log("Edit invoice with id:", id);
+    // Implement edit logic here
+  };
+
+  const handleDelete = async (id) => {
+    try {
+      await fetch(`/api/invoices/${id}`, { method: "DELETE" });
+      setData(data.filter((item) => item.id !== id));
+    } catch (error) {
+      console.error("Failed to delete invoice:", error);
+    }
   };
 
   const columns = [
     {
       title: "Reference No.",
-      dataIndex: "reference", // This now matches the key in your data
+      dataIndex: "reference",
       key: "reference",
     },
     {
       title: "Order Id",
-      dataIndex: "orderId", // Updated to match the correct key
+      dataIndex: "orderId",
       key: "orderId",
     },
     {
@@ -80,9 +83,9 @@ const UserInvoiceTable = () => {
     },
     {
       title: "Paid Date",
-      dataIndex: "createdAt", // Show the date when the invoice was created
+      dataIndex: "createdAt",
       key: "createdAt",
-      render: (date) => new Date(date).toLocaleDateString(), // Format date
+      render: (date) => new Date(date).toLocaleDateString(),
     },
     {
       title: "Status",
@@ -101,6 +104,12 @@ const UserInvoiceTable = () => {
                 <Menu>
                   <Menu.Item key="edit" onClick={() => handleEdit(record.id)}>
                     Edit
+                  </Menu.Item>
+                  <Menu.Item
+                    key="delete"
+                    onClick={() => handleDelete(record.id)}
+                  >
+                    Delete
                   </Menu.Item>
                 </Menu>
               }

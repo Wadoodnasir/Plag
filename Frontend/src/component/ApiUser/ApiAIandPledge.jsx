@@ -47,7 +47,7 @@ const IOSSwitch = styled((props) => (
   },
 }));
 
-const UserAiPledgeTable = () => {
+const ApiAIandPledge = () => {
   const [tableData, setTableData] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [currentPage, setCurrentPage] = useState(0);
@@ -333,4 +333,4 @@ const TableComponent = ({ data, onDelete }) => {
   );
 };
 
-export default UserAiPledgeTable;
+export default ApiAIandPledge;

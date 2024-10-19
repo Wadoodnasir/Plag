@@ -1,99 +1,73 @@
 import React, { useState } from "react";
-import { Table, Menu, Dropdown, Button } from "antd";
+import { Table, Dropdown, Button, Modal } from "antd";
 import { MoreOutlined } from "@ant-design/icons";
 
-const StatusButton = ({ status }) => {
-  const getColor = (status) => {
-    switch (status.toLowerCase()) {
-      case "completed":
-        return "#52c41a"; // green
-      case "pending":
-        return "#faad14"; // yellow
-      default:
-        return "#1890ff"; // blue
-    }
-  };
-
-  return (
-    <Button
-      type="primary"
-      size="small"
-      style={{
-        backgroundColor: getColor(status),
-        borderColor: getColor(status),
-        borderRadius: "12px",
-        padding: "0 8px",
-        height: "24px",
-        fontSize: "12px",
-        textTransform: "capitalize",
-      }}
-    >
-      {status}
-    </Button>
-  );
-};
-
-const UserSubscriptionTable = () => {
-  const [data, setData] = useState([
-    // Sample data, replace with your actual data
+const UserSubscriptionTable = ({ balance, onBuySubscription }) => {
+  const [data] = useState([
     {
       id: 1,
-      name: "John Doe",
-      date: "2023-04-15",
-      sale: 100,
-      status: "Completed",
+      subscriptionName: "Basic Plan",
+      deadline: "30 Days",
+      documents: 5,
+      cost: 100, // Cost of subscription
     },
     {
       id: 2,
-      name: "Jane Smith",
-      date: "2023-04-16",
-      sale: 150,
-      status: "Pending",
+      subscriptionName: "Premium Plan",
+      deadline: "60 Days",
+      documents: 10,
+      cost: 500,
     },
-    // Add more rows as needed
   ]);
 
-  const handleDelete = (id) => {
-    // Implement delete logic here
-    setData(data.filter((item) => item.id !== id));
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [selectedSubscription, setSelectedSubscription] = useState(null);
+
+  const handleBuy = (record) => {
+    setSelectedSubscription(record);
+    setIsModalVisible(true);
+  };
+
+  const handleConfirmBuy = () => {
+    if (selectedSubscription) {
+      const subscriptionCost = selectedSubscription.cost;
+      onBuySubscription(subscriptionCost); // Call the buy subscription handler from props
+    }
+    setIsModalVisible(false);
+  };
+
+  const handleCancel = () => {
+    setIsModalVisible(false);
+    setSelectedSubscription(null);
   };
 
   const columns = [
     {
-      title: "Name",
-      dataIndex: "name",
-      key: "name",
+      title: "Subscription Name",
+      dataIndex: "subscriptionName",
+      key: "subscriptionName",
     },
     {
-      title: "Date",
-      dataIndex: "date",
-      key: "date",
+      title: "Deadline",
+      dataIndex: "deadline",
+      key: "deadline",
     },
     {
-      title: "Sale",
-      dataIndex: "sale",
-      key: "sale",
-    },
-    {
-      title: "Status",
-      dataIndex: "status",
-      key: "status",
-      render: (status) => <StatusButton status={status} />,
+      title: "No. of Documents",
+      dataIndex: "documents",
+      key: "documents",
     },
     {
       title: "Action",
       key: "action",
       render: (_, record) => (
         <Dropdown
-          overlay={
-            <Menu>
-              <Menu.Item key="delete" onClick={() => handleDelete(record.id)}>
-                Delete
-              </Menu.Item>
-              {/* Add more menu items for other actions */}
-            </Menu>
-          }
           trigger={["click"]}
+          overlay={
+            <Button type="primary" onClick={() => handleBuy(record)}>
+              Buy
+            </Button>
+          }
         >
           <Button icon={<MoreOutlined />} />
         </Dropdown>
@@ -102,26 +76,28 @@ const UserSubscriptionTable = () => {
   ];
 
   return (
-    <Table
-      className="tc"
-      columns={columns}
-      dataSource={data}
-      rowKey="id"
-      style={{
-        fontSize: "14px",
-        backgroundColor: "#ffff",
-      }}
-      components={{
-        header: {
-          cell: (props) => (
-            <th
-              {...props}
-              style={{ ...props.style, backgroundColor: "white" }}
-            />
-          ),
-        },
-      }}
-    />
+    <div>
+      <Table
+        columns={columns}
+        dataSource={data}
+        rowKey="id"
+        style={{ fontSize: "14px", backgroundColor: "#fff" }}
+      />
+
+      {/* Buy Confirmation Modal */}
+      <Modal
+        title="Confirm Purchase"
+        visible={isModalVisible}
+        onCancel={handleCancel}
+        onOk={handleConfirmBuy}
+        okText="Buy"
+        cancelText="Cancel"
+      >
+        <p>Are you sure you want to buy this subscription?</p>
+        <p>{selectedSubscription?.subscriptionName}</p>
+        <p>Cost: ${selectedSubscription?.cost}</p>
+      </Modal>
+    </div>
   );
 };
 

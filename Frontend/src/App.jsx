@@ -35,6 +35,7 @@ const App = () => {
         <Route path="/admin" element={<AdminPanel />}>
           <Route path="home" element={<Home />} />
           <Route path="total-users" element={<TotalUsersTable />} />
+          <Route path="method" element={<Method />} />
           <Route path="online-users" element={<TotalUsersTable />} />
           <Route path="total-orders" element={<OrdersTable />} />
           <Route path="new-orders" element={<OrdersTable />} />
@@ -51,9 +52,7 @@ const App = () => {
           <Route path="apis" element={<Apis />} />
           <Route path="api-history" element={<ApiHistory />} />
           <Route path="api-user-invoices" element={<ApiUserInvoices />} />
-          <Route path="method" element={<Method />} />
           <Route index element={<Navigate to="/admin/home" />} />
-          <Route index element={<Navigate to="/admin/method" />} />
         </Route>
 
         {/* Other Routes */}

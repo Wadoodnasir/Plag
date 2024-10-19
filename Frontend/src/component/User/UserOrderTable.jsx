@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Table, Menu, Dropdown, Button } from "antd";
 import { MoreOutlined } from "@ant-design/icons";
 
@@ -34,45 +34,58 @@ const StatusButton = ({ status }) => {
 };
 
 const UserOrderTable = () => {
-  const [data, setData] = useState([
-    // Sample data, replace with your actual data
-    {
-      id: 1,
-      name: "John Doe",
-      date: "2023-04-15",
-      sale: 100,
-      status: "Completed",
-    },
-    {
-      id: 2,
-      name: "Jane Smith",
-      date: "2023-04-16",
-      sale: 150,
-      status: "Pending",
-    },
-    // Add more rows as needed
-  ]);
+  const [data, setData] = useState([]);
 
-  const handleDelete = (id) => {
-    // Implement delete logic here
-    setData(data.filter((item) => item.id !== id));
+  // Fetch data from backend API
+  useEffect(() => {
+    const fetchOrders = async () => {
+      try {
+        const response = await fetch("/api/orders/1"); // assuming userId is 1
+        const orders = await response.json();
+        setData(orders);
+      } catch (error) {
+        console.error("Failed to fetch orders:", error);
+      }
+    };
+
+    fetchOrders();
+  }, []);
+
+  const handleDelete = async (id) => {
+    // Implement delete logic here (make a DELETE request to the backend)
+    try {
+      await fetch(`/api/orders/${id}`, { method: "DELETE" });
+      setData(data.filter((item) => item.id !== id));
+    } catch (error) {
+      console.error("Failed to delete order:", error);
+    }
   };
 
   const columns = [
     {
-      title: "Name",
-      dataIndex: "name",
-      key: "name",
+      title: "Order No.",
+      dataIndex: "orderNo",
+      key: "orderNo",
     },
     {
-      title: "Date",
-      dataIndex: "date",
-      key: "date",
+      title: "Service Name",
+      dataIndex: "serviceName",
+      key: "serviceName",
     },
     {
-      title: "Sale",
-      dataIndex: "sale",
-      key: "sale",
+      title: "Start Date",
+      dataIndex: "startDate",
+      key: "startDate",
+    },
+    {
+      title: "End Date",
+      dataIndex: "endDate",
+      key: "endDate",
+    },
+    {
+      title: "Deadline",
+      dataIndex: "deadline",
+      key: "deadline",
     },
     {
       title: "Status",
@@ -83,21 +96,22 @@ const UserOrderTable = () => {
     {
       title: "Action",
       key: "action",
-      render: (_, record) => (
-        <Dropdown
-          overlay={
-            <Menu>
-              <Menu.Item key="delete" onClick={() => handleDelete(record.id)}>
-                Delete
-              </Menu.Item>
-              {/* Add more menu items for other actions */}
-            </Menu>
-          }
-          trigger={["click"]}
-        >
-          <Button icon={<MoreOutlined />} />
-        </Dropdown>
-      ),
+      render: (_, record) => {
+        return record.status.toLowerCase() === "pending" ? (
+          <Dropdown
+            overlay={
+              <Menu>
+                <Menu.Item key="delete" onClick={() => handleDelete(record.id)}>
+                  Delete
+                </Menu.Item>
+              </Menu>
+            }
+            trigger={["click"]}
+          >
+            <Button icon={<MoreOutlined />} />
+          </Dropdown>
+        ) : null; // No action if status is not pending
+      },
     },
   ];
 

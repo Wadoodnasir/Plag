@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { Table, Menu, Dropdown, Button, message } from "antd";
 import { MoreOutlined } from "@ant-design/icons";
 
-// StatusButton component for displaying status with colors
 const StatusButton = ({ status }) => {
   const getColor = (status) => {
     switch (status.toLowerCase()) {
@@ -63,7 +62,7 @@ const SubscriptionHistoryTable = ({ userId }) => {
   // Delete subscription
   const handleDelete = async (id) => {
     try {
-      const response = await fetch(`/api/subscriptions/${userId}`, {
+      const response = await fetch(`/api/subscriptions/${id}`, {
         method: "DELETE",
       });
       const result = await response.json();
@@ -78,43 +77,33 @@ const SubscriptionHistoryTable = ({ userId }) => {
       message.error("Error deleting subscription");
     }
   };
-
-  // Define table columns
   const columns = [
     {
-      title: "Name",
-      dataIndex: "name",
-      key: "name",
+      title: "Subscription Name",
+      dataIndex: "subscriptionName",
+      key: "subscriptionName",
     },
     {
-      title: "Date",
-      dataIndex: "date",
-      key: "date",
+      title: "Deadline",
+      dataIndex: "deadline",
+      key: "deadline",
     },
     {
-      title: "Sale",
-      dataIndex: "sale",
-      key: "sale",
-    },
-    {
-      title: "Status",
-      dataIndex: "status",
-      key: "status",
-      render: (status) => <StatusButton status={status} />,
+      title: "No. of Documents",
+      dataIndex: "documents",
+      key: "documents",
     },
     {
       title: "Action",
       key: "action",
       render: (_, record) => (
         <Dropdown
-          overlay={
-            <Menu>
-              <Menu.Item key="delete" onClick={() => handleDelete(record.id)}>
-                Delete
-              </Menu.Item>
-            </Menu>
-          }
           trigger={["click"]}
+          overlay={
+            <Button type="primary" onClick={() => handleDelete(record)}>
+              Buy
+            </Button>
+          }
         >
           <Button icon={<MoreOutlined />} />
         </Dropdown>
@@ -123,28 +112,83 @@ const SubscriptionHistoryTable = ({ userId }) => {
   ];
 
   return (
-    <Table
-      className="tc"
-      columns={columns}
-      dataSource={data}
-      rowKey="id"
-      loading={loading} // Show loading spinner while data is loading
-      style={{
-        fontSize: "14px",
-        backgroundColor: "#ffff",
-      }}
-      components={{
-        header: {
-          cell: (props) => (
-            <th
-              {...props}
-              style={{ ...props.style, backgroundColor: "white" }}
-            />
-          ),
-        },
-      }}
-    />
+    <div>
+      <Table
+        columns={columns}
+        dataSource={data}
+        rowKey="id"
+        style={{ fontSize: "14px", backgroundColor: "#fff" }}
+      />
+    </div>
   );
 };
+
+// Define table columns
+//   const columns = [
+//     {
+//       title: "Name",
+//       dataIndex: "name",
+//       key: "name",
+//     },
+//     {
+//       title: "Date",
+//       dataIndex: "date",
+//       key: "date",
+//     },
+//     {
+//       title: "Sale",
+//       dataIndex: "sale",
+//       key: "sale",
+//     },
+//     {
+//       title: "Status",
+//       dataIndex: "status",
+//       key: "status",
+//       render: (status) => <StatusButton status={status} />,
+//     },
+//     {
+//       title: "Action",
+//       key: "action",
+//       render: (_, record) => (
+//         <Dropdown
+//           overlay={
+//             <Menu>
+//               <Menu.Item key="delete" onClick={() => handleDelete(record.id)}>
+//                 Delete
+//               </Menu.Item>
+//             </Menu>
+//           }
+//           trigger={["click"]}
+//         >
+//           <Button icon={<MoreOutlined />} />
+//         </Dropdown>
+//       ),
+//     },
+//   ];
+
+//   return (
+//     <Table
+//       className="tc"
+//       columns={columns}
+//       dataSource={data}
+//       rowKey="id"
+//       loading={loading} // Show loading spinner while data is loading
+//       style={{
+//         fontSize: "14px",
+//         backgroundColor: "#ffff",
+//       }}
+//       components={{
+//         header: {
+//           cell: (props) => (
+//             <th
+//               {...props}
+//               style={{ ...props.style, backgroundColor: "white" }}
+//             />
+//           ),
+//         },
+//       }}
+//     />
+//   );
+// };
 
 export default SubscriptionHistoryTable;

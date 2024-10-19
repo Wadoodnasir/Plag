@@ -1,13 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Table, Menu, Dropdown, Button } from "antd";
-import { MoreOutlined } from "@ant-design/icons";
+import { MoreOutlined, CloseOutlined } from "@ant-design/icons";
 
 const StatusButton = ({ status }) => {
   const getColor = (status) => {
     switch (status.toLowerCase()) {
-      case "completed":
+      case "paid":
         return "#52c41a"; // green
-      case "pending":
+      case "unpaid":
         return "#faad14"; // yellow
       default:
         return "#1890ff"; // blue
@@ -34,45 +34,58 @@ const StatusButton = ({ status }) => {
 };
 
 const ApiUserInvoiceTable = () => {
-  const [data, setData] = useState([
-    // Sample data, replace with your actual data
-    {
-      id: 1,
-      name: "John Doe",
-      date: "2023-04-15",
-      sale: 100,
-      status: "Completed",
-    },
-    {
-      id: 2,
-      name: "Jane Smith",
-      date: "2023-04-16",
-      sale: 150,
-      status: "Pending",
-    },
-    // Add more rows as needed
-  ]);
+  const [data, setData] = useState([]);
 
-  const handleDelete = (id) => {
-    // Implement delete logic here
-    setData(data.filter((item) => item.id !== id));
+  // Fetch invoices from backend
+  useEffect(() => {
+    const fetchInvoices = async () => {
+      try {
+        const response = await fetch("/api/invoices/1"); // assuming userId is 1
+        const invoices = await response.json();
+        setData(invoices);
+      } catch (error) {
+        console.error("Failed to fetch invoices:", error);
+      }
+    };
+
+    fetchInvoices();
+  }, []);
+
+  const handleEdit = (id) => {
+    console.log("Edit invoice with id:", id);
+    // Implement edit logic here
+  };
+
+  const handleDelete = async (id) => {
+    try {
+      await fetch(`/api/invoices/${id}`, { method: "DELETE" });
+      setData(data.filter((item) => item.id !== id));
+    } catch (error) {
+      console.error("Failed to delete invoice:", error);
+    }
   };
 
   const columns = [
     {
-      title: "Name",
-      dataIndex: "name",
-      key: "name",
+      title: "Reference No.",
+      dataIndex: "reference",
+      key: "reference",
     },
     {
-      title: "Date",
-      dataIndex: "date",
-      key: "date",
+      title: "Order Id",
+      dataIndex: "orderId",
+      key: "orderId",
     },
     {
-      title: "Sale",
-      dataIndex: "sale",
-      key: "sale",
+      title: "Amount",
+      dataIndex: "amount",
+      key: "amount",
+    },
+    {
+      title: "Paid Date",
+      dataIndex: "createdAt",
+      key: "createdAt",
+      render: (date) => new Date(date).toLocaleDateString(),
     },
     {
       title: "Status",
@@ -83,21 +96,32 @@ const ApiUserInvoiceTable = () => {
     {
       title: "Action",
       key: "action",
-      render: (_, record) => (
-        <Dropdown
-          overlay={
-            <Menu>
-              <Menu.Item key="delete" onClick={() => handleDelete(record.id)}>
-                Delete
-              </Menu.Item>
-              {/* Add more menu items for other actions */}
-            </Menu>
-          }
-          trigger={["click"]}
-        >
-          <Button icon={<MoreOutlined />} />
-        </Dropdown>
-      ),
+      render: (_, record) => {
+        if (record.status.toLowerCase() === "unpaid") {
+          return (
+            <Dropdown
+              overlay={
+                <Menu>
+                  <Menu.Item key="edit" onClick={() => handleEdit(record.id)}>
+                    Edit
+                  </Menu.Item>
+                  <Menu.Item
+                    key="delete"
+                    onClick={() => handleDelete(record.id)}
+                  >
+                    Delete
+                  </Menu.Item>
+                </Menu>
+              }
+              trigger={["click"]}
+            >
+              <Button icon={<MoreOutlined />} />
+            </Dropdown>
+          );
+        } else if (record.status.toLowerCase() === "paid") {
+          return <Button icon={<CloseOutlined />} />;
+        }
+      },
     },
   ];
 

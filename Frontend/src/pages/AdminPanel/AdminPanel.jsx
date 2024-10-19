@@ -37,9 +37,9 @@ export default AdminPanel;
 // import Navbar from "../../component/Navbar"; // Adjust the path based on your structure
 // import { useState } from "react";
 // import AdminPanelSlider from "../../component/AdminPanel/AdminPanelSlider"; // Sidebar component
-// import AddSubscription from "../../component/AdminPanel/AddSubscription"; // Import your components
+// import AddSubscription from "../../component/AdminPanel/AdminAddSubscription"; // Import your components
 // import Method from "../../component/AdminPanel/Method";
-// import AllSubscriptions from "../../component/AdminPanel/AllSubscriptions";
+// import AllSubscriptions from "../../component/AdminPanel/AdminSubscriptionList";
 // import "bootstrap/dist/css/bootstrap.min.css";
 // import "./Home.css";
 
