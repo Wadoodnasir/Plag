@@ -29,3 +29,17 @@ exports.createInvoice = async (req, res) => {
     res.status(500).json({ msg: "Server error" });
   }
 };
+
+// Delete an invoice
+exports.deleteInvoice = async (req, res) => {
+  const { invoiceId } = req.params;
+  try {
+    await prisma.invoice.delete({
+      where: { id: Number(invoiceId) },
+    });
+    res.json({ message: "Invoice deleted successfully" });
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).json({ msg: "Server error" });
+  }
+};

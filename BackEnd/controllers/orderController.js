@@ -14,3 +14,15 @@ exports.getEmployeeOrders = async (req, res) => {
     res.status(500).json({ msg: "Server error", error });
   }
 };
+
+exports.deleteOrder = async (req, res) => {
+  const { orderId } = req.params;
+  try {
+    await prisma.order.delete({
+      where: { id: Number(orderId) },
+    });
+    res.json({ message: "Order deleted successfully" });
+  } catch (error) {
+    res.status(500).json({ msg: "Server error", error });
+  }
+};

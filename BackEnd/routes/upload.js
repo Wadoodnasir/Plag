@@ -43,7 +43,7 @@ router.post("/upload/submit", upload.single("file"), async (req, res) => {
   }
 
   const filePath = req.file.path;
-  const methodType = req.body.methodType || "turnitin"; // Example: 'turnitin', 'scopedlens', etc.
+  const methodType = req.body.methodType || "turnitin" || "scopedlens"; // Example: 'turnitin', 'scopedlens', etc.
   const newSubmission = {}; // Any other submission-related data
   const parsedData = {}; // Add any parsed data you need
   const uniqueId = Date.now(); // Generate unique ID for reports
@@ -228,7 +228,6 @@ const handleTurnitinSubmission = async (filePath, uniqueId, res) => {
 };
 
 // Handle ScopedLens submission
-// Handle ScopedLens submission
 const handleScopedLensSubmission = async (
   newSubmission,
   filePath,
@@ -272,8 +271,8 @@ const handleScopedLensSubmission = async (
 
     // Log in to ScopedLens
     await page.goto(loginUrl);
-    await page.type('input[name="email"]', "scopedlensuser@example.com");
-    await page.type('input[name="password"]', "ScopedLensPassword123");
+    await page.type('input[name="email"]', "farhatali23723@outlook.com");
+    await page.type('input[name="password"]', "Tkf8tA#Q$sR.7.y");
     await page.click('button[type="submit"]');
     await page.waitForNavigation();
 
@@ -382,6 +381,39 @@ const handleScopedLensSubmission = async (
     res.status(500).json({ error: "Internal server error" });
   }
 };
+
+// GET route to fetch reports
+router.get("/reports", async (req, res) => {
+  try {
+    const reports = await prisma.report.findMany();
+    res.json(reports);
+  } catch (error) {
+    logger.error("Error fetching reports:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+// DELETE route to delete a report by ID
+router.delete("/report/:id", async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const report = await prisma.report.findUnique({
+      where: { id: parseInt(id) },
+    });
+
+    if (!report) {
+      return res.status(404).json({ error: "Report not found" });
+    }
+
+    await prisma.report.delete({
+      where: { id: parseInt(id) },
+    });
+  } catch (error) {
+    logger.error("Error deleting report:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
 
 // Function to download a file
 const downloadFile = async (page, url, fileName, downloadPath) => {
