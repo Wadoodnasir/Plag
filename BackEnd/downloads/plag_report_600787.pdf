@@ -7,7 +7,7 @@
         width: 100%;
         overflow: hidden;
         margin: 0;
-        background-color: rgb(82, 86, 89);
+        background-color: rgb(38, 38, 38);
       }
     </style>
   </head>
@@ -23,7 +23,7 @@
           border-style: none;
         }
       </style>
-      <iframe name="90F668A8F707B05BA71CE4741476A7F1" src="about:blank" type="application/pdf" internalid="90F668A8F707B05BA71CE4741476A7F1"
+      <iframe name="AB3A85576425529F51E53EC53D513311" src="about:blank" type="application/pdf" internalid="AB3A85576425529F51E53EC53D513311"
           allow="fullscreen *">
     </template>
   </body>

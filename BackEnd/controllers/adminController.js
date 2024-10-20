@@ -23,12 +23,13 @@ exports.createMethod = [
 ];
 
 exports.getMethods = [
-  verifyToken,
-  isAdmin,
+  // verifyToken,
+  // isAdmin,
   async (req, res) => {
     try {
       const methods = await prisma.method.findMany();
       res.json(methods);
+      console.log(methods);
     } catch (err) {
       console.error(err.message);
       res.status(500).json({ message: "Server error" });
@@ -94,11 +95,11 @@ exports.createCCC = [
 ];
 
 exports.getCCCs = [
-  verifyToken,
-  isAdmin,
+  // verifyToken,
+  // isAdmin,
   async (req, res) => {
     try {
-      const cccs = await prisma.ccc.findMany();
+      const cccs = await prisma.cCC.findMany();
       res.json(cccs);
     } catch (err) {
       console.error(err.message);
