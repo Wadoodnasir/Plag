@@ -1,4 +1,4 @@
-//fourth method if else automaitcally selection
+//fourth method if else automaitcally
 const express = require("express");
 const multer = require("multer");
 const puppeteer = require("puppeteer");
@@ -14,7 +14,6 @@ const uploadDir = path.resolve(__dirname, "../uploads");
 if (!fs.existsSync(uploadDir)) {
   fs.mkdirSync(uploadDir, { recursive: true });
 }
-s;
 
 // Configure Multer for file upload storage and filtering
 const storage = multer.diskStorage({
