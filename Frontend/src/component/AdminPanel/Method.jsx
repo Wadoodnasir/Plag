@@ -44,10 +44,9 @@ const StatusButton = ({ status }) => {
   );
 };
 
-const Method = ({ userId }) => {
+const Method = ({}) => {
   const [methodData, setMethodData] = useState([]);
   const [cccData, setCccData] = useState([]);
-  const [loading, setLoading] = useState(true);
   const [isEditing, setIsEditing] = useState(false);
   const [currentEditData, setCurrentEditData] = useState(null);
   const [editForm] = Form.useForm();
@@ -59,6 +58,7 @@ const Method = ({ userId }) => {
         const methodResponse = await axios.get(
           "http://localhost:4001/method/method"
         );
+        console.log(methodResponse);
 
         // Fetch CCCs
         const cccResponse = await axios.get("http://localhost:4001/method/ccc");
@@ -67,13 +67,11 @@ const Method = ({ userId }) => {
         setCccData(cccResponse.data);
       } catch (error) {
         message.error("Error fetching data: " + error.message);
-      } finally {
-        setLoading(false);
       }
     };
 
     fetchData();
-  }, [userId]);
+  }, []);
 
   const handleDeleteMethod = async (id) => {
     try {
@@ -238,7 +236,6 @@ const Method = ({ userId }) => {
         columns={methodColumns}
         dataSource={methodData}
         rowKey="methodId"
-        loading={loading}
         style={{ fontSize: "14px", backgroundColor: "#ffff" }}
       />
 
@@ -248,7 +245,6 @@ const Method = ({ userId }) => {
         columns={cccColumns}
         dataSource={cccData}
         rowKey="accountId"
-        loading={loading}
         style={{ fontSize: "14px", backgroundColor: "#ffff" }}
       />
 

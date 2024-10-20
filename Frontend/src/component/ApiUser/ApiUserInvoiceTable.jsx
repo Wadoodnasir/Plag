@@ -40,7 +40,7 @@ const ApiUserInvoiceTable = () => {
   useEffect(() => {
     const fetchInvoices = async () => {
       try {
-        const response = await fetch("/api/invoices/1"); // assuming userId is 1
+        const response = await fetch("/api/invoices/${id}"); // assuming userId is 1
         const invoices = await response.json();
         setData(invoices);
       } catch (error) {
