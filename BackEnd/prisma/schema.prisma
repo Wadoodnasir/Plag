@@ -123,6 +123,17 @@ model Report {
 }
 
 
+model Referral {
+  id           Int      @id @default(autoincrement())
+  userId       Int      @unique
+  referralCode String   @unique
+  creditEarned Float    @default(0.0)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  // Corrected to reference Auth model instead of User
+  user         Auth     @relation(fields: [userId], references: [id])
+}
 model Auth {
   id                   Int           @id @default(autoincrement())
   email                String        @unique
@@ -139,20 +150,31 @@ model Auth {
   orders               Order[]       @relation("AuthOrders")
   invoices             Invoice[]     @relation("AuthInvoices")
   reports              Report[]      @relation("UserReports")
+  referral              Referral[] 
 }
-
 
 model Profile {
-  id        Int     @id @default(autoincrement())
-  userId    Int     @unique
-  firstName String? // First name from signup form
-  lastName  String? // Last name from signup form
-  bio       String?
-  avatar    String? // Optional field for a profile picture URL
-
-  // Relation to Auth (User)
-  user Auth @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id             Int     @id @default(autoincrement())
+  userId         Int     @unique
+  firstName      String? // First name from signup form
+  lastName       String? // Last name from signup form
+  profession     String? // Profession from settings
+  country        String? // Country selection
+  address        String? // Address input
+  location       String? // Location input
+  phone          String? // Phone number input
+  email          String? // Email input
+  website        String? // Website URL
+  linkedin       String? // LinkedIn URL
+  twitter        String? // Twitter URL
+  facebook       String? // Facebook URL
+  github         String? // GitHub URL
+  avatar         String? // Optional field for a profile picture URL
+  isDefaultAddress Boolean @default(false) // Default address status
+  bio            String?  // Bio field
+  user           Auth     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
+
 
 model Submissions {
   id        Int       @id @default(autoincrement())

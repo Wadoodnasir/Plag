@@ -35,14 +35,19 @@ const StatusButton = ({ status }) => {
 
 const EmployeeOrderTable = () => {
   const [data, setData] = useState([]);
+  const [filteredData, setFilteredData] = useState([]);
 
   // Fetch data from backend API
   useEffect(() => {
     const fetchOrders = async () => {
       try {
-        const response = await fetch("/api/orders/1"); // assuming userId is 1
+        const response = await fetch(`/api/orders/${id}`);
         const orders = await response.json();
         setData(orders);
+        // Filter to only show pending orders
+        setFilteredData(
+          orders.filter((order) => order.status.toLowerCase() === "pending")
+        );
       } catch (error) {
         console.error("Failed to fetch orders:", error);
       }
@@ -55,12 +60,15 @@ const EmployeeOrderTable = () => {
     // Implement delete logic here (make a DELETE request to the backend)
     try {
       await fetch(`/api/orders/${id}`, { method: "DELETE" });
-      setData(data.filter((item) => item.id !== id));
+      const updatedData = filteredData.filter((item) => item.id !== id);
+      setFilteredData(updatedData);
+      setData(updatedData);
     } catch (error) {
       console.error("Failed to delete order:", error);
     }
   };
 
+  // Define the columns for the table
   const columns = [
     {
       title: "Order No.",
@@ -119,7 +127,7 @@ const EmployeeOrderTable = () => {
     <Table
       className="tc"
       columns={columns}
-      dataSource={data}
+      dataSource={filteredData}
       rowKey="id"
       style={{
         fontSize: "14px",

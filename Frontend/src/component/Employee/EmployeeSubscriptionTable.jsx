@@ -1,37 +1,47 @@
-import React, { useState } from "react";
-import { Table, Dropdown, Button, Modal } from "antd";
+import React, { useState, useEffect } from "react";
+import { Table, Dropdown, Button, Modal, message } from "antd";
 import { MoreOutlined } from "@ant-design/icons";
+import axios from "axios";
 
-const EmployeeSubscriptionTable = ({ balance, onBuySubscription }) => {
-  const [data] = useState([
-    {
-      id: 1,
-      subscriptionName: "Basic Plan",
-      deadline: "30 Days",
-      documents: 5,
-      cost: 100, // Cost of subscription
-    },
-    {
-      id: 2,
-      subscriptionName: "Premium Plan",
-      deadline: "60 Days",
-      documents: 10,
-      cost: 500,
-    },
-  ]);
-
+const EmployeeSubscriptionTable = () => {
+  // { userId }
+  const [subscriptions, setSubscriptions] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [selectedSubscription, setSelectedSubscription] = useState(null);
 
-  const handleBuy = (record) => {
+  // Fetch all subscriptions for the user
+  useEffect(() => {
+    const fetchSubscriptions = async () => {
+      try {
+        const res = await axios.get(`/api/subscriptions/${userId}`);
+        setSubscriptions(res.data);
+      } catch (err) {
+        console.error("Error fetching subscriptions", err);
+      }
+    };
+
+    fetchSubscriptions();
+  }, []);
+  // userId
+  // Handle delete subscription
+  const handleDelete = (record) => {
     setSelectedSubscription(record);
     setIsModalVisible(true);
   };
 
-  const handleConfirmBuy = () => {
+  // Confirm delete subscription
+  const handleConfirmDelete = async () => {
     if (selectedSubscription) {
-      const subscriptionCost = selectedSubscription.cost;
-      onBuySubscription(subscriptionCost); // Call the buy subscription handler from props
+      try {
+        await axios.delete(`/api/subscriptions/${selectedSubscription.id}`);
+        message.success("Subscription deleted successfully");
+        setSubscriptions(
+          subscriptions.filter((sub) => sub.id !== selectedSubscription.id)
+        );
+      } catch (err) {
+        console.error("Error deleting subscription", err);
+        message.error("Failed to delete subscription");
+      }
     }
     setIsModalVisible(false);
   };
@@ -44,17 +54,18 @@ const EmployeeSubscriptionTable = ({ balance, onBuySubscription }) => {
   const columns = [
     {
       title: "Subscription Name",
-      dataIndex: "subscriptionName",
+      dataIndex: ["package", "name"],
       key: "subscriptionName",
     },
     {
       title: "Deadline",
-      dataIndex: "deadline",
+      dataIndex: "endDate",
       key: "deadline",
+      render: (endDate) => new Date(endDate).toLocaleDateString(),
     },
     {
       title: "No. of Documents",
-      dataIndex: "documents",
+      dataIndex: "documents", // Adjust this based on your actual structure
       key: "documents",
     },
     {
@@ -64,8 +75,8 @@ const EmployeeSubscriptionTable = ({ balance, onBuySubscription }) => {
         <Dropdown
           trigger={["click"]}
           overlay={
-            <Button type="primary" onClick={() => handleBuy(record)}>
-              Buy
+            <Button type="danger" onClick={() => handleDelete(record)}>
+              Delete
             </Button>
           }
         >
@@ -79,23 +90,22 @@ const EmployeeSubscriptionTable = ({ balance, onBuySubscription }) => {
     <div>
       <Table
         columns={columns}
-        dataSource={data}
+        dataSource={subscriptions}
         rowKey="id"
         style={{ fontSize: "14px", backgroundColor: "#fff" }}
       />
 
-      {/* Buy Confirmation Modal */}
+      {/* Delete Confirmation Modal */}
       <Modal
-        title="Confirm Purchase"
+        title="Confirm Deletion"
         visible={isModalVisible}
         onCancel={handleCancel}
-        onOk={handleConfirmBuy}
-        okText="Buy"
+        onOk={handleConfirmDelete}
+        okText="Delete"
         cancelText="Cancel"
       >
-        <p>Are you sure you want to buy this subscription?</p>
-        <p>{selectedSubscription?.subscriptionName}</p>
-        <p>Cost: ${selectedSubscription?.cost}</p>
+        <p>Are you sure you want to delete this subscription?</p>
+        <p>{selectedSubscription?.package?.name}</p>
       </Modal>
     </div>
   );

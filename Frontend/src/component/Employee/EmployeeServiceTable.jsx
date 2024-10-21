@@ -9,8 +9,10 @@ const StatusButton = ({ status }) => {
         return "#52c41a"; // green
       case "pending":
         return "#faad14"; // yellow
-      default:
+      case "active":
         return "#1890ff"; // blue
+      default:
+        return "#d9d9d9"; // grey for unknown status
     }
   };
 
@@ -35,6 +37,7 @@ const StatusButton = ({ status }) => {
 
 const EmployeeServiceTable = ({ userId }) => {
   const [data, setData] = useState([]);
+  const [filteredData, setFilteredData] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -45,6 +48,12 @@ const EmployeeServiceTable = ({ userId }) => {
 
         if (response.ok) {
           setData(result);
+          // Automatically filter to only show active services
+          setFilteredData(
+            result.filter(
+              (service) => service.status.toLowerCase() === "active"
+            )
+          );
         } else {
           message.error(result.msg || "Failed to fetch service");
         }
@@ -67,7 +76,9 @@ const EmployeeServiceTable = ({ userId }) => {
 
       if (response.ok) {
         message.success(result.msg || "Service deleted successfully");
-        setData(data.filter((item) => item.id !== id)); // Remove from state
+        const updatedData = filteredData.filter((item) => item.id !== id); // Remove from filtered data
+        setFilteredData(updatedData);
+        setData(updatedData); // Also update the full data state
       } else {
         message.error(result.msg || "Failed to delete service");
       }
@@ -123,7 +134,7 @@ const EmployeeServiceTable = ({ userId }) => {
     <Table
       className="tc"
       columns={columns}
-      dataSource={data}
+      dataSource={filteredData} // Use filtered data
       rowKey="id"
       loading={loading} // Show loading spinner while data is loading
       style={{
