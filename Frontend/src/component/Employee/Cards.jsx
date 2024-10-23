@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { Card, Button } from "react-bootstrap";
+import { Card, Button, Alert } from "react-bootstrap";
 
 const Cards = ({ userId }) => {
   const [balance, setBalance] = useState(400000); // Initial balance
   const [activeSubscription, setActiveSubscription] = useState(null);
   const [activeService, setActiveService] = useState(null);
+  const [notification, setNotification] = useState(null); // State for notification
+  const [showNotification, setShowNotification] = useState(false); // Control notification visibility
 
   useEffect(() => {
     // Fetch active subscription
@@ -58,8 +60,32 @@ const Cards = ({ userId }) => {
     }
   };
 
+  // Simulate notification
+  const handleNotification = (description) => {
+    setNotification(description);
+    setShowNotification(true);
+
+    // Hide notification after 5 seconds
+    setTimeout(() => {
+      setShowNotification(false);
+    }, 5000);
+  };
+
+  // Simulate a notification trigger (this could be connected to the real-time notification system)
+  useEffect(() => {
+    // Simulating a new notification being received
+    handleNotification("You have a new notification about your subscription!");
+  }, []); // This useEffect runs once when the component mounts
+
   return (
     <div className="container mt-3">
+      {/* Notification preview section */}
+      {showNotification && (
+        <Alert variant="info" className="w-100 text-center">
+          {notification}
+        </Alert>
+      )}
+
       <div className="d-flex text-center justify-content-between">
         <div className="bg-white p-2 rounded-3">
           <h2>Active Subscription</h2>

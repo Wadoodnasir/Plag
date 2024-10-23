@@ -1,27 +1,27 @@
 import React, { useState, useEffect } from "react";
-import { Stack, Menu, MenuItem, Avatar } from "@mui/material";
+import { Stack, Menu, MenuItem, Avatar, Popover } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import ThemeAdjustIcon from "./ThemeAdjustIcon";
-import axios from "axios"; // Assuming you are using axios to make API requests
+import axios from "axios";
+import Notification from "./Notification"; // Import the Notification component
 
 const Navbar = ({ sidebarOpen, toggleSidebar, userId }) => {
-  const [anchorEl, setAnchorEl] = useState(null); // State for menu anchor
-  const [credits, setCredits] = useState(0); // Credits state
-  const [creditDays, setCreditDays] = useState(0); // Days left state
-  const navigate = useNavigate(); // Initialize useNavigate hook for navigation
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [credits, setCredits] = useState(0);
+  const [creditDays, setCreditDays] = useState(0);
+  const [notificationAnchorEl, setNotificationAnchorEl] = useState(null); // For notification popover
+  const navigate = useNavigate();
 
-  // Fetch subscription data on component mount
   useEffect(() => {
     const fetchSubscription = async () => {
       try {
         const response = await axios.get(`/subscriptions/active/${userId}`);
         const subscription = response.data;
-        // Assuming subscription has 'credits' and 'endDate' fields
         const totalDays = Math.ceil(
           (new Date(subscription.endDate) - new Date()) / (1000 * 60 * 60 * 24)
         );
-        setCredits(subscription.credits); // Set initial credits
-        setCreditDays(totalDays); // Set days left
+        setCredits(subscription.credits);
+        setCreditDays(totalDays);
       } catch (error) {
         console.error("Error fetching subscription data:", error);
       }
@@ -30,35 +30,43 @@ const Navbar = ({ sidebarOpen, toggleSidebar, userId }) => {
     fetchSubscription();
   }, [userId]);
 
-  // Reduce credits after file upload
   const handleFileUpload = () => {
-    setCredits((prevCredits) => prevCredits - 5); // Reduce 5 credits after each upload
-    // Optionally, update this on the backend
+    setCredits((prevCredits) => prevCredits - 5);
   };
 
-  // Decrease days daily
   useEffect(() => {
     const interval = setInterval(() => {
       setCreditDays((prevDays) => prevDays - 1);
-    }, 1000 * 60 * 60 * 24); // Decrease daily
+    }, 1000 * 60 * 60 * 24);
 
-    return () => clearInterval(interval); // Clean up the interval on component unmount
+    return () => clearInterval(interval);
   }, []);
 
-  // Handle Sign Out
   const handleSignOut = () => {
-    setAnchorEl(null); // Close menu
-    navigate("/signin"); // Redirect to the SignIn page
+    setAnchorEl(null);
+    navigate("/signin");
   };
 
   const handleMyAccountClick = () => {
-    setAnchorEl(null); // Close the menu
-    navigate("/my-account"); // Navigate to MyAccount page
+    setAnchorEl(null);
+    navigate("/my-account");
   };
+
+  // Handle notification button click
+  const handleNotificationClick = (event) => {
+    setNotificationAnchorEl(event.currentTarget);
+  };
+
+  // Close notification dropdown
+  const handleNotificationClose = () => {
+    setNotificationAnchorEl(null);
+  };
+
+  const isNotificationOpen = Boolean(notificationAnchorEl);
 
   return (
     <nav className="d-flex justify-content-between align-items-center p-2 px-4 ">
-      <div className=" d-flex">
+      <div className="d-flex">
         {!sidebarOpen && (
           <>
             <div className="d-flex" id="logo">
@@ -66,6 +74,7 @@ const Navbar = ({ sidebarOpen, toggleSidebar, userId }) => {
                 <img
                   src="https://vue.vristo.sbthemes.com/assets/images/logo.svg"
                   width={35}
+                  alt="logo"
                 />
               </span>
               <h1 style={{ fontSize: "24px" }}>
@@ -74,7 +83,7 @@ const Navbar = ({ sidebarOpen, toggleSidebar, userId }) => {
             </div>
             <button
               onClick={toggleSidebar}
-              className=" p-1 rounded-5 text-gray-500 hover:bg-gray-100 ms-2"
+              className="p-1 rounded-5 text-gray-500 hover:bg-gray-100 ms-2"
             >
               <svg
                 width="24"
@@ -110,7 +119,7 @@ const Navbar = ({ sidebarOpen, toggleSidebar, userId }) => {
       </div>
 
       <div className="d-flex align-items-center gap-3">
-        <button className="btn btn-primary"> Top Up</button>
+        <button className="btn btn-primary">Top Up</button>
         <span className="d-flex flex-column px-3 bg-primary rounded-2 text-white">
           <p id="credits" style={{ fontSize: 14 }}>
             Credits: {credits}
@@ -122,9 +131,11 @@ const Navbar = ({ sidebarOpen, toggleSidebar, userId }) => {
         <ThemeAdjustIcon />
         <div>
           <button
+            id="notification"
             type="button"
             className="btn p-2 rounded-circle bg-light position-relative border-0 hover-text-primary"
             style={{ backgroundColor: "rgba(255, 255, 255, 0.4)" }}
+            onClick={handleNotificationClick} // Trigger notification popover
           >
             <svg
               width="20"
@@ -151,15 +162,18 @@ const Navbar = ({ sidebarOpen, toggleSidebar, userId }) => {
                 strokeLinecap="round"
               />
             </svg>
-
-            <span className="position-absolute top-0 end-0 w-3 h-3 d-flex">
-              <span
-                className="animate-ping position-absolute top-0 start-0 h-50 w-50 rounded-circle bg-success opacity-75"
-                style={{ left: "-3px", top: "-3px" }}
-              ></span>
-              <span className="position-relative w-2 h-2 bg-success rounded-circle"></span>
-            </span>
           </button>
+
+          {/* Notification Popover */}
+          <Popover
+            open={isNotificationOpen}
+            anchorEl={notificationAnchorEl}
+            onClose={handleNotificationClose}
+            anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+            transformOrigin={{ vertical: "top", horizontal: "right" }}
+          >
+            <Notification userId={userId} />
+          </Popover>
         </div>
 
         <Stack

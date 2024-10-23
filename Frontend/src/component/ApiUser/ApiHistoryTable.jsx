@@ -36,20 +36,20 @@ const StatusButton = ({ status }) => {
 const ApiHistoryTable = () => {
   const [data, setData] = useState([
     // Sample data, replace with your actual data
-    {
-      id: 1,
-      name: "John Doe",
-      date: "2023-04-15",
-      sale: 100,
-      status: "Completed",
-    },
-    {
-      id: 2,
-      name: "Jane Smith",
-      date: "2023-04-16",
-      sale: 150,
-      status: "Pending",
-    },
+    // {
+    //   id: 1,
+    //   name: "John Doe",
+    //   date: "2023-04-15",
+    //   sale: 100,
+    //   status: "Completed",
+    // },
+    // {
+    //   id: 2,
+    //   name: "Jane Smith",
+    //   date: "2023-04-16",
+    //   sale: 150,
+    //   status: "Pending",
+    // },
     // Add more rows as needed
   ]);
 
@@ -60,19 +60,64 @@ const ApiHistoryTable = () => {
 
   const columns = [
     {
-      title: "Name",
-      dataIndex: "name",
-      key: "name",
+      title: "Api Id",
+      dataIndex: "apiId",
+      key: "apiId",
     },
     {
-      title: "Date",
-      dataIndex: "date",
-      key: "date",
+      title: "Api Name",
+      dataIndex: "apiName",
+      key: "apiName",
     },
     {
-      title: "Sale",
-      dataIndex: "sale",
-      key: "sale",
+      title: "Service",
+      dataIndex: "service",
+      key: "service",
+    },
+    {
+      title: "Subscription",
+      dataIndex: "subscription",
+      key: "subscription",
+    },
+    {
+      title: "Service Name",
+      dataIndex: "serviceName",
+      key: "serviceName",
+    },
+    {
+      title: "Subscription Name",
+      dataIndex: "subscriptionName",
+      key: "subscriptionName",
+    },
+    {
+      title: "Deadline",
+      dataIndex: "deadline",
+      key: "deadline",
+    },
+    {
+      title: "Cost",
+      dataIndex: "cost",
+      key: "cost",
+    },
+    {
+      title: "Credit",
+      dataIndex: "credit",
+      key: "credit",
+    },
+    {
+      title: "Days",
+      dataIndex: "days",
+      key: "days",
+    },
+    {
+      title: "Balance",
+      dataIndex: "balance",
+      key: "balance",
+    },
+    {
+      title: "Consumed",
+      dataIndex: "consumed",
+      key: "consumed",
     },
     {
       title: "Status",
@@ -103,13 +148,14 @@ const ApiHistoryTable = () => {
 
   return (
     <Table
-      className="tc"
+      className="tc overflow-x-scroll"
       columns={columns}
       dataSource={data}
       rowKey="id"
       style={{
         fontSize: "14px",
         backgroundColor: "#ffff",
+        width: "1000px",
       }}
       components={{
         header: {

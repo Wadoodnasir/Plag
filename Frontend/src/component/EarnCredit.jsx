@@ -14,7 +14,7 @@ const EarnCredit = () => {
       setIsLoading(true);
       try {
         const response = await axios.get(
-          "http://localhost:4001/link/referral-link"
+          "http://localhost:4001/link/referral-link/1"
         );
         setReferralLink(response.data.referralLink);
       } catch (error) {

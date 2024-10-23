@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Table, Menu, Dropdown, Button, message } from "antd";
 import { MoreOutlined } from "@ant-design/icons";
-import axios from "axios";
 
 const StatusButton = ({ status }) => {
   const getColor = (status) => {
@@ -10,8 +9,10 @@ const StatusButton = ({ status }) => {
         return "#52c41a"; // green
       case "pending":
         return "#faad14"; // yellow
-      default:
+      case "active":
         return "#1890ff"; // blue
+      default:
+        return "#d9d9d9"; // grey for unknown status
     }
   };
 
@@ -34,38 +35,59 @@ const StatusButton = ({ status }) => {
   );
 };
 
-const ServicesTables = () => {
+const ServicesTable = ({ userId }) => {
   const [data, setData] = useState([]);
+  const [filteredData, setFilteredData] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // Fetch service history data
-  const fetchServiceHistory = async () => {
-    try {
-      const response = await axios.get(`/service-history/${userId}`);
-      setData(response.data);
-    } catch (error) {
-      message.error("Failed to load service history");
-      console.error(error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
   useEffect(() => {
-    fetchServiceHistory();
-  }, []);
+    const fetchSubscriptions = async () => {
+      try {
+        const response = await fetch(`/api/service/${userId}`);
+        const result = await response.json();
+
+        if (response.ok) {
+          setData(result);
+          // Automatically filter to only show active services
+          setFilteredData(
+            result.filter(
+              (service) => service.status.toLowerCase() === "active"
+            )
+          );
+        } else {
+          message.error(result.msg || "Failed to fetch service");
+        }
+      } catch (error) {
+        message.error("Error fetching service");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchSubscriptions();
+  }, [userId]);
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`/service-history/${userId}`);
-      setData(data.filter((item) => item.id !== id));
-      message.success("Record deleted successfully");
+      const response = await fetch(`/api/service/${id}`, {
+        method: "DELETE",
+      });
+      const result = await response.json();
+
+      if (response.ok) {
+        message.success(result.msg || "Service deleted successfully");
+        const updatedData = filteredData.filter((item) => item.id !== id); // Remove from filtered data
+        setFilteredData(updatedData);
+        setData(updatedData); // Also update the full data state
+      } else {
+        message.error(result.msg || "Failed to delete service");
+      }
     } catch (error) {
-      message.error("Failed to delete record");
-      console.error(error);
+      message.error("Error deleting service", error);
     }
   };
 
+  // Define table columns
   const columns = [
     {
       title: "Name",
@@ -98,7 +120,6 @@ const ServicesTables = () => {
               <Menu.Item key="delete" onClick={() => handleDelete(record.id)}>
                 Delete
               </Menu.Item>
-              {/* Add more menu items for other actions */}
             </Menu>
           }
           trigger={["click"]}
@@ -111,10 +132,11 @@ const ServicesTables = () => {
 
   return (
     <Table
-      loading={loading}
+      className="tc"
       columns={columns}
-      dataSource={data}
+      dataSource={filteredData} // Use filtered data
       rowKey="id"
+      loading={loading} // Show loading spinner while data is loading
       style={{
         fontSize: "14px",
         backgroundColor: "#ffff",
@@ -133,4 +155,4 @@ const ServicesTables = () => {
   );
 };
 
-export default ServicesTables;
+export default ServicesTable;
